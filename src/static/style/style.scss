@@ -1,0 +1,246 @@
+* {
+  padding  : 0;
+  margin   : 0;
+  font-size: 16px;
+}
+
+$withe      :white;
+$theme      :#012A4A;
+$titleBgk   :#F2F2F2;
+$font333    :#333333;
+$bordercolor:#F2F2F2;
+
+.border {
+  border: 1px solid rgb(38, 52, 69)
+}
+
+.border-right {
+  border-right: 1px solid $bordercolor;
+}
+
+.border-bottom {
+  border-bottom: 1px solid $bordercolor;
+}
+
+.mb20 {
+  margin-bottom: 20px;
+}
+
+.mt20 {
+  margin-top: 20px;
+}
+
+.mt40 {
+  margin-top: 40px;
+}
+
+%fontEllipsis {
+  white-space  : nowrap;
+  text-overflow: ellipsis;
+  overflow     : hidden;
+}
+
+.clear::after {
+  display : block;
+  clear   : both;
+  content : '';
+  overflow: hidden;
+}
+
+.center {
+  text-align: center;
+}
+
+//滚动条
+::-webkit-scrollbar {
+  width           : 6px;
+  height          : 8px;
+  background-color: #ebeef5;
+}
+
+::-webkit-scrollbar-thumb {
+  // border-radius:2px;
+  box-shadow        : inset 0 0 6px rgba(0, 0, 0, .3);
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+  background-color  : #ccc
+}
+
+::-webkit-scrollbar-track {
+  box-shadow   : inset 0 0 5px rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+  background   : rgba(255, 255, 255, 1);
+}
+
+
+.el-header {
+  background-color  : #005a95;
+  box-shadow        : 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+  -webkit-box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+  color             : #333;
+  line-height       : 60px;
+  position          : fixed !important;
+  top               : 0;
+  right             : 0;
+  left              : 230px;
+  align-items       : center;
+  justify-items     : right;
+  z-index           : 99;
+  width             : calc(100vw - 230px);
+
+  h4 {
+    float      : left;
+    color      : $withe;
+    font-size  : 1.5rem;
+    font-weight: 600;
+    line-height: 70px;
+  }
+
+  a {
+    color   : $withe;
+    height  : 50px;
+    display : inline-block;
+    position: relative;
+    top     : -5px;
+    margin  : 0 15px;
+
+    i {
+      font-size: 24px;
+    }
+  }
+}
+
+.el-main {
+  margin-top: 70px;
+}
+
+.logo {
+  color      : $withe;
+  font-weight: 600;
+  line-height: 180%;
+  text-align : center;
+  padding    : 20px 0;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+
+  h2 {
+    font-size: 1.3rem;
+  }
+
+}
+
+.el-menu-item {
+  font-size: 16px !important;
+}
+
+.item {
+  i {
+    font-size: 24px;
+  }
+}
+
+.queryCenter {
+  h2 {
+    color           : $theme;
+    background-color: $titleBgk;
+    font-size       : 1.2rem;
+    font-weight     : 600;
+    padding         : 0 20px;
+    line-height     : 240%;
+    border-bottom   : $theme 1px solid;
+  }
+
+  .queryList {
+    padding: 40px 20px;
+
+    a {
+      display      : flex;
+      justify-items: left;
+      align-items  : center;
+      position     : relative;
+      margin-bottom: 70px;
+      width        : 100%;
+      padding-top  : 5px;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      i {
+        color    : $theme;
+        font-size: 2.5rem;
+      }
+
+      .queryText {
+        margin-left: 20px;
+        line-height: 180%;
+        width      : calc(100% - 60px);
+
+        h3 {
+          color    : $theme;
+          font-size: 1.3rem;
+        }
+
+        p {
+          color: $font333;
+
+          display: block;
+          @extend %fontEllipsis
+        }
+      }
+    }
+  }
+
+  .small {
+    a {
+      margin-bottom: 30px;
+      padding-top  : 0;
+    }
+  }
+}
+
+.newslist {
+  padding   : 40px 20px;
+  min-height: 400px;
+  max-height: 500px;
+}
+
+.title {
+  color      : $theme;
+  font-size  : 1.2rem;
+  font-weight: 600;
+  line-height: 240%;
+}
+
+.monitor {
+  padding   : 15px;
+  height    : 230px;
+  overflow-y: auto;
+}
+
+.task {
+  padding   : 15px;
+  min-height: 200px;
+  max-height: 230px;
+}
+
+#echarts {
+  padding: 15px;
+  height : 404px;
+}
+
+#footer {
+  background-color: $bordercolor;
+  padding         : 20px;
+  text-align      : center;
+  height          : auto;
+  height          : 80px;
+
+  p {
+    font-size  : .8rem;
+    line-height: 240%;
+    font-weight: 600;
+
+    &:first-child {
+      color: $theme;
+    }
+  }
+}
