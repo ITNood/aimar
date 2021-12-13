@@ -4,14 +4,29 @@
   font-size: 16px;
 }
 
+ul,
+li {
+  list-style: none;
+  padding   : 0;
+  margin    : 0;
+}
+
 $withe      :white;
 $theme      :#012A4A;
 $titleBgk   :#F2F2F2;
 $font333    :#333333;
 $bordercolor:#F2F2F2;
+$red        :#D9001B;
+$orange     :#F59A23;
+$green      :#03BF16;
 
 .border {
   border: 1px solid rgb(38, 52, 69)
+}
+
+%wordWrap {
+  word-wrap : break-word;
+  word-break: normal;
 }
 
 .border-right {
@@ -34,10 +49,22 @@ $bordercolor:#F2F2F2;
   margin-top: 40px;
 }
 
+.text-right {
+  text-align: right;
+}
+
 %fontEllipsis {
   white-space  : nowrap;
   text-overflow: ellipsis;
   overflow     : hidden;
+}
+
+%h2 {
+  color        : $theme;
+  line-height  : 80px;
+  text-align   : center;
+  font-size    : 2rem;
+  border-bottom: 1px solid $bordercolor;
 }
 
 .clear::after {
@@ -242,6 +269,632 @@ $bordercolor:#F2F2F2;
 
     &:first-child {
       color: $theme;
+    }
+  }
+}
+
+/*--------------------------历史维修记录---------------------*/
+.repair {
+  height    : calc(100vh - 260px);
+  margin-top: 50px;
+}
+
+.choselist {
+
+  a {
+    display       : block;
+    border        : 2px solid $theme;
+    border-radius : 4px;
+    padding       : 50px 30px;
+    overflow      : hidden;
+    letter-spacing: 2px;
+    transition    : all .5s ease-in-out;
+
+    h2 {
+      text-align : center;
+      color      : $theme;
+      line-height: 120%;
+      font-size  : 2rem;
+      transition : all .5s ease-in-out;
+    }
+
+    .text {
+      text-align : center;
+      color      : $theme;
+      line-height: 180%;
+      margin     : 60px 0;
+      transition : all .5s ease-in-out;
+
+      p {
+        font-size: 1.2rem;
+      }
+    }
+
+    .selectBtn {
+      background-color: $theme;
+      color           : $withe;
+      display         : block;
+      width           : 60%;
+      margin          : 0 auto;
+      transition      : all .5s ease-in-out;
+    }
+  }
+
+  &:hover {
+
+    a {
+      background-color: $theme;
+
+      h2,
+      .text {
+        color: $withe;
+      }
+    }
+
+    .selectBtn {
+      background-color: $withe;
+      color           : $theme;
+    }
+  }
+}
+
+.choseTitle {
+  font-size  : 2.5rem;
+  text-align : center;
+  margin-top : 60px;
+  font-weight: 600;
+  color      : $theme;
+}
+
+.integrated {
+  height  : calc(100vh - 210px);
+  overflow: hidden;
+
+  .screenCondition {
+    height: 100%;
+    border: 1px solid $theme;
+    height: calc(100vh - 212px);
+
+    h2 {
+      @extend %h2
+    }
+
+    ul {
+      height    : calc(100vh - 293px);
+      overflow-y: auto;
+
+      li {
+        padding      : 0 20px;
+        line-height  : 60px;
+        font-size    : 1.5rem;
+        font-weight  : 600;
+        color        : $theme;
+        display      : block;
+        border-bottom: 1px solid $bordercolor;
+        cursor       : pointer;
+
+        &:hover {
+          background-color: $theme;
+          color           : $withe;
+        }
+      }
+
+      .current {
+        background-color: $theme;
+        color           : $withe;
+      }
+    }
+
+  }
+
+  .integrateedContent {
+    height     : calc(100vh - 212px);
+    border     : 1px solid $theme;
+    border-left: none;
+
+    h2 {
+      @extend %h2
+    }
+
+    .conditionList {
+      padding   : 40px 20px;
+      height    : calc(100vh - 373px);
+      overflow-y: auto;
+
+      .conditionTable {
+        border       : 1px solid $theme;
+        margin-bottom: 20px;
+
+        h4 {
+          background-color: $titleBgk;
+          color           : $theme;
+          line-height     : 40px;
+          font-weight     : 600;
+          font-size       : 1.2rem;
+          padding         : 0 20px;
+          border-bottom   : 1px solid $theme;
+        }
+
+        .conditionTableContent {
+          padding: 15px 20px;
+          height : 130px;
+
+          .el-textarea__inner {
+            height    : 130px;
+            overflow-y: auto;
+            border    : none;
+            font-size : 1.2rem;
+          }
+
+          .el-input--small input {
+            min-width: 150px;
+          }
+
+          .line {
+            line-height: 40px;
+            text-align : center;
+          }
+
+          .matching {
+            h5 {
+              color        : $theme;
+              margin-bottom: 15px;
+            }
+          }
+
+          .setDate {
+            line-height: 40px;
+            margin-top : 15px;
+          }
+        }
+      }
+    }
+  }
+}
+
+.tagBorder {
+  border    : 1px solid #3399FF;
+  box-shadow: 0 0 3px #3399FF;
+  padding   : 5px;
+  overflow  : auto;
+  max-height: 80px;
+}
+
+.addcontent {
+  background-color: $theme;
+  color           : $withe;
+  font-size       : 1.2rem;
+  float           : right;
+
+  &:focus,
+  &:hover {
+    background-color: $theme;
+    color           : $withe;
+  }
+}
+
+.selecteds {
+  border     : 1px solid $theme;
+  border-left: none;
+  height     : calc(100vh - 212px);
+
+  h2 {
+    @extend %h2
+  }
+
+  .selectedsList {
+    padding: 40px 20px;
+
+    .selectedsContentList {
+      height: calc(100vh - 373px);
+
+      ul {
+        margin-bottom: 20px;
+        height       : calc(100vh - 438px);
+        overflow-y   : auto;
+        overflow-x   : hidden;
+
+        li {
+          padding-bottom: 15px;
+
+          .name {
+            font-size  : 1.2rem;
+            color      : $theme;
+            font-weight: 600;
+            position   : relative;
+            line-height: 200%;
+
+            i {
+              display    : block;
+              float      : right;
+              font-size  : 1.2rem;
+              line-height: 180%;
+              font-weight: 600;
+              color      : $red;
+              margin     : 0 5px;
+              cursor     : pointer;
+
+              &:last-child {
+                color: $orange;
+              }
+            }
+          }
+        }
+      }
+
+      .btn {
+        display  : block;
+        margin   : 0 auto;
+        font-size: 1.2rem;
+      }
+
+      .empty {
+        background-color: $red;
+        color           : $withe;
+      }
+
+      .submit {
+        background-color: $green;
+        color           : $withe;
+      }
+    }
+  }
+}
+
+/*---------------------searchResult---------------------------------*/
+.conditionSummary {
+  border: 1px solid $theme;
+
+  .summaryTilte {
+    h4 {
+      background-color: $titleBgk;
+      color           : $theme;
+      line-height     : 40px;
+      font-weight     : 600;
+      font-size       : 1.2rem;
+      padding         : 0 20px;
+      border-bottom   : 1px solid $theme;
+    }
+  }
+
+  .conditionSummaryList {
+    padding: 30px 20px;
+
+    .el-col {
+
+      h5 {
+        color      : $theme;
+        font-size  : 1.2rem;
+        font-weight: 600;
+        line-height: 180%;
+
+        i {
+          float      : right;
+          line-height: 170%;
+          font-size  : 1.5rem;
+          font-weight: 600;
+          margin-left: 10px;
+          cursor     : pointer;
+
+          &:first-child {
+            color: $red;
+          }
+
+          &:last-child {
+            color: $orange;
+          }
+        }
+
+      }
+
+      p {
+        margin-top : 10px;
+        line-height: 150%;
+        @extend %wordWrap
+      }
+    }
+  }
+}
+
+.refreshResult {
+  background-color: $theme;
+  color           : $withe;
+  font-size       : 1.2rem;
+  font-weight     : 600;
+
+  &:hover,
+  &:focus {
+    background-color: $theme;
+    color           : $withe;
+  }
+}
+
+.addCondition {
+  background-color: $titleBgk;
+  color           : $theme;
+  font-size       : 1.2rem;
+  font-weight     : 600;
+  border-color    : $theme;
+
+  &:hover,
+  &:focus {
+    background-color: $titleBgk;
+    color           : $theme;
+    border-color    : $theme;
+  }
+}
+
+.resultTable {
+  border: 1px solid $theme;
+
+  h4 {
+    background-color: $titleBgk;
+    font-weight     : 600;
+    font-size       : 1.2rem;
+    line-height     : 40px;
+    padding         : 0 20px;
+    color           : $theme;
+    border-bottom   : 1px solid $theme;
+
+  }
+
+  .dataList {
+    li {
+      margin-bottom: 20px;
+
+      h3 {
+        color      : black;
+        font-size  : 1.3rem;
+        font-weight: 600;
+
+        span {
+          color      : $theme;
+          font-weight: 600;
+          font-size  : 1.3rem;
+        }
+      }
+
+      p {
+        color       : $theme;
+        line-height : 180%;
+        padding-left: 10px;
+        @extend %fontEllipsis;
+        font-size  : 1.3rem;
+        font-weight: 600;
+
+      }
+    }
+  }
+}
+
+.selectradio {
+  float  : left;
+  display: block;
+
+  .el-radio__label {
+    font-size  : 1rem;
+    line-height: 180%;
+  }
+
+}
+
+.selectcheckbox {
+  display: block;
+  float  : right;
+
+  .el-checkbox__label {
+    font-size  : 1rem;
+    line-height: 180%;
+  }
+}
+
+.scheme {
+  height  : calc(100vh - 210px);
+  overflow: hidden;
+
+  .entryFault {
+    height: 100%;
+    border: 1px solid $theme;
+    height: calc(100vh - 212px);
+
+    h2 {
+      color        : #012A4A;
+      line-height  : 80px;
+      text-align   : center;
+      font-size    : 2rem;
+      border-bottom: 1px solid #F2F2F2;
+    }
+
+    .faultInformation {
+      padding: 20px;
+
+      li {
+        margin-bottom: 15px;
+        line-height  : 40px;
+
+        h5 {
+          color      : $theme;
+          font-size  : 1.2rem;
+          line-height: 200%;
+          font-weight: 600;
+        }
+
+        p {
+          line-height: 30px;
+          @extend %wordWrap
+        }
+      }
+
+    }
+  }
+
+  .selectedsProgramme {
+    border     : 1px solid $theme;
+    border-left: none;
+    height     : calc(100vh - 212px);
+
+    h2 {
+      color        : #012A4A;
+      line-height  : 80px;
+      text-align   : center;
+      font-size    : 2rem;
+      border-bottom: 1px solid #F2F2F2;
+    }
+  }
+}
+
+.programme {
+  padding: 20px;
+
+  .el-radio-button__orig-radio:checked+.el-radio-button__inner {
+    background-color: $theme;
+    border-color    : $theme;
+    box-shadow      : -1px 0 0 0 $theme;
+  }
+
+  .el-radio-button__inner:hover {
+    color           : $withe;
+    background-color: $theme;
+    border-color    : $theme;
+  }
+
+
+}
+
+.programmeDetails {
+  padding     : 20px;
+  border-right: 1px solid $theme;
+
+  h1 {
+    color        : $theme;
+    font-size    : 1.3rem;
+    margin-bottom: 20px;
+
+    i {
+      float      : right;
+      font-size  : 1.2rem;
+      font-weight: 600;
+      margin     : 10px;
+
+      &:first-child {
+        color: $red;
+
+      }
+
+      &:last-child {
+        color: $orange;
+      }
+    }
+  }
+
+  ul {
+    height    : calc(100vh - 413px);
+    overflow-y: auto;
+  }
+
+  li {
+    margin-bottom: 15px;
+    font-size    : 1rem;
+    line-height  : 25px;
+
+    span {
+      color      : $theme;
+      font-weight: 600;
+    }
+
+    p {
+      line-height: 25px;
+
+      span {
+        color      : $theme;
+        font-weight: 600;
+      }
+    }
+
+    .other {
+      padding-left: 10px;
+      margin-top  : 15px;
+
+      h5 {
+        line-height: 25px;
+      }
+
+      p {
+        line-height : 25px;
+        padding-left: 5px;
+
+        span {
+          color: $theme;
+        }
+      }
+    }
+
+  }
+
+
+}
+
+.proprammeRight {
+  padding: 20px;
+
+  .programmeImg {
+    height    : calc(100vh - 413px);
+    overflow-y: auto;
+
+    h3 {
+      color      : $theme;
+      font-weight: 600;
+      text-align : center;
+      font-size  : 1.5rem;
+    }
+
+    img {
+      margin    : 0 auto;
+      margin-top: 40px;
+      display   : block;
+    }
+
+  }
+}
+
+.btncenter {
+  display        : flex;
+  align-items    : center;
+  justify-content: center;
+  padding-top    : 40px;
+  margin-top     : 40px;
+  border-top     : 1px solid $bordercolor;
+
+  .el-button {
+    background-color: $orange;
+    color           : $withe;
+    font-size       : 1.2rem;
+
+    &:first-child {
+      background-color: $green;
+    }
+
+    &:last-child {
+      background-color: $red;
+    }
+  }
+
+}
+
+.submitBtn {
+  margin    : 20px 0;
+  text-align: center;
+
+  .el-button {
+    font-size: 1.2rem;
+    color    : $withe;
+
+    &:first-child {
+      background-color: $red;
+    }
+
+    &:last-child {
+      background-color: $green;
     }
   }
 }

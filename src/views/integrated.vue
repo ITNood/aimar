@@ -1,0 +1,390 @@
+<template>
+  <div>
+    <el-row class="integrated">
+      <el-col :md="5" :lg="5" :xl="4">
+        <div class="screenCondition">
+          <h2>选择筛选条件</h2>
+          <ul>
+            <li
+              class="el-icon-plus"
+              v-for="(item, index) in items"
+              :key="index"
+              @click="toggleShow(index)"
+              :class="item.isshow ? 'current' : ''"
+            >
+              &nbsp;&nbsp;{{ item.name }}
+            </li>
+          </ul>
+        </div>
+      </el-col>
+      <el-col :md="14" :lg="14" :xl="15">
+        <div class="integrateedContent">
+          <h2>输入筛选条件</h2>
+          <div class="conditionList">
+            <el-row :gutter="20">
+              <el-col :md="24" :lg="12" :xl="12">
+                <div class="conditionTable">
+                  <h4>故障描述</h4>
+                  <div class="conditionTableContent">
+                    <el-input
+                      type="textarea"
+                      v-model="text"
+                      placeholder="输入故障描述"
+                    ></el-input>
+                  </div>
+                </div>
+              </el-col>
+              <el-col :md="24" :lg="12" :xl="12">
+                <div class="conditionTable">
+                  <h4>选定飞机</h4>
+                  <div class="conditionTableContent">
+                    <div class="tagBorder">
+                      <el-tag
+                        :key="tag"
+                        v-for="tag in dynamicTags"
+                        closable
+                        :disable-transitions="false"
+                        @close="handleClose(tag)"
+                      >
+                        {{ tag }}
+                      </el-tag>
+                      <el-autocomplete
+                        class="input-new-tag"
+                        v-model="inputValue"
+                        ref="saveTagInput"
+                        size="small"
+                        @keyup.enter.native="handleInputConfirm"
+                        @blur="handleInputConfirm"
+                        :fetch-suggestions="querySearch"
+                        @select="handleInputConfirm"
+                      >
+                      </el-autocomplete>
+                    </div>
+                  </div>
+                </div>
+              </el-col>
+              <el-col :md="24" :lg="12" :xl="12">
+                <div class="conditionTable">
+                  <h4>关键词组</h4>
+                  <div class="conditionTableContent">
+                    <div class="tagBorder">
+                      <el-tag
+                        :key="tag"
+                        v-for="tag in dynamicTags"
+                        closable
+                        :disable-transitions="false"
+                        @close="handleClose(tag)"
+                      >
+                        {{ tag }}
+                      </el-tag>
+                      <el-autocomplete
+                        class="input-new-tag"
+                        v-model="inputValue"
+                        ref="saveTagInput"
+                        size="small"
+                        @keyup.enter.native="handleInputConfirm"
+                        @blur="handleInputConfirm"
+                        :fetch-suggestions="querySearch"
+                        @select="handleInputConfirm"
+                      >
+                      </el-autocomplete>
+                    </div>
+                  </div>
+                </div>
+              </el-col>
+              <el-col :md="24" :lg="12" :xl="12">
+                <div class="conditionTable">
+                  <h4>选定机型</h4>
+                  <div class="conditionTableContent">
+                    <div class="tagBorder">
+                      <el-tag
+                        :key="tag"
+                        v-for="tag in dynamicTags"
+                        closable
+                        :disable-transitions="false"
+                        @close="handleClose(tag)"
+                      >
+                        {{ tag }}
+                      </el-tag>
+                      <el-autocomplete
+                        class="input-new-tag"
+                        v-model="inputValue"
+                        ref="saveTagInput"
+                        size="small"
+                        @keyup.enter.native="handleInputConfirm"
+                        @blur="handleInputConfirm"
+                        :fetch-suggestions="querySearch"
+                        @select="handleInputConfirm"
+                      >
+                      </el-autocomplete>
+                    </div>
+                  </div>
+                </div>
+              </el-col>
+              <el-col :md="24" :lg="12" :xl="12">
+                <div class="conditionTable">
+                  <h4>故障代码</h4>
+                  <div class="conditionTableContent">
+                    <div class="tagBorder">
+                      <el-tag
+                        :key="tag"
+                        v-for="tag in dynamicTags"
+                        closable
+                        :disable-transitions="false"
+                        @close="handleClose(tag)"
+                      >
+                        {{ tag }}
+                      </el-tag>
+                      <el-autocomplete
+                        class="input-new-tag"
+                        v-model="inputValue"
+                        ref="saveTagInput"
+                        size="small"
+                        @keyup.enter.native="handleInputConfirm"
+                        @blur="handleInputConfirm"
+                        :fetch-suggestions="querySearch"
+                        @select="handleInputConfirm"
+                      >
+                      </el-autocomplete>
+                    </div>
+                  </div>
+                </div>
+              </el-col>
+              <el-col :md="24" :lg="12" :xl="12">
+                <div class="conditionTable">
+                  <h4>章节范围</h4>
+                  <div class="conditionTableContent">
+                    <el-row :gutter="20">
+                      <el-col :span="11"
+                        ><el-input
+                          v-model="start"
+                          placeholder="ATA 章节 (2位)"
+                        ></el-input
+                      ></el-col>
+                      <el-col :span="2" class="line">-</el-col>
+                      <el-col :span="11"
+                        ><el-input
+                          v-model="end"
+                          placeholder="ATA 章节 (4位)"
+                        ></el-input
+                      ></el-col>
+                    </el-row>
+                  </div>
+                </div>
+              </el-col>
+              <el-col :md="24" :lg="12" :xl="12">
+                <div class="conditionTable">
+                  <h4>模糊匹配</h4>
+                  <div class="conditionTableContent">
+                    <el-row :gutter="15">
+                      <el-col :span="5">
+                        <div class="matching">
+                          <h5>模糊开关</h5>
+                          <el-switch v-model="value" size="medium"> </el-switch>
+                        </div>
+                      </el-col>
+                      <el-col :span="14">
+                        <div class="matching">
+                          <h5>模糊度调整</h5>
+                          <el-slider v-model="value1"></el-slider>
+                        </div>
+                      </el-col>
+                      <el-col :span="5">
+                        <div class="matching text-right">
+                          <h5>同近义词</h5>
+                          <el-switch v-model="value" size="medium"> </el-switch>
+                        </div>
+                      </el-col>
+                    </el-row>
+                  </div>
+                </div>
+              </el-col>
+              <el-col :md="24" :lg="12" :xl="12">
+                <div class="conditionTable">
+                  <h4>日期范围</h4>
+                  <div class="conditionTableContent">
+                    <el-radio-group v-model="radio">
+                      <el-radio :label="3">近半年</el-radio>
+                      <el-radio :label="6">近一年</el-radio>
+                      <el-radio :label="9">近两年</el-radio>
+                      <el-radio :label="12">近三年</el-radio>
+                      <el-radio :label="15">全部</el-radio>
+                    </el-radio-group>
+                    <div class="setDate">
+                      <el-row>
+                        <el-col :xl="6">自定义日期</el-col>
+                        <el-col :xl="18">
+                          <el-date-picker
+                            v-model="date"
+                            type="daterange"
+                            range-separator="至"
+                            start-placeholder="开始日期"
+                            end-placeholder="结束日期"
+                            :picker-options="pickerOptions"
+                          >
+                          </el-date-picker>
+                        </el-col>
+                      </el-row>
+                    </div>
+                  </div>
+                </div>
+              </el-col>
+            </el-row>
+            <el-button class="el-icon-plus addcontent"
+              >&nbsp;&nbsp;添加</el-button
+            >
+          </div>
+        </div>
+      </el-col>
+      <el-col :md="5" :lg="5" :xl="5">
+        <div class="selecteds">
+          <h2>选定筛选条件</h2>
+          <div class="selectedsList">
+            <div class="selectedsContentList">
+              <ul>
+                <li v-for="(list, index) in lists" :key="index">
+                  <div class="name">
+                    {{ list.name }}
+                    <i class="el-icon-close"></i><i class="el-icon-edit"></i>
+                  </div>
+                  <p>{{ list.text }}</p>
+                </li>
+              </ul>
+              <el-row :gutter="20">
+                <el-col :span="12">
+                  <el-button class="el-icon-delete btn empty"
+                    >&nbsp;&nbsp;清空</el-button
+                  >
+                </el-col>
+                <el-col :span="12">
+                  <el-button class="el-icon-check btn submit"
+                    >&nbsp;&nbsp;确认</el-button
+                  >
+                </el-col>
+              </el-row>
+            </div>
+          </div>
+        </div>
+      </el-col>
+    </el-row>
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      isshow: false,
+      items: [
+        { name: "故障描述", isshow: false },
+        { name: "关键词组", isshow: false },
+        { name: "故障代码", isshow: false },
+        { name: "模糊匹配", isshow: false },
+        { name: "选定飞机", isshow: false },
+        { name: "选定机型", isshow: false },
+        { name: "章节范围", isshow: false },
+        { name: "日期范围", isshow: false },
+      ],
+      lists: [
+        { name: "故障描述", text: "ABCDEFGHIGKLMNOPQRSTUVWXYZ" },
+        {
+          name: "关键词组",
+          text: "自动抽取: ABCD , EFGH , XYZ 手动输入: ACEG , ZYX",
+        },
+      ],
+      text: "",
+      dynamicTags: [],
+      inputValue: "",
+      restaurants: [],
+      start: "",
+      end: "",
+      value: true,
+      value1: 0,
+      radio: 3,
+      date: "",
+      pickerOptions: {
+        disabledDate(time) {
+          // 禁止选择未来日期（可以选择今天）
+          return time.getTime() > Date.now();
+        },
+      },
+    };
+  },
+
+  created() {},
+  mounted() {
+    this.restaurants = this.loadAll();
+  },
+  methods: {
+    toggleShow(index) {
+      this.$set(this.items[index], "isshow", !this.items[index].isshow);
+    },
+
+    handleClose(tag) {
+      this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
+    },
+
+    handleInputConfirm() {
+      let inputValue = this.inputValue;
+      if (inputValue) {
+        this.dynamicTags.push(inputValue);
+        console.log(this.dynamicTags);
+      }
+      this.inputValue = "";
+    },
+    querySearch(queryString, cb) {
+      var restaurants = this.restaurants;
+      var results = queryString
+        ? restaurants.filter(this.createFilter(queryString))
+        : restaurants;
+      // 调用 callback 返回建议列表的数据
+      cb(results);
+    },
+    createFilter(queryString) {
+      return (restaurant) => {
+        return (
+          restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) ===
+          0
+        );
+      };
+    },
+    loadAll() {
+      return [
+        { value: "三全鲜食（北新泾店）", address: "长宁区新渔路144号" },
+        {
+          value: "Hot honey 首尔炸鸡（仙霞路）",
+          address: "上海市长宁区淞虹路661号",
+        },
+        {
+          value: "新旺角茶餐厅",
+          address: "上海市普陀区真北路988号创邑金沙谷6号楼113",
+        },
+        { value: "泷千家(天山西路店)", address: "天山西路438号" },
+        {
+          value: "胖仙女纸杯蛋糕（上海凌空店）",
+          address: "上海市长宁区金钟路968号1幢18号楼一层商铺18-101",
+        },
+        { value: "贡茶", address: "上海市长宁区金钟路633号" },
+      ];
+    },
+  },
+};
+</script>
+
+<style  scoped>
+.el-tag + .el-tag {
+  margin-left: 10px;
+}
+.button-new-tag {
+  margin-left: 10px;
+  height: 32px;
+  line-height: 30px;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.input-new-tag {
+  width: 90px;
+  margin-left: 10px;
+  vertical-align: bottom;
+}
+</style>

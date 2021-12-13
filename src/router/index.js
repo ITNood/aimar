@@ -9,6 +9,13 @@ const reload = () => import('@/components/reLoad')
 
 const main = () => import('@/views/index')
 const repairHistory = () => import('../views/repairhistory')
+const integrated = () => import('../views/integrated')
+const searchResult = () => import('../views/searchResult')
+const failureScheme = () => import('../views/failureScheme')
+const faultDescription = () => import('../views/faultDescription')
+const keyword = () => import('../views/keyword')
+const faultCode = () => import('../views/faultCode')
+const deOrder = () => import('../views/deOrder')
 const data = () => import('@/views/data')
 
 Vue.use(Router)
@@ -48,8 +55,8 @@ export const fixedRouter = [{
   path: '',
   component: layout,
   children: [{
-    path: 'data',
-    component: data,
+    path: 'failureScheme',
+    component: failureScheme,
     meta: {
       title: '排故方案推荐',
       icon: 'icon-paigufangan',
@@ -121,6 +128,84 @@ export const fixedRouter = [{
       roles: ['user', 'admin'],
     }
   }]
+},
+{
+  path: '',
+  component: layout,
+  children: [{
+    path: 'integrated',
+    component: integrated,
+    meta: {
+      title: '综合筛选',
+      roles: ['user', 'admin'],
+    }
+  }],
+  hidden: true
+},
+{
+  path: '',
+  component: layout,
+  children: [{
+    path: 'searchResult',
+    component: searchResult,
+    meta: {
+      title: '搜索结果',
+      roles: ['user', 'admin'],
+    }
+  }],
+  hidden: true
+},
+{
+  path: '',
+  component: layout,
+  children: [{
+    path: 'faultDescription',
+    component: faultDescription,
+    meta: {
+      title: '故障描述',
+      roles: ['user', 'admin'],
+    }
+  }],
+  hidden: true
+},
+{
+  path: '',
+  component: layout,
+  children: [{
+    path: 'keyword',
+    component: keyword,
+    meta: {
+      title: '关键词组',
+      roles: ['user', 'admin'],
+    }
+  }],
+  hidden: true
+},
+{
+  path: '',
+  component: layout,
+  children: [{
+    path: 'faultCode',
+    component: faultCode,
+    meta: {
+      title: '故障代码',
+      roles: ['user', 'admin'],
+    }
+  }],
+  hidden: true
+},
+{
+  path: '',
+  component: layout,
+  children: [{
+    path: 'deOrder',
+    component: deOrder,
+    meta: {
+      title: 'DE单号',
+      roles: ['user', 'admin'],
+    }
+  }],
+  hidden: true
 },
 ]
 // 需要权限判断展示的路由
