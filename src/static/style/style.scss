@@ -20,6 +20,10 @@ $red        :#D9001B;
 $orange     :#F59A23;
 $green      :#03BF16;
 
+img {
+  width: 100%;
+}
+
 .border {
   border: 1px solid rgb(38, 52, 69)
 }
@@ -211,7 +215,8 @@ $green      :#03BF16;
           color: $font333;
 
           display: block;
-          @extend %fontEllipsis
+          @extend %fontEllipsis;
+          font-size: 0.8rem;
         }
       }
     }
@@ -285,7 +290,7 @@ $green      :#03BF16;
     display       : block;
     border        : 2px solid $theme;
     border-radius : 4px;
-    padding       : 50px 30px;
+    padding       : 50px 15px;
     overflow      : hidden;
     letter-spacing: 2px;
     transition    : all .5s ease-in-out;
@@ -306,7 +311,7 @@ $green      :#03BF16;
       transition : all .5s ease-in-out;
 
       p {
-        font-size: 1.2rem;
+        font-size: 1rem;
       }
     }
 
@@ -764,17 +769,25 @@ $green      :#03BF16;
 .programmeDetails {
   padding     : 20px;
   border-right: 1px solid $theme;
+  height      : calc(100vh - 413px);
+  overflow-y  : auto;
+
+  h4 {
+    color      : $theme;
+    font-size  : 1.2rem;
+    font-weight: 600;
+  }
 
   h1 {
     color        : $theme;
-    font-size    : 1.3rem;
+    font-size    : 1.2rem;
     margin-bottom: 20px;
 
     i {
       float      : right;
       font-size  : 1.2rem;
       font-weight: 600;
-      margin     : 10px;
+      margin     : 0 10px;
 
       &:first-child {
         color: $red;
@@ -785,11 +798,6 @@ $green      :#03BF16;
         color: $orange;
       }
     }
-  }
-
-  ul {
-    height    : calc(100vh - 413px);
-    overflow-y: auto;
   }
 
   li {
@@ -897,4 +905,158 @@ $green      :#03BF16;
       background-color: $green;
     }
   }
+}
+
+.component {
+  height    : calc(100vh - 393px);
+  overflow-y: auto;
+}
+
+.searchbtn {
+  display         : block;
+  margin          : 0 auto;
+  background-color: $theme;
+  color           : $withe;
+  padding-left    : 40px;
+  padding-right   : 40px;
+  font-size       : 1.2rem;
+  font-weight     : 600;
+
+  &:hover,
+  &:focus {
+    background-color: $theme;
+    color           : $withe;
+  }
+}
+
+.componentbox {
+  font-size  : 1.2rem;
+  font-weight: 600;
+}
+
+.news {
+
+  .el-col {
+    margin: 10px 0;
+
+    p {
+      line-height: 150%;
+      @extend %wordWrap;
+
+      &:last-child {
+        color      : $theme;
+        font-weight: 600;
+      }
+    }
+  }
+}
+
+.selectedComponent {
+  padding: 20px;
+
+  ul {
+    height    : calc(100vh - 650px);
+    overflow-y: auto;
+
+    li {
+      margin-bottom: 15px;
+
+      p {
+        line-height: 30px;
+        color      : $theme;
+        font-weight: 600;
+
+        i {
+          float      : right;
+          font-size  : 1.2rem;
+          font-weight: 600;
+          margin     : 10px;
+          cursor     : pointer;
+
+          &:last-child {
+            color: $orange;
+          }
+
+          &:first-child {
+            color: $red;
+          }
+        }
+      }
+    }
+  }
+}
+
+.check {
+  display    : block;
+  font-size  : 1.2rem;
+  font-weight: 600;
+  line-height: 40px;
+}
+
+.download {
+  display         : block;
+  margin          : 0 !important;
+  margin-top      : 15px !important;
+  width           : 100%;
+  background-color: $theme;
+  color           : $withe;
+  font-size       : 1.3rem;
+
+  &:hover,
+  &:focus {
+    background-color: $theme;
+    color           : $withe;
+    border-color    : $theme;
+  }
+
+  &:last-child {
+    background-color: $titleBgk;
+    color           : $theme;
+    border-color    : $theme;
+
+    &:hover,
+    &:focus {
+      background-color: $titleBgk;
+      color           : $theme;
+      border-color    : $theme;
+    }
+  }
+}
+
+.tagInput {
+  padding-left: 100px;
+  position    : relative;
+
+  p {
+    position   : absolute;
+    top        : 0;
+    left       : 0;
+    display    : block;
+    line-height: 42px;
+    border     : 1px solid black;
+    width      : 100px;
+    text-align : center;
+  }
+}
+
+.reportTable {
+  margin-top : 20px;
+  border-top : 1px solid $bordercolor;
+  padding-top: 20px;
+}
+
+.taskNews {
+  height    : 1062px;
+  padding   : 20px;
+  overflow-y: auto;
+}
+
+.btnfont {
+  span {
+    font-size: 0.7rem;
+  }
+}
+
+.datePicker {
+  width: 100% !important;
 }

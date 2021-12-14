@@ -40,7 +40,7 @@
     <div class="resultTable clear">
       <h4>筛选结果汇总</h4>
       <el-row :gutter="40" style="padding: 20px">
-        <el-col :md="8" :lg="6" :xl="4">
+        <el-col :md="8" :lg="4" :xl="4">
           <ul class="dataList">
             <li>
               <h3>
@@ -65,7 +65,7 @@
             </li>
           </ul>
         </el-col>
-        <el-col :md="16" :lg="18" :xl="20">
+        <el-col :md="16" :lg="20" :xl="20">
           <div class="clear">
             <el-radio-group v-model="radio" class="selectradio">
               <el-radio :label="3"> 按综合相似度排序</el-radio>
@@ -97,13 +97,13 @@
             <el-table-column prop="plan" label="计划措施"></el-table-column>
             <el-table-column prop="measures" label="排故措施"></el-table-column>
             <el-table-column label="查看 DE 详情" #default="row">
-              <el-button size="small" @click="lookDe(row)">查看DE</el-button>
+              <el-button size="mini" @click="lookDe(row)" class="btnfont">查看DE</el-button>
             </el-table-column>
             <el-table-column label="查看相关 CC 单" #default="row">
-              <el-button size="small" @click="lookDe(row)">查看CC</el-button>
+              <el-button size="mini" @click="lookDe(row)" class="btnfont">查看CC</el-button>
             </el-table-column>
             <el-table-column label="查看相关 MR 单" #default="row">
-              <el-button size="small" @click="lookDe(row)">查看MR</el-button>
+              <el-button size="mini" @click="lookDe(row)" class="btnfont">查看MR</el-button>
             </el-table-column>
           </el-table>
           <pagination

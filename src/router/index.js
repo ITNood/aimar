@@ -16,6 +16,9 @@ const faultDescription = () => import('../views/faultDescription')
 const keyword = () => import('../views/keyword')
 const faultCode = () => import('../views/faultCode')
 const deOrder = () => import('../views/deOrder')
+const task = () => import('../views/task')
+const componentReplacement = () => import('../views/componentReplacement')
+const reportDownload = () => import('../views/reportDownload')
 const data = () => import('@/views/data')
 
 Vue.use(Router)
@@ -94,8 +97,8 @@ export const fixedRouter = [{
   path: '',
   component: layout,
   children: [{
-    path: 'data',
-    component: data,
+    path: 'componentReplacement',
+    component: componentReplacement,
     meta: {
       title: '部件更换推荐',
       icon: 'icon-cc',
@@ -120,8 +123,8 @@ export const fixedRouter = [{
   path: '',
   component: layout,
   children: [{
-    path: 'data',
-    component: data,
+    path: 'task',
+    component: task,
     meta: {
       title: '任务中心',
       icon: 'icon-renwu',
@@ -202,6 +205,19 @@ export const fixedRouter = [{
     component: deOrder,
     meta: {
       title: 'DE单号',
+      roles: ['user', 'admin'],
+    }
+  }],
+  hidden: true
+},
+{
+  path: '',
+  component: layout,
+  children: [{
+    path: 'reportDownload',
+    component: reportDownload,
+    meta: {
+      title: '工单报告下载中心',
       roles: ['user', 'admin'],
     }
   }],

@@ -1,6 +1,6 @@
 <template>
   <div class="repair">
-    <el-row :gutter="40">
+    <el-row :gutter="20">
       <el-col :span="4" :offset="2">
         <div class="choselist">
           <router-link to="/integrated">

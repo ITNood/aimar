@@ -88,13 +88,19 @@
             <el-table-column prop="plan" label="计划措施"></el-table-column>
             <el-table-column prop="measures" label="排故措施"></el-table-column>
             <el-table-column label="查看 DE 详情" #default="row">
-              <el-button size="small" @click="lookDe(row)">查看DE</el-button>
+              <el-button size="mini" @click="lookDe(row)" class="btnfont"
+                >查看DE</el-button
+              >
             </el-table-column>
             <el-table-column label="查看相关 CC 单" #default="row">
-              <el-button size="small" @click="lookDe(row)">查看CC</el-button>
+              <el-button size="mini" @click="lookDe(row)" class="btnfont"
+                >查看CC</el-button
+              >
             </el-table-column>
             <el-table-column label="查看相关 MR 单" #default="row">
-              <el-button size="small" @click="lookDe(row)">查看MR</el-button>
+              <el-button size="mini" @click="lookDe(row)" class="btnfont"
+                >查看MR</el-button
+              >
             </el-table-column>
           </el-table>
           <pagination

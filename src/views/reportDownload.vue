@@ -24,208 +24,193 @@
             <el-row :gutter="20">
               <el-col :md="24" :lg="12" :xl="12">
                 <div class="conditionTable">
-                  <h4>故障描述</h4>
+                  <h4>报告生成记录</h4>
                   <div class="conditionTableContent">
-                    <el-input
-                      type="textarea"
-                      v-model="text"
-                      placeholder="输入故障描述"
-                    ></el-input>
-                  </div>
-                </div>
-              </el-col>
-              <el-col :md="24" :lg="12" :xl="12">
-                <div class="conditionTable">
-                  <h4>选定飞机</h4>
-                  <div class="conditionTableContent">
-                    <div class="tagBorder">
-                      <el-tag
-                        :key="tag"
-                        v-for="tag in dynamicTags"
-                        closable
-                        :disable-transitions="false"
-                        @close="handleClose(tag)"
-                      >
-                        {{ tag }}
-                      </el-tag>
-                      <el-autocomplete
-                        class="input-new-tag"
-                        v-model="inputValue"
-                        ref="saveTagInput"
-                        size="small"
-                        @keyup.enter.native="handleInputConfirm"
-                        @blur="handleInputConfirm"
-                        :fetch-suggestions="querySearch"
-                        @select="handleInputConfirm"
-                      >
-                      </el-autocomplete>
-                    </div>
-                  </div>
-                </div>
-              </el-col>
-              <el-col :md="24" :lg="12" :xl="12">
-                <div class="conditionTable">
-                  <h4>关键词组</h4>
-                  <div class="conditionTableContent">
-                    <div class="tagBorder">
-                      <el-tag
-                        :key="tag"
-                        v-for="tag in dynamicTags"
-                        closable
-                        :disable-transitions="false"
-                        @close="handleClose(tag)"
-                      >
-                        {{ tag }}
-                      </el-tag>
-                      <el-autocomplete
-                        class="input-new-tag"
-                        v-model="inputValue"
-                        ref="saveTagInput"
-                        size="small"
-                        @keyup.enter.native="handleInputConfirm"
-                        @blur="handleInputConfirm"
-                        :fetch-suggestions="querySearch"
-                        @select="handleInputConfirm"
-                      >
-                      </el-autocomplete>
-                    </div>
-                  </div>
-                </div>
-              </el-col>
-              <el-col :md="24" :lg="12" :xl="12">
-                <div class="conditionTable">
-                  <h4>选定机型</h4>
-                  <div class="conditionTableContent">
-                    <div class="tagBorder">
-                      <el-tag
-                        :key="tag"
-                        v-for="tag in dynamicTags"
-                        closable
-                        :disable-transitions="false"
-                        @close="handleClose(tag)"
-                      >
-                        {{ tag }}
-                      </el-tag>
-                      <el-autocomplete
-                        class="input-new-tag"
-                        v-model="inputValue"
-                        ref="saveTagInput"
-                        size="small"
-                        @keyup.enter.native="handleInputConfirm"
-                        @blur="handleInputConfirm"
-                        :fetch-suggestions="querySearch"
-                        @select="handleInputConfirm"
-                      >
-                      </el-autocomplete>
-                    </div>
-                  </div>
-                </div>
-              </el-col>
-              <el-col :md="24" :lg="12" :xl="12">
-                <div class="conditionTable">
-                  <h4>故障代码</h4>
-                  <div class="conditionTableContent">
-                    <div class="tagBorder">
-                      <el-tag
-                        :key="tag"
-                        v-for="tag in dynamicTags"
-                        closable
-                        :disable-transitions="false"
-                        @close="handleClose(tag)"
-                      >
-                        {{ tag }}
-                      </el-tag>
-                      <el-autocomplete
-                        class="input-new-tag"
-                        v-model="inputValue"
-                        ref="saveTagInput"
-                        size="small"
-                        @keyup.enter.native="handleInputConfirm"
-                        @blur="handleInputConfirm"
-                        :fetch-suggestions="querySearch"
-                        @select="handleInputConfirm"
-                      >
-                      </el-autocomplete>
-                    </div>
-                  </div>
-                </div>
-              </el-col>
-              <el-col :md="24" :lg="12" :xl="12">
-                <div class="conditionTable">
-                  <h4>章节范围</h4>
-                  <div class="conditionTableContent">
-                    <el-row :gutter="20">
-                      <el-col :span="11"
-                        ><el-input
-                          v-model="start"
-                          placeholder="ATA 章节 (2位)"
-                        ></el-input
-                      ></el-col>
-                      <el-col :span="2" class="line">-</el-col>
-                      <el-col :span="11"
-                        ><el-input
-                          v-model="end"
-                          placeholder="ATA 章节 (4位)"
-                        ></el-input
-                      ></el-col>
-                    </el-row>
-                  </div>
-                </div>
-              </el-col>
-              <el-col :md="24" :lg="12" :xl="12">
-                <div class="conditionTable">
-                  <h4>模糊匹配</h4>
-                  <div class="conditionTableContent">
-                    <el-row :gutter="15">
-                      <el-col :span="5">
-                        <div class="matching">
-                          <h5>模糊开关</h5>
-                          <el-switch v-model="value" size="medium"> </el-switch>
-                        </div>
-                      </el-col>
-                      <el-col :span="14">
-                        <div class="matching">
-                          <h5>模糊度调整</h5>
-                          <el-slider v-model="value1"></el-slider>
-                        </div>
-                      </el-col>
-                      <el-col :span="5">
-                        <div class="matching text-right">
-                          <h5>同近义词</h5>
-                          <el-switch v-model="value" size="medium"> </el-switch>
-                        </div>
-                      </el-col>
-                    </el-row>
-                  </div>
-                </div>
-              </el-col>
-              <el-col :md="24" :lg="12" :xl="12">
-                <div class="conditionTable">
-                  <h4>日期范围</h4>
-                  <div class="conditionTableContent">
-                    <el-radio-group v-model="radio">
-                      <el-radio :label="3">近半年</el-radio>
-                      <el-radio :label="6">近一年</el-radio>
-                      <el-radio :label="9">近两年</el-radio>
-                      <el-radio :label="12">近三年</el-radio>
-                      <el-radio :label="15">全部</el-radio>
-                    </el-radio-group>
-                    <div class="setDate">
-                      <el-row>
-                        <el-col :xl="6">自定义日期</el-col>
-                        <el-col :xl="18">
-                          <el-date-picker
-                            class="datePicker"
-                            v-model="date"
-                            type="daterange"
-                            range-separator="至"
-                            start-placeholder="开始日期"
-                            end-placeholder="结束日期"
-                            :picker-options="pickerOptions"
+                    <el-table :data="reportRecord" border>
+                      <el-table-column
+                        type="selection"
+                        width="55"
+                      ></el-table-column>
+                      <el-table-column
+                        label="生成时间"
+                        prop="date"
+                      ></el-table-column>
+                      <el-table-column
+                        label="报告类型"
+                        prop="reportType"
+                      ></el-table-column>
+                      <el-table-column
+                        label="报告ID"
+                        prop="reportId"
+                      ></el-table-column>
+                      <el-table-column label="查看报告">
+                        <template #default="row">
+                          <el-button size="mini" @click="lookReport(row)"
+                            >查看</el-button
                           >
-                          </el-date-picker>
-                        </el-col>
-                      </el-row>
+                        </template>
+                      </el-table-column>
+                    </el-table>
+                  </div>
+                </div>
+              </el-col>
+              <el-col :md="24" :lg="12" :xl="12">
+                <div class="conditionTable">
+                  <h4>维修手册下载</h4>
+                  <div class="conditionTableContent">
+                    <div class="tagBorder">
+                      <el-tag
+                        :key="tag"
+                        v-for="tag in dynamicTags"
+                        closable
+                        :disable-transitions="false"
+                        @close="handleClose(tag)"
+                      >
+                        {{ tag }}
+                      </el-tag>
+                      <el-autocomplete
+                        class="input-new-tag"
+                        v-model="inputValue"
+                        ref="saveTagInput"
+                        size="small"
+                        @keyup.enter.native="handleInputConfirm"
+                        @blur="handleInputConfirm"
+                        :fetch-suggestions="querySearch"
+                        @select="handleInputConfirm"
+                      >
+                      </el-autocomplete>
+                    </div>
+                  </div>
+                </div>
+              </el-col>
+              <el-col :md="24" :lg="12" :xl="12">
+                <div class="conditionTable">
+                  <h4>DE 工单下载</h4>
+                  <div class="conditionTableContent">
+                    <div class="tagBorder">
+                      <el-tag
+                        :key="tag"
+                        v-for="tag in dynamicTags"
+                        closable
+                        :disable-transitions="false"
+                        @close="handleClose(tag)"
+                      >
+                        {{ tag }}
+                      </el-tag>
+                      <el-autocomplete
+                        class="input-new-tag"
+                        v-model="inputValue"
+                        ref="saveTagInput"
+                        size="small"
+                        @keyup.enter.native="handleInputConfirm"
+                        @blur="handleInputConfirm"
+                        :fetch-suggestions="querySearch"
+                        @select="handleInputConfirm"
+                      >
+                      </el-autocomplete>
+                    </div>
+                    <el-checkbox-group v-model="checkedCities" class="mt20">
+                      <el-checkbox
+                        v-for="(city, index) in cities"
+                        :label="index"
+                        :key="index"
+                        >{{ city }}</el-checkbox
+                      >
+                    </el-checkbox-group>
+                  </div>
+                </div>
+              </el-col>
+              <el-col :md="24" :lg="12" :xl="12">
+                <div class="conditionTable">
+                  <h4>工单/报告搜索</h4>
+                  <div
+                    class="conditionTableContent"
+                    style="min-height: 400px !important"
+                  >
+                    <el-row>
+                      <el-col :span="24">
+                        <span>报告类型</span
+                        ><el-select v-model="reportType">
+                          <el-option
+                            v-for="(list, index) in todos"
+                            :key="index"
+                            >{{ list }}</el-option
+                          >
+                        </el-select>
+                      </el-col>
+                      <el-col :span="24" class="mt20">
+                        <el-date-picker
+                          v-model="date"
+                          type="daterange"
+                          range-separator="至"
+                          start-placeholder="开始日期"
+                          end-placeholder="结束日期"
+                        >
+                        </el-date-picker>
+                      </el-col>
+                    </el-row>
+                    <div class="tagInput" style="padding-left: 100px">
+                      <p>关键词搜索</p>
+                      <div class="tagBorder mt20">
+                        <el-tag
+                          :key="tag"
+                          v-for="tag in dynamicTags"
+                          closable
+                          :disable-transitions="false"
+                          @close="handleClose(tag)"
+                        >
+                          {{ tag }}
+                        </el-tag>
+                        <el-autocomplete
+                          class="input-new-tag"
+                          v-model="inputValue"
+                          ref="saveTagInput"
+                          size="small"
+                          @keyup.enter.native="handleInputConfirm"
+                          @blur="handleInputConfirm"
+                          :fetch-suggestions="querySearch"
+                          @select="handleInputConfirm"
+                        >
+                        </el-autocomplete>
+                      </div>
+                    </div>
+                    <div class="reportTable">
+                      <el-input
+                        placeholder="请输入内容"
+                        v-model="searchValue"
+                        class="input-with-select"
+                      >
+                        <el-button
+                          slot="append"
+                          icon="el-icon-search"
+                        ></el-button>
+                      </el-input>
+
+                      <el-table :data="reportData" border>
+                        <el-table-column
+                          type="selection"
+                          width="55"
+                        ></el-table-column>
+                        <el-table-column
+                          label="生成时间"
+                          prop="date"
+                        ></el-table-column>
+                        <el-table-column
+                          label="报告类型"
+                          prop="reportType"
+                        ></el-table-column>
+                        <el-table-column
+                          label="报告Id"
+                          prop="reportId"
+                        ></el-table-column>
+                        <el-table-column label="查看报告">
+                          <template #default="row">
+                            <el-button size="mini" @click="lookReport(row)"
+                              >查看</el-button
+                            >
+                          </template>
+                        </el-table-column>
+                      </el-table>
                     </div>
                   </div>
                 </div>
@@ -272,19 +257,23 @@
 </template>
 
 <script>
+const cityOptions = [
+  "同时下载关联DE工单",
+  "同时下载相关CC工单",
+  "同时下载相关MR工单",
+];
 export default {
   data() {
     return {
       isshow: false,
       items: [
-        { name: "故障描述", isshow: false },
-        { name: "关键词组", isshow: false },
-        { name: "故障代码", isshow: false },
-        { name: "模糊匹配", isshow: false },
-        { name: "选定飞机", isshow: false },
-        { name: "选定机型", isshow: false },
-        { name: "章节范围", isshow: false },
-        { name: "日期范围", isshow: false },
+        { name: "报告生成记录", isshow: false },
+        { name: "收藏历史记录", isshow: false },
+        { name: "维修手册下载", isshow: false },
+        { name: "DE 工单下载", isshow: false },
+        { name: "CC 工单下载", isshow: false },
+        { name: "MR 工单下载", isshow: false },
+        { name: "工单/报告搜索", isshow: false },
       ],
       lists: [
         { name: "故障描述", text: "ABCDEFGHIGKLMNOPQRSTUVWXYZ" },
@@ -309,6 +298,28 @@ export default {
           return time.getTime() > Date.now();
         },
       },
+      reportRecord: [
+        {
+          id: 1,
+          date: "2021-12-14",
+          reportType: "维修报告",
+          reportId: "156456",
+        },
+      ],
+      reportData: [
+        {
+          id: 1,
+          date: "2021-12-14",
+          reportType: "维修报告",
+          reportId: "156456",
+        },
+      ],
+      checkedCities: [],
+      cities: cityOptions,
+      todos: [],
+      date: "",
+      reportType: "",
+      searchValue: "",
     };
   },
 
@@ -317,6 +328,8 @@ export default {
     this.restaurants = this.loadAll();
   },
   methods: {
+    //查看报告
+    lookReport(row) {},
     toggleShow(index) {
       this.$set(this.items[index], "isshow", !this.items[index].isshow);
     },
