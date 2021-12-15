@@ -18,7 +18,7 @@
         <div class="selectedsProgramme">
           <h2>选择排故方案</h2>
           <div class="programme">
-            <el-radio-group v-model="radio">
+            <el-radio-group v-model="radio" class="selectRadioGroup">
               <el-radio-button label="1">方案 # 12345678 (94%)</el-radio-button>
               <el-radio-button label="2">方案 # 23456789 (89%)</el-radio-button>
               <el-radio-button label="3">方案 # 34567890 (78%)</el-radio-button>
@@ -91,7 +91,7 @@
       <el-col :md="5" :lg="5" :xl="5">
         <div class="selecteds">
           <h2>已选择排故方案</h2>
-          <div class="programmeDetails">
+          <div class="programmeDetails" style="border-right: none">
             <h1 class="clear">
               方案 # 12345678 <i class="el-icon-close"></i
               ><i class="el-icon-edit"></i>

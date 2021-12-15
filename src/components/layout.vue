@@ -42,7 +42,7 @@
               style="color: #858796; font-weight: 800"
             >
               <img
-                src="../assets/HoFan_Logo.jpg"
+                src="../assets/logo.png"
                 style="width: 40px; border-radius: 50%"
               />
             </span>

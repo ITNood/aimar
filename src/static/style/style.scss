@@ -1056,3 +1056,14 @@ img {
 .datePicker {
   width: 100% !important;
 }
+
+.selectRadioGroup {
+  .el-radio-button {
+    border-left: 1px solid #DCDFE6;
+    margin-left: -1px;
+
+    &:first-child {
+      border-left: none;
+    }
+  }
+}
