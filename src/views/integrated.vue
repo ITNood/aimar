@@ -17,256 +17,263 @@
           </ul>
         </div>
       </el-col>
-      <el-col :md="14" :lg="14" :xl="15">
-        <div class="integrateedContent">
-          <h2>输入筛选条件</h2>
-          <div class="conditionList">
-            <el-row :gutter="20">
-              <el-col :md="24" :lg="12" :xl="12">
-                <div class="conditionTable">
-                  <h4>故障描述</h4>
-                  <div class="conditionTableContent">
-                    <el-input
-                      type="textarea"
-                      v-model="text"
-                      placeholder="输入故障描述"
-                    ></el-input>
-                  </div>
-                </div>
-              </el-col>
-              <el-col :md="24" :lg="12" :xl="12">
-                <div class="conditionTable">
-                  <h4>选定飞机</h4>
-                  <div class="conditionTableContent">
-                    <div class="tagBorder">
-                      <el-tag
-                        :key="tag"
-                        v-for="tag in dynamicTags"
-                        closable
-                        :disable-transitions="false"
-                        @close="handleClose(tag)"
-                      >
-                        {{ tag }}
-                      </el-tag>
-                      <el-autocomplete
-                        class="input-new-tag"
-                        v-model="inputValue"
-                        ref="saveTagInput"
-                        size="small"
-                        @keyup.enter.native="handleInputConfirm"
-                        @blur="handleInputConfirm"
-                        :fetch-suggestions="querySearch"
-                        @select="handleInputConfirm"
-                      >
-                      </el-autocomplete>
+      <template>
+        <el-col :md="14" :lg="14" :xl="15">
+          <div class="integrateedContent">
+            <h2>输入筛选条件</h2>
+            <div class="conditionList">
+              <el-row :gutter="20">
+                <el-col :md="24" :lg="12" :xl="12" v-show="items[0].isshow">
+                  <div class="conditionTable">
+                    <h4>故障描述</h4>
+                    <div class="conditionTableContent">
+                      <el-input
+                        type="textarea"
+                        v-model="text"
+                        placeholder="输入故障描述"
+                      ></el-input>
                     </div>
                   </div>
-                </div>
-              </el-col>
-              <el-col :md="24" :lg="12" :xl="12">
-                <div class="conditionTable">
-                  <h4>关键词组</h4>
-                  <div class="conditionTableContent">
-                    <div class="tagBorder">
-                      <el-tag
-                        :key="tag"
-                        v-for="tag in dynamicTags"
-                        closable
-                        :disable-transitions="false"
-                        @close="handleClose(tag)"
-                      >
-                        {{ tag }}
-                      </el-tag>
-                      <el-autocomplete
-                        class="input-new-tag"
-                        v-model="inputValue"
-                        ref="saveTagInput"
-                        size="small"
-                        @keyup.enter.native="handleInputConfirm"
-                        @blur="handleInputConfirm"
-                        :fetch-suggestions="querySearch"
-                        @select="handleInputConfirm"
-                      >
-                      </el-autocomplete>
+                </el-col>
+                <el-col :md="24" :lg="12" :xl="12" v-show="items[4].isshow">
+                  <div class="conditionTable">
+                    <h4>选定飞机</h4>
+                    <div class="conditionTableContent">
+                      <div class="tagBorder">
+                        <el-tag
+                          :key="tag"
+                          v-for="tag in dynamicTags"
+                          closable
+                          :disable-transitions="false"
+                          @close="handleClose(tag)"
+                        >
+                          {{ tag }}
+                        </el-tag>
+                        <el-autocomplete
+                          class="input-new-tag"
+                          v-model="inputValue"
+                          ref="saveTagInput"
+                          size="small"
+                          @keyup.enter.native="handleInputConfirm"
+                          @blur="handleInputConfirm"
+                          :fetch-suggestions="querySearch"
+                          @select="handleInputConfirm"
+                        >
+                        </el-autocomplete>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </el-col>
-              <el-col :md="24" :lg="12" :xl="12">
-                <div class="conditionTable">
-                  <h4>选定机型</h4>
-                  <div class="conditionTableContent">
-                    <div class="tagBorder">
-                      <el-tag
-                        :key="tag"
-                        v-for="tag in dynamicTags"
-                        closable
-                        :disable-transitions="false"
-                        @close="handleClose(tag)"
-                      >
-                        {{ tag }}
-                      </el-tag>
-                      <el-autocomplete
-                        class="input-new-tag"
-                        v-model="inputValue"
-                        ref="saveTagInput"
-                        size="small"
-                        @keyup.enter.native="handleInputConfirm"
-                        @blur="handleInputConfirm"
-                        :fetch-suggestions="querySearch"
-                        @select="handleInputConfirm"
-                      >
-                      </el-autocomplete>
+                </el-col>
+                <el-col :md="24" :lg="12" :xl="12" v-show="items[1].isshow">
+                  <div class="conditionTable">
+                    <h4>关键词组</h4>
+                    <div class="conditionTableContent">
+                      <div class="tagBorder">
+                        <el-tag
+                          :key="tag"
+                          v-for="tag in dynamicTags"
+                          closable
+                          :disable-transitions="false"
+                          @close="handleClose(tag)"
+                        >
+                          {{ tag }}
+                        </el-tag>
+                        <el-autocomplete
+                          class="input-new-tag"
+                          v-model="inputValue"
+                          ref="saveTagInput"
+                          size="small"
+                          @keyup.enter.native="handleInputConfirm"
+                          @blur="handleInputConfirm"
+                          :fetch-suggestions="querySearch"
+                          @select="handleInputConfirm"
+                        >
+                        </el-autocomplete>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </el-col>
-              <el-col :md="24" :lg="12" :xl="12">
-                <div class="conditionTable">
-                  <h4>故障代码</h4>
-                  <div class="conditionTableContent">
-                    <div class="tagBorder">
-                      <el-tag
-                        :key="tag"
-                        v-for="tag in dynamicTags"
-                        closable
-                        :disable-transitions="false"
-                        @close="handleClose(tag)"
-                      >
-                        {{ tag }}
-                      </el-tag>
-                      <el-autocomplete
-                        class="input-new-tag"
-                        v-model="inputValue"
-                        ref="saveTagInput"
-                        size="small"
-                        @keyup.enter.native="handleInputConfirm"
-                        @blur="handleInputConfirm"
-                        :fetch-suggestions="querySearch"
-                        @select="handleInputConfirm"
-                      >
-                      </el-autocomplete>
+                </el-col>
+                <el-col :md="24" :lg="12" :xl="12" v-show="items[5].isshow">
+                  <div class="conditionTable">
+                    <h4>选定机型</h4>
+                    <div class="conditionTableContent">
+                      <div class="tagBorder">
+                        <el-tag
+                          :key="tag"
+                          v-for="tag in dynamicTags"
+                          closable
+                          :disable-transitions="false"
+                          @close="handleClose(tag)"
+                        >
+                          {{ tag }}
+                        </el-tag>
+                        <el-autocomplete
+                          class="input-new-tag"
+                          v-model="inputValue"
+                          ref="saveTagInput"
+                          size="small"
+                          @keyup.enter.native="handleInputConfirm"
+                          @blur="handleInputConfirm"
+                          :fetch-suggestions="querySearch"
+                          @select="handleInputConfirm"
+                        >
+                        </el-autocomplete>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </el-col>
-              <el-col :md="24" :lg="12" :xl="12">
-                <div class="conditionTable">
-                  <h4>章节范围</h4>
-                  <div class="conditionTableContent">
-                    <el-row :gutter="20">
-                      <el-col :span="11"
-                        ><el-input
-                          v-model="start"
-                          placeholder="ATA 章节 (2位)"
-                        ></el-input
-                      ></el-col>
-                      <el-col :span="2" class="line">-</el-col>
-                      <el-col :span="11"
-                        ><el-input
-                          v-model="end"
-                          placeholder="ATA 章节 (4位)"
-                        ></el-input
-                      ></el-col>
-                    </el-row>
+                </el-col>
+                <el-col :md="24" :lg="12" :xl="12" v-show="items[2].isshow">
+                  <div class="conditionTable">
+                    <h4>故障代码</h4>
+                    <div class="conditionTableContent">
+                      <div class="tagBorder">
+                        <el-tag
+                          :key="tag"
+                          v-for="tag in dynamicTags"
+                          closable
+                          :disable-transitions="false"
+                          @close="handleClose(tag)"
+                        >
+                          {{ tag }}
+                        </el-tag>
+                        <el-autocomplete
+                          class="input-new-tag"
+                          v-model="inputValue"
+                          ref="saveTagInput"
+                          size="small"
+                          @keyup.enter.native="handleInputConfirm"
+                          @blur="handleInputConfirm"
+                          :fetch-suggestions="querySearch"
+                          @select="handleInputConfirm"
+                        >
+                        </el-autocomplete>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </el-col>
-              <el-col :md="24" :lg="12" :xl="12">
-                <div class="conditionTable">
-                  <h4>模糊匹配</h4>
-                  <div class="conditionTableContent">
-                    <el-row :gutter="15">
-                      <el-col :span="5">
-                        <div class="matching">
-                          <h5>模糊开关</h5>
-                          <el-switch v-model="value" size="medium"> </el-switch>
-                        </div>
-                      </el-col>
-                      <el-col :span="14">
-                        <div class="matching">
-                          <h5>模糊度调整</h5>
-                          <el-slider v-model="value1"></el-slider>
-                        </div>
-                      </el-col>
-                      <el-col :span="5">
-                        <div class="matching text-right">
-                          <h5>同近义词</h5>
-                          <el-switch v-model="value" size="medium"> </el-switch>
-                        </div>
-                      </el-col>
-                    </el-row>
+                </el-col>
+                <el-col :md="24" :lg="12" :xl="12" v-show="items[6].isshow">
+                  <div class="conditionTable">
+                    <h4>章节范围</h4>
+                    <div class="conditionTableContent">
+                      <el-row :gutter="20">
+                        <el-col :span="11"
+                          ><el-input
+                            v-model="start"
+                            placeholder="ATA 章节 (2位)"
+                          ></el-input
+                        ></el-col>
+                        <el-col :span="2" class="line">-</el-col>
+                        <el-col :span="11"
+                          ><el-input
+                            v-model="end"
+                            placeholder="ATA 章节 (4位)"
+                          ></el-input
+                        ></el-col>
+                      </el-row>
+                    </div>
                   </div>
-                </div>
-              </el-col>
-              <el-col :md="24" :lg="12" :xl="12">
-                <div class="conditionTable">
-                  <h4>日期范围</h4>
-                  <div class="conditionTableContent">
-                    <el-radio-group v-model="radio">
-                      <el-radio :label="3">近半年</el-radio>
-                      <el-radio :label="6">近一年</el-radio>
-                      <el-radio :label="9">近两年</el-radio>
-                      <el-radio :label="12">近三年</el-radio>
-                      <el-radio :label="15">全部</el-radio>
-                    </el-radio-group>
-                    <div class="setDate">
-                      <el-row>
-                        <el-col :xl="6">自定义日期</el-col>
-                        <el-col :xl="18">
-                          <el-date-picker
-                            class="datePicker"
-                            v-model="date"
-                            type="daterange"
-                            range-separator="至"
-                            start-placeholder="开始日期"
-                            end-placeholder="结束日期"
-                            :picker-options="pickerOptions"
-                          >
-                          </el-date-picker>
+                </el-col>
+                <el-col :md="24" :lg="12" :xl="12" v-show="items[3].isshow">
+                  <div class="conditionTable">
+                    <h4>模糊匹配</h4>
+                    <div class="conditionTableContent">
+                      <el-row :gutter="15">
+                        <el-col :span="5">
+                          <div class="matching">
+                            <h5>模糊开关</h5>
+                            <el-switch v-model="value" size="medium">
+                            </el-switch>
+                          </div>
+                        </el-col>
+                        <el-col :span="14">
+                          <div class="matching">
+                            <h5>模糊度调整</h5>
+                            <el-slider v-model="value1"></el-slider>
+                          </div>
+                        </el-col>
+                        <el-col :span="5">
+                          <div class="matching text-right">
+                            <h5>同近义词</h5>
+                            <el-switch v-model="value" size="medium">
+                            </el-switch>
+                          </div>
                         </el-col>
                       </el-row>
                     </div>
                   </div>
-                </div>
-              </el-col>
-            </el-row>
-            <el-button class="el-icon-plus addcontent"
-              >&nbsp;&nbsp;添加</el-button
-            >
-          </div>
-        </div>
-      </el-col>
-      <el-col :md="5" :lg="5" :xl="5">
-        <div class="selecteds">
-          <h2>选定筛选条件</h2>
-          <div class="selectedsList">
-            <div class="selectedsContentList">
-              <ul>
-                <li v-for="(list, index) in lists" :key="index">
-                  <div class="name">
-                    {{ list.name }}
-                    <i class="el-icon-close"></i><i class="el-icon-edit"></i>
-                  </div>
-                  <p>{{ list.text }}</p>
-                </li>
-              </ul>
-              <el-row :gutter="20">
-                <el-col :span="12">
-                  <el-button class="el-icon-delete btn empty"
-                    >&nbsp;&nbsp;清空</el-button
-                  >
                 </el-col>
-                <el-col :span="12">
-                  <el-button class="el-icon-check btn submit"
-                    >&nbsp;&nbsp;确认</el-button
-                  >
+                <el-col :md="24" :lg="12" :xl="12" v-show="items[7].isshow">
+                  <div class="conditionTable">
+                    <h4>日期范围</h4>
+                    <div class="conditionTableContent">
+                      <el-radio-group v-model="radio">
+                        <el-radio :label="3">近半年</el-radio>
+                        <el-radio :label="6">近一年</el-radio>
+                        <el-radio :label="9">近两年</el-radio>
+                        <el-radio :label="12">近三年</el-radio>
+                        <el-radio :label="15">全部</el-radio>
+                      </el-radio-group>
+                      <div class="setDate">
+                        <el-row>
+                          <el-col :xl="6">自定义日期</el-col>
+                          <el-col :xl="18">
+                            <el-date-picker
+                              class="datePicker"
+                              v-model="date"
+                              type="daterange"
+                              range-separator="至"
+                              start-placeholder="开始日期"
+                              end-placeholder="结束日期"
+                              :picker-options="pickerOptions"
+                            >
+                            </el-date-picker>
+                          </el-col>
+                        </el-row>
+                      </div>
+                    </div>
+                  </div>
                 </el-col>
               </el-row>
+              <el-button
+                class="el-icon-plus addcontent"
+                v-if="show"
+                @click="addData"
+                >&nbsp;&nbsp;添加</el-button
+              >
             </div>
           </div>
-        </div>
-      </el-col>
+        </el-col>
+        <el-col :md="5" :lg="5" :xl="5">
+          <div class="selecteds">
+            <h2>选定筛选条件</h2>
+            <div class="selectedsList">
+              <div class="selectedsContentList">
+                <ul>
+                  <li v-for="(list, index) in lists" :key="index">
+                    <div class="name">
+                      {{ list.name }}
+                      <i class="el-icon-close"></i><i class="el-icon-edit"></i>
+                    </div>
+                    <p>{{ list.text }}</p>
+                  </li>
+                </ul>
+                <el-row :gutter="20">
+                  <el-col :span="12">
+                    <el-button class="el-icon-delete btn empty"
+                      >&nbsp;&nbsp;清空</el-button
+                    >
+                  </el-col>
+                  <el-col :span="12">
+                    <el-button class="el-icon-check btn submit"
+                      >&nbsp;&nbsp;确认</el-button
+                    >
+                  </el-col>
+                </el-row>
+              </div>
+            </div>
+          </div>
+        </el-col>
+      </template>
     </el-row>
   </div>
 </template>
@@ -275,7 +282,7 @@
 export default {
   data() {
     return {
-      isshow: false,
+      show: false,
       items: [
         { name: "故障描述", isshow: false },
         { name: "关键词组", isshow: false },
@@ -309,6 +316,7 @@ export default {
           return time.getTime() > Date.now();
         },
       },
+      addCondition: [],
     };
   },
 
@@ -319,6 +327,23 @@ export default {
   methods: {
     toggleShow(index) {
       this.$set(this.items[index], "isshow", !this.items[index].isshow);
+      const len = this.items.filter((item) => !!item.isshow).length;
+      if (len > 0) {
+        this.show = true;
+      } else {
+        this.show = false;
+      }
+    },
+    //添加条件
+    addData() {
+      if (this.items[0].isshow == true) {
+        this.addCondition.push({ name: "故障描述", text: this.text });
+      } else if (this.items[1].isshow == true) {
+        this.addCondition.push({
+          name: "关键词组",
+          text: this.dynamicTags.join(","),
+        });
+      }
     },
 
     handleClose(tag) {

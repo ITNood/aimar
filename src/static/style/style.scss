@@ -67,7 +67,7 @@ img {
   color        : $theme;
   line-height  : 80px;
   text-align   : center;
-  font-size    : 2rem;
+  font-size    : 1.8rem;
   border-bottom: 1px solid $bordercolor;
 }
 
@@ -208,7 +208,7 @@ img {
 
         h3 {
           color    : $theme;
-          font-size: 1.3rem;
+          font-size: 1.2rem;
         }
 
         p {
@@ -299,7 +299,7 @@ img {
       text-align : center;
       color      : $theme;
       line-height: 120%;
-      font-size  : 2rem;
+      font-size  : 1.8rem;
       transition : all .5s ease-in-out;
     }
 
@@ -664,7 +664,7 @@ img {
         line-height : 180%;
         padding-left: 10px;
         @extend %fontEllipsis;
-        font-size  : 1.3rem;
+        font-size  : 1rem;
         font-weight: 600;
 
       }
@@ -706,7 +706,7 @@ img {
       color        : #012A4A;
       line-height  : 80px;
       text-align   : center;
-      font-size    : 2rem;
+      font-size    : 1.8rem;
       border-bottom: 1px solid #F2F2F2;
     }
 
@@ -836,10 +836,7 @@ img {
         }
       }
     }
-
   }
-
-
 }
 
 .proprammeRight {
@@ -935,7 +932,6 @@ img {
 }
 
 .news {
-
   .el-col {
     margin: 10px 0;
 
