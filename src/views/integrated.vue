@@ -193,7 +193,8 @@
                       <el-col :span="5">
                         <div class="matching text-right">
                           <h5>同近义词</h5>
-                          <el-switch v-model="value" size="medium"> </el-switch>
+                          <el-switch v-model="value2" size="medium">
+                          </el-switch>
                         </div>
                       </el-col>
                     </el-row>
@@ -205,11 +206,11 @@
                   <h4>日期范围</h4>
                   <div class="conditionTableContent">
                     <el-radio-group v-model="radio">
-                      <el-radio :label="3">近半年</el-radio>
-                      <el-radio :label="6">近一年</el-radio>
-                      <el-radio :label="9">近两年</el-radio>
-                      <el-radio :label="12">近三年</el-radio>
-                      <el-radio :label="15">全部</el-radio>
+                      <el-radio label="近半年"></el-radio>
+                      <el-radio label="近一年"></el-radio>
+                      <el-radio label="近两年"></el-radio>
+                      <el-radio label="近三年"></el-radio>
+                      <el-radio label="全部"></el-radio>
                     </el-radio-group>
                     <div class="setDate">
                       <el-row>
@@ -222,6 +223,7 @@
                             range-separator="至"
                             start-placeholder="开始日期"
                             end-placeholder="结束日期"
+                            value-format="yyyy/MM/dd"
                             :picker-options="pickerOptions"
                           >
                           </el-date-picker>
@@ -250,19 +252,23 @@
                 <li v-for="(list, index) in lists" :key="index">
                   <div class="name">
                     {{ list.name }}
-                    <i class="el-icon-close"></i><i class="el-icon-edit"></i>
+                    <i class="el-icon-close" @click="close(index)"></i
+                    ><i class="el-icon-edit" @click="edit(list.id)"></i>
                   </div>
                   <p>{{ list.text }}</p>
+                  <p>{{ list.value }}</p>
+                  <p>{{ list.value1 }}</p>
+                  <p>{{ list.value2 }}</p>
                 </li>
               </ul>
               <el-row :gutter="20">
                 <el-col :span="12">
-                  <el-button class="el-icon-delete btn empty"
+                  <el-button class="el-icon-delete btn empty" @click="empty"
                     >&nbsp;&nbsp;清空</el-button
                   >
                 </el-col>
                 <el-col :span="12">
-                  <el-button class="el-icon-check btn submit"
+                  <el-button class="el-icon-check btn submit" @click="submit"
                     >&nbsp;&nbsp;确认</el-button
                   >
                 </el-col>
@@ -276,6 +282,7 @@
 </template>
 
 <script>
+import api from "../API/index";
 export default {
   data() {
     return {
@@ -290,13 +297,7 @@ export default {
         { name: "章节范围", isshow: false },
         { name: "日期范围", isshow: false },
       ],
-      lists: [
-        { name: "故障描述", text: "ABCDEFGHIGKLMNOPQRSTUVWXYZ" },
-        {
-          name: "关键词组",
-          text: "自动抽取: ABCD , EFGH , XYZ 手动输入: ACEG , ZYX",
-        },
-      ],
+      lists: [],
       text: "",
       dynamicTags: [],
       inputValue: "",
@@ -305,7 +306,8 @@ export default {
       end: "",
       value: true,
       value1: 0,
-      radio: 3,
+      value2: true,
+      radio: "近一年",
       date: "",
       pickerOptions: {
         disabledDate(time) {
@@ -321,26 +323,119 @@ export default {
   mounted() {
     this.restaurants = this.loadAll();
   },
+  updated() {
+    const len = this.items.filter((item) => !!item.isshow).length;
+    if (len > 0) {
+      this.show = true;
+    } else {
+      this.show = false;
+    }
+  },
   methods: {
     toggleShow(index) {
       this.$set(this.items[index], "isshow", !this.items[index].isshow);
-      const len = this.items.filter((item) => !!item.isshow).length;
-      if (len > 0) {
-        this.show = true;
-      } else {
-        this.show = false;
-      }
     },
     //添加条件
     addData() {
+      this.addCondition = [];
       if (this.items[0].isshow == true) {
-        this.addCondition.push({ name: "故障描述", text: this.text });
-      } else if (this.items[1].isshow == true) {
+        if (this.text) {
+          this.addCondition.push({ name: "故障描述", text: this.text, id: 0 });
+        }
+      }
+      if (this.items[1].isshow == true) {
+        if (this.dynamicTags) {
+          this.addCondition.push({
+            name: "关键词组",
+            text: this.dynamicTags.join(","),
+            id: 1,
+          });
+        }
+      }
+      if (this.items[2].isshow == true) {
+        if (this.dynamicTags) {
+          this.addCondition.push({
+            name: "故障代码",
+            text: this.dynamicTags.join(","),
+            id: 2,
+          });
+        }
+      }
+      if (this.items[3].isshow == true) {
         this.addCondition.push({
-          name: "关键词组",
-          text: this.dynamicTags.join(","),
+          name: "模糊匹配",
+          value: this.value,
+          value1: this.value1,
+          value2: this.value2,
+          id: 3,
         });
       }
+      if (this.items[4].isshow == true) {
+        if (this.dynamicTags) {
+          this.addCondition.push({
+            name: "选定飞机",
+            text: this.dynamicTags.join(","),
+            id: 4,
+          });
+        }
+      }
+      if (this.items[5].isshow == true) {
+        if (this.dynamicTags) {
+          this.addCondition.push({
+            name: "选定机型",
+            text: this.dynamicTags.join(","),
+            id: 5,
+          });
+        }
+      }
+      if (this.items[6].isshow == true) {
+        this.addCondition.push({
+          name: "章节范围",
+          text: this.start + "-" + this.end,
+          id: 6,
+        });
+      }
+      if (this.items[7].isshow == true) {
+        if (this.date) {
+          this.addCondition.push({
+            name: "日期范围",
+            value: this.radio,
+            value1: this.date.join("-"),
+            id: 7,
+          });
+        } else {
+          this.addCondition.push({
+            name: "日期范围",
+            value: this.radio,
+            id: 7,
+          });
+        }
+      }
+      this.lists = this.addCondition;
+    },
+
+    //编辑条件
+    edit(id) {
+      this.items[id].isshow = true;
+    },
+
+    //删除条件
+    close(index) {
+      this.lists.splice(index, 1);
+    },
+
+    //清空
+    empty() {
+      this.lists = [];
+    },
+
+    //确认
+    submit() {
+      api
+        .post("", { data: this.lists })
+        .then((res) => {})
+        .catch((err) => {})
+        .finally(() => {});
     },
 
     handleClose(tag) {
@@ -355,6 +450,7 @@ export default {
       }
       this.inputValue = "";
     },
+
     querySearch(queryString, cb) {
       var restaurants = this.restaurants;
       var results = queryString
@@ -363,6 +459,7 @@ export default {
       // 调用 callback 返回建议列表的数据
       cb(results);
     },
+
     createFilter(queryString) {
       return (restaurant) => {
         return (
@@ -371,6 +468,7 @@ export default {
         );
       };
     },
+
     loadAll() {
       return [
         { value: "三全鲜食（北新泾店）", address: "长宁区新渔路144号" },
