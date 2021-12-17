@@ -14,6 +14,7 @@
   </div>
 </template>
 <script>
+import api from "../API/index";
 export default {
   components: {},
   data() {
@@ -26,13 +27,15 @@ export default {
   },
   methods: {
     loadBtn() {
-      // 这里应该调用接口，将用户信息传给后端，后端查到用户的角色,类似于:
-      // axios.post('/temp',this.formModel).then(res=>{})
-      // 我暂时就不模拟了，直接取
+      // api
+      //   .post(url, { user: this.user, password: this.password })
+      //   .then((res) => {})
+      //   .catch((err) => {})
+      //   .finally(() => {});
       let getUserRole = this.formModel.user === "admin" ? "admin" : "user";
       localStorage.setItem("userRole", getUserRole);
-      // window.location.href="/main"
-      this.$router.push({path: "/main"});
+      // // window.location.href="/main"
+      this.$router.push({ path: "/main" });
     },
   },
   mounted() {},

@@ -25,13 +25,19 @@
               <el-col :md="24" :lg="12" :xl="12" v-show="items[0].isshow">
                 <div class="conditionTable">
                   <h4>故障描述</h4>
-                  <div class="conditionTableContent">
+                  <div class="conditionTableContent clear">
                     <el-input
                       type="textarea"
                       v-model="text"
                       clearable
                       placeholder="输入故障描述"
                     ></el-input>
+                    <el-button
+                      size="mini"
+                      class="faultSubmit"
+                      @click="faultSubmit"
+                      >确定</el-button
+                    >
                   </div>
                 </div>
               </el-col>
@@ -42,22 +48,22 @@
                     <div class="tagBorder">
                       <el-tag
                         :key="tag"
-                        v-for="tag in dynamicTags"
+                        v-for="tag in airplane"
                         closable
                         :disable-transitions="false"
-                        @close="handleClose(tag)"
+                        @close="closeAriplane(tag)"
                       >
                         {{ tag }}
                       </el-tag>
                       <el-autocomplete
                         class="input-new-tag"
-                        v-model="inputValue"
+                        v-model="ariValue"
                         ref="saveTagInput"
                         size="small"
-                        @keyup.enter.native="handleInputConfirm"
-                        @blur="handleInputConfirm"
-                        :fetch-suggestions="querySearch"
-                        @select="handleInputConfirm"
+                        @keyup.enter.native="handleAriplane"
+                        @blur="handleAriplane"
+                        :fetch-suggestions="searchAri"
+                        @select="handleAriplane"
                       >
                       </el-autocomplete>
                     </div>
@@ -100,22 +106,22 @@
                     <div class="tagBorder">
                       <el-tag
                         :key="tag"
-                        v-for="tag in dynamicTags"
+                        v-for="tag in planes"
                         closable
                         :disable-transitions="false"
-                        @close="handleClose(tag)"
+                        @close="closePlan(tag)"
                       >
                         {{ tag }}
                       </el-tag>
                       <el-autocomplete
                         class="input-new-tag"
-                        v-model="inputValue"
+                        v-model="planeValue"
                         ref="saveTagInput"
                         size="small"
-                        @keyup.enter.native="handleInputConfirm"
-                        @blur="handleInputConfirm"
-                        :fetch-suggestions="querySearch"
-                        @select="handleInputConfirm"
+                        @keyup.enter.native="handlePlane"
+                        @blur="handlePlane"
+                        :fetch-suggestions="searchPlane"
+                        @select="handlePlane"
                       >
                       </el-autocomplete>
                     </div>
@@ -129,22 +135,22 @@
                     <div class="tagBorder">
                       <el-tag
                         :key="tag"
-                        v-for="tag in dynamicTags"
+                        v-for="tag in codes"
                         closable
                         :disable-transitions="false"
-                        @close="handleClose(tag)"
+                        @close="closeCode(tag)"
                       >
                         {{ tag }}
                       </el-tag>
                       <el-autocomplete
                         class="input-new-tag"
-                        v-model="inputValue"
+                        v-model="codeValue"
                         ref="saveTagInput"
                         size="small"
-                        @keyup.enter.native="handleInputConfirm"
-                        @blur="handleInputConfirm"
-                        :fetch-suggestions="querySearch"
-                        @select="handleInputConfirm"
+                        @keyup.enter.native="handleCode"
+                        @blur="handleCode"
+                        :fetch-suggestions="searchCode"
+                        @select="handleCode"
                       >
                       </el-autocomplete>
                     </div>
@@ -316,12 +322,28 @@ export default {
         },
       },
       addCondition: [],
+      //选定机型
+      planes: [],
+      planeValue: "",
+      restPlane: [],
+      //选定飞机
+      airplane: [],
+      ariValue: "",
+      restAri: [],
+
+      //故障代码
+      codes: [],
+      codeValue: "",
+      restCode: [],
     };
   },
 
   created() {},
   mounted() {
     this.restaurants = this.loadAll();
+    this.restPlane = this.loadAll();
+    this.restAri = this.loadAll();
+    this.restCode = this.loadAll();
   },
   updated() {
     const len = this.items.filter((item) => !!item.isshow).length;
@@ -335,6 +357,22 @@ export default {
     toggleShow(index) {
       this.$set(this.items[index], "isshow", !this.items[index].isshow);
     },
+    //故障描述提交渲染关键词组
+    faultSubmit() {
+      api
+        .get(`/WordRecord/cut/${this.text}`)
+        .then((res) => {
+          const data = [...res.data].map((item) => {
+            return item.word;
+          });
+          console.log(data);
+          this.dynamicTags = data;
+        })
+        .catch((err) => {
+          console.log("失败", err);
+        })
+        .finally(() => {});
+    },
     //添加条件
     addData() {
       this.addCondition = [];
@@ -344,7 +382,7 @@ export default {
         }
       }
       if (this.items[1].isshow == true) {
-        if (this.dynamicTags) {
+        if (this.dynamicTags.length > 0) {
           this.addCondition.push({
             name: "关键词组",
             text: this.dynamicTags.join(","),
@@ -353,7 +391,7 @@ export default {
         }
       }
       if (this.items[2].isshow == true) {
-        if (this.dynamicTags) {
+        if (this.dynamicTags.length > 0) {
           this.addCondition.push({
             name: "故障代码",
             text: this.dynamicTags.join(","),
@@ -371,7 +409,8 @@ export default {
         });
       }
       if (this.items[4].isshow == true) {
-        if (this.dynamicTags) {
+        if (this.dynamicTags.length > 0) {
+          console.log(this.dynamicTags);
           this.addCondition.push({
             name: "选定飞机",
             text: this.dynamicTags.join(","),
@@ -380,7 +419,7 @@ export default {
         }
       }
       if (this.items[5].isshow == true) {
-        if (this.dynamicTags) {
+        if (this.dynamicTags.length > 0) {
           this.addCondition.push({
             name: "选定机型",
             text: this.dynamicTags.join(","),
@@ -389,11 +428,13 @@ export default {
         }
       }
       if (this.items[6].isshow == true) {
-        this.addCondition.push({
-          name: "章节范围",
-          text: this.start + "-" + this.end,
-          id: 6,
-        });
+        if (this.start || this.end) {
+          this.addCondition.push({
+            name: "章节范围",
+            text: this.start + "-" + this.end,
+            id: 6,
+          });
+        }
       }
       if (this.items[7].isshow == true) {
         if (this.date) {
@@ -487,6 +528,88 @@ export default {
         },
         { value: "贡茶", address: "上海市长宁区金钟路633号" },
       ];
+    },
+    //选定机型
+    handlePlane() {
+      let planeValue = this.planeValue;
+      if (planeValue) {
+        this.planes.push(planeValue);
+      }
+      this.planeValue = "";
+    },
+    closeAri(tag) {
+      this.planes.splice(this.planes.indexOf(tag), 1);
+    },
+    searchPlane(queryString, cb) {
+      var restPlane = this.restPlane;
+      var results = queryString
+        ? restPlane.filter(this.planeFilter(queryString))
+        : restPlane;
+      // 调用 callback 返回建议列表的数据
+      cb(results);
+    },
+
+    planeFilter(queryString) {
+      return (restPlane) => {
+        return (
+          restPlane.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0
+        );
+      };
+    },
+    //选定飞机
+    handleAriplane() {
+      let ariValue = this.ariValue;
+      if (ariValue) {
+        this.airplane.push(ariValue);
+      }
+      this.ariValue = "";
+    },
+    closeAriplane(tag) {
+      this.airplane.splice(this.airplane.indexOf(tag), 1);
+    },
+    searchAri(queryString, cb) {
+      var restAri = this.restAri;
+      var results = queryString
+        ? restAri.filter(this.ariFilter(queryString))
+        : restAri;
+      // 调用 callback 返回建议列表的数据
+      cb(results);
+    },
+
+    ariFilter(queryString) {
+      return (restAri) => {
+        return (
+          restAri.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0
+        );
+      };
+    },
+
+    //故障代码
+    handleCode() {
+      let codeValue = this.codeValue;
+      if (codeValue) {
+        this.codes.push(codeValue);
+      }
+      this.codeValue = "";
+    },
+    closeCode(tag) {
+      this.codes.splice(this.codes.indexOf(tag), 1);
+    },
+    searchCode(queryString, cb) {
+      var restCode = this.restCode;
+      var results = queryString
+        ? restCode.filter(this.codeFilter(queryString))
+        : restCode;
+      // 调用 callback 返回建议列表的数据
+      cb(results);
+    },
+
+    codeFilter(queryString) {
+      return (restCode) => {
+        return (
+          restCode.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0
+        );
+      };
     },
   },
 };

@@ -425,7 +425,7 @@ img {
           height : 130px;
 
           .el-textarea__inner {
-            height    : 130px;
+            height    : 90px;
             overflow-y: auto;
             border    : none;
             font-size : 1.2rem;
@@ -1065,5 +1065,18 @@ img {
     &:first-child {
       border-left: none;
     }
+  }
+}
+
+.faultSubmit {
+  background-color: $theme;
+  color           : $withe;
+  margin-top      : 8px;
+  float           : right;
+
+  &:hover,
+  &:focus {
+    background-color: $theme;
+    color           : $withe;
   }
 }
