@@ -56,6 +56,7 @@
                         {{ tag }}
                       </el-tag>
                       <el-autocomplete
+                        v-show="showAri"
                         class="input-new-tag"
                         v-model="ariValue"
                         ref="saveTagInput"
@@ -77,25 +78,43 @@
                     <div class="tagBorder">
                       <el-tag
                         :key="tag"
-                        v-for="tag in dynamicTags"
+                        v-for="tag in keywords"
                         closable
                         :disable-transitions="false"
-                        @close="handleClose(tag)"
+                        @close="closeKeyword(tag)"
                       >
                         {{ tag }}
                       </el-tag>
-                      <el-autocomplete
+                      <el-input
                         class="input-new-tag"
-                        v-model="inputValue"
+                        v-model="keywordValue"
                         ref="saveTagInput"
                         size="small"
-                        @keyup.enter.native="handleInputConfirm"
-                        @blur="handleInputConfirm"
-                        :fetch-suggestions="querySearch"
-                        @select="handleInputConfirm"
+                        @keyup.enter.native="handlekeyword"
+                        @blur="handlekeyword"
                       >
-                      </el-autocomplete>
+                      </el-input>
+                      <!-- <el-autocomplete
+                        class="input-new-tag"
+                        v-model="keywordValue"
+                        ref="saveTagInput"
+                        size="small"
+                        @keyup.enter.native="handlekeyword"
+                        @blur="handlekeyword"
+                      >
+                      </el-autocomplete> -->
                     </div>
+                    <el-checkbox-group
+                      v-model="checkboxValue"
+                      @change="selectCheckbox"
+                      class="mt20"
+                    >
+                      <el-checkbox label="COMPONENT"></el-checkbox>
+                      <el-checkbox label="ALERT"></el-checkbox>
+                      <el-checkbox label="INDICATOR"></el-checkbox>
+                      <el-checkbox label="OPERATION"></el-checkbox>
+                      <el-checkbox label="RESULT"></el-checkbox>
+                    </el-checkbox-group>
                   </div>
                 </div>
               </el-col>
@@ -229,7 +248,7 @@
                             range-separator="至"
                             start-placeholder="开始日期"
                             end-placeholder="结束日期"
-                            value-format="yyyy/MM/dd"
+                            value-format="yyyy-MM-dd"
                             :picker-options="pickerOptions"
                           >
                           </el-date-picker>
@@ -261,10 +280,13 @@
                     <i class="el-icon-close" @click="close(index)"></i
                     ><i class="el-icon-edit" @click="edit(list.id)"></i>
                   </div>
-                  <p>{{ list.text }}</p>
-                  <p>{{ list.value }}</p>
-                  <p>{{ list.value1 }}</p>
-                  <p>{{ list.value2 }}</p>
+                  <p>{{ list.airplaneTypes }}</p>
+                  <p>{{ list.airplanes }}</p>
+                  <p>{{ list.chapters }}</p>
+                  <p>{{ list.sections }}</p>
+                  <p>{{ list.keyword }}</p>
+                  <p>{{ list.startDate }}</p>
+                  <p>{{ list.endDate }}</p>
                 </li>
               </ul>
               <el-row :gutter="20">
@@ -293,6 +315,7 @@ export default {
   data() {
     return {
       show: false,
+      showAri: true,
       items: [
         { name: "故障描述", isshow: false },
         { name: "关键词组", isshow: false },
@@ -314,6 +337,7 @@ export default {
       value1: 0,
       value2: true,
       radio: "近一年",
+      checkboxValue: ["COMPONENT", "ALERT", "INDICATOR"],
       date: "",
       pickerOptions: {
         disabledDate(time) {
@@ -322,6 +346,9 @@ export default {
         },
       },
       addCondition: [],
+      //关键词
+      keywords: [],
+      keywordValue: "",
       //选定机型
       planes: [],
       planeValue: "",
@@ -338,12 +365,11 @@ export default {
     };
   },
 
-  created() {},
+  created() {
+    this.getdata();
+  },
   mounted() {
     this.restaurants = this.loadAll();
-    this.restPlane = this.loadAll();
-    this.restAri = this.loadAll();
-    this.restCode = this.loadAll();
   },
   updated() {
     const len = this.items.filter((item) => !!item.isshow).length;
@@ -352,24 +378,122 @@ export default {
     } else {
       this.show = false;
     }
+    const data = JSON.parse(localStorage.getItem("ari"));
+    const arr = [];
+    if (this.airplane.length > 0) {
+      this.airplane.forEach((item) => {
+        const newdata = data.filter((e) => {
+          if (e.value == item) {
+            return e;
+          }
+        });
+        arr.push(...newdata);
+      });
+
+      const newarr = arr.map((item) => {
+        return { value: item.acType };
+      });
+      let obj = {};
+      let peon = newarr.reduce((cur, next) => {
+        obj[next.value] ? "" : (obj[next.value] = true && cur.push(next));
+        return cur;
+      }, []); //设置cur默认类型为数组，并且初始值为空的数组
+      this.restPlane = peon;
+    } else {
+      const planeType = data.map((item) => {
+        return { value: item.acType };
+      });
+      let obj = {};
+      let peon = planeType.reduce((cur, next) => {
+        obj[next.value] ? "" : (obj[next.value] = true && cur.push(next));
+        return cur;
+      }, []); //设置cur默认类型为数组，并且初始值为空的数组
+      this.restPlane = peon;
+    }
+    //是否选择飞机，已选择就隐藏输入框
+    if (this.airplane.length > 0) {
+      this.showAri = false;
+    } else {
+      this.showAri = true;
+    }
   },
   methods: {
     toggleShow(index) {
       this.$set(this.items[index], "isshow", !this.items[index].isshow);
+    },
+    //关键词checkbox
+    selectCheckbox(value) {
+      console.log(value);
+      const keyword = JSON.parse(localStorage.getItem("keyword"));
+      if (value) {
+        const arr = [];
+        this.checkboxValue.forEach((item) => {
+          const newdata = keyword.filter((e) => {
+            if (e.category == item) {
+              return e;
+            }
+          });
+          arr.push(...newdata);
+        });
+        this.keywords = arr.map((item) => {
+          return item.word;
+        });
+      }
     },
     //故障描述提交渲染关键词组
     faultSubmit() {
       api
         .get(`/WordRecord/cut/${this.text}`)
         .then((res) => {
-          const data = [...res.data].map((item) => {
+          const arr = [];
+          this.checkboxValue.forEach((item) => {
+            const newdata = [...res.data].filter((e) => {
+              if (e.category == item) {
+                return e;
+              }
+            });
+            arr.push(...newdata);
+          });
+          this.keywords = arr.map((item) => {
             return item.word;
           });
-          console.log(data);
-          this.dynamicTags = data;
+          localStorage.setItem("keyword", JSON.stringify(res.data));
         })
         .catch((err) => {
           console.log("失败", err);
+        })
+        .finally(() => {});
+    },
+    getdata() {
+      api
+        .get("/DeRecord/props")
+        .then((res) => {
+          //渲染选定飞机
+          const data = [...res.data.planesAndTypes].map((item) => {
+            return { value: item.acId, acType: item.acType };
+          });
+          this.restAri = data;
+          localStorage.setItem("ari", JSON.stringify(data));
+          //渲染机型
+          if (this.airplane.length < 1) {
+            const planeType = data.map((item) => {
+              return { value: item.acType };
+            });
+            let obj = {};
+            let peon = planeType.reduce((cur, next) => {
+              obj[next.value] ? "" : (obj[next.value] = true && cur.push(next));
+              return cur;
+            }, []); //设置cur默认类型为数组，并且初始值为空的数组
+            this.restPlane = peon;
+          }
+          //章节
+          // const chapter = [...res.data.sections].map((item) => {
+          //   return { value: item };
+          // });
+          // console.log("select", chapter);
+        })
+        .catch((err) => {
+          console.log(err);
         })
         .finally(() => {});
     },
@@ -382,10 +506,10 @@ export default {
         }
       }
       if (this.items[1].isshow == true) {
-        if (this.dynamicTags.length > 0) {
+        if (this.keywords.length > 0) {
           this.addCondition.push({
             name: "关键词组",
-            text: this.dynamicTags.join(","),
+            keyword: this.keywords.join(","),
             id: 1,
           });
         }
@@ -394,7 +518,7 @@ export default {
         if (this.dynamicTags.length > 0) {
           this.addCondition.push({
             name: "故障代码",
-            text: this.dynamicTags.join(","),
+            text: this.dynamicTags,
             id: 2,
           });
         }
@@ -409,20 +533,19 @@ export default {
         });
       }
       if (this.items[4].isshow == true) {
-        if (this.dynamicTags.length > 0) {
-          console.log(this.dynamicTags);
+        if (this.airplane.length > 0) {
           this.addCondition.push({
             name: "选定飞机",
-            text: this.dynamicTags.join(","),
+            airplanes: this.airplane.join(),
             id: 4,
           });
         }
       }
       if (this.items[5].isshow == true) {
-        if (this.dynamicTags.length > 0) {
+        if (this.planes.length > 0) {
           this.addCondition.push({
             name: "选定机型",
-            text: this.dynamicTags.join(","),
+            airplaneTypes: this.planes.join(","),
             id: 5,
           });
         }
@@ -431,7 +554,8 @@ export default {
         if (this.start || this.end) {
           this.addCondition.push({
             name: "章节范围",
-            text: this.start + "-" + this.end,
+            chapters: this.start,
+            sections: this.end,
             id: 6,
           });
         }
@@ -441,7 +565,8 @@ export default {
           this.addCondition.push({
             name: "日期范围",
             value: this.radio,
-            value1: this.date.join("-"),
+            startDate: this.date[0],
+            endDate: this.date[1],
             id: 7,
           });
         } else {
@@ -453,6 +578,7 @@ export default {
         }
       }
       this.lists = this.addCondition;
+      console.log(this.lists);
     },
 
     //编辑条件
@@ -472,13 +598,56 @@ export default {
 
     //确认
     submit() {
+      if (this.date) {
+        var startDate = this.date[0];
+        var endDate = this.date[1];
+      }
+      const data = {
+        startDate: startDate,
+        endDate: endDate,
+        chapters: this.start,
+        sections: this.end,
+        airplaneTypes: this.planes,
+        airplanes: this.airplane.join(),
+        keyword: this.keywords,
+        index: "de_record_list",
+      };
       api
-        .post("", { data: this.lists })
-        .then((res) => {})
-        .catch((err) => {})
+        .post("/elasticSearch/deRecord/page", data)
+        .then((res) => {
+          if (res.code == 200) {
+            this.$message.success("成功！！！");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        })
         .finally(() => {});
     },
+    //关键词
+    closeKeyword(tag) {
+      this.keywords.splice(this.keywords.indexOf(tag), 1);
+      const keyword = JSON.parse(localStorage.getItem("keyword"));
+      console.log(keyword);
+      const arr = [];
+      this.keywords.map((item) => {
+        const data = keyword.filter((e) => {
+          return e.word == item;
+        });
 
+        arr.push(...data);
+      });
+      localStorage.setItem("keyword", JSON.stringify(arr));
+    },
+    handlekeyword() {
+      let keywordValue = this.keywordValue;
+      if (keywordValue) {
+        this.keywords.push(keywordValue);
+        console.log(this.keywords);
+      }
+      this.keywordValue = "";
+    },
+    //
     handleClose(tag) {
       this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
     },
@@ -537,7 +706,7 @@ export default {
       }
       this.planeValue = "";
     },
-    closeAri(tag) {
+    closePlan(tag) {
       this.planes.splice(this.planes.indexOf(tag), 1);
     },
     searchPlane(queryString, cb) {
