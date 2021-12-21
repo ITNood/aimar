@@ -10,7 +10,6 @@ const Axios = axios.create({
   // http://10.17.10.222:8080
   baseURL: process.env.NODE_ENV === 'production' ? "http://10.17.10.222:9999" : "/api/",
   // baseURL: "/api",
-  //baseURL:'http://www.hxfc.com/',
   timeout: 10000,//超时请求
   maxRedirects: 1,
   headers: { "Content-Type": 'application/json' },
@@ -43,7 +42,7 @@ Axios.interceptors.response.use(
       localStorage.removeItem('token')
       this.$router.push('/')
     } else if (response.data.code === 400) {//返回错误
-      this.$message.danger(response.data.msg)
+      this.$message.error(response.data.msg)
       return Promise.resolve(response.data)
     } else if (response.data.code === json_response_codes.status) {//code===200返回数据
       return Promise.resolve(response.data);

@@ -407,7 +407,7 @@ export default {
       let peon = planeType.reduce((cur, next) => {
         obj[next.value] ? "" : (obj[next.value] = true && cur.push(next));
         return cur;
-      }, []); //设置cur默认类型为数组，并且初始值为空的数组
+      }, []);
       this.restPlane = peon;
     }
     //是否选择飞机，已选择就隐藏输入框
@@ -423,7 +423,6 @@ export default {
     },
     //关键词checkbox
     selectCheckbox(value) {
-      console.log(value);
       const keyword = JSON.parse(localStorage.getItem("keyword"));
       if (value) {
         const arr = [];
@@ -460,7 +459,7 @@ export default {
           localStorage.setItem("keyword", JSON.stringify(res.data));
         })
         .catch((err) => {
-          console.log("失败", err);
+          console.log(err);
         })
         .finally(() => {});
     },
@@ -473,7 +472,11 @@ export default {
             return { value: item.acId, acType: item.acType };
           });
           this.restAri = data;
-          localStorage.setItem("ari", JSON.stringify(data));
+          if (data) {
+            localStorage.setItem("ari", JSON.stringify(data));
+          } else {
+            localStorage.removeItem("ari");
+          }
           //渲染机型
           if (this.airplane.length < 1) {
             const planeType = data.map((item) => {
@@ -578,7 +581,6 @@ export default {
         }
       }
       this.lists = this.addCondition;
-      console.log(this.lists);
     },
 
     //编辑条件

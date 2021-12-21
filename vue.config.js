@@ -35,13 +35,13 @@ module.exports = {
           '^/api': '', //重写,
         }
       },
-      // '/http': {
-      //   target: 'http://10.17.10.222:8082', //后端接口地址
-      //   changeOrigin: true, //是否允许跨越
-      //   pathRewrite: {
-      //     '^/api': '', //重写,
-      //   }
-      // }
+      '/http': {
+        target: 'http://10.17.10.222:8082', //后端接口地址
+        changeOrigin: true, //是否允许跨越
+        pathRewrite: {
+          '^/http': '', //重写,
+        }
+      }
     }
   },
 }
