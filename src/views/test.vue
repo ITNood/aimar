@@ -1,8 +1,6 @@
 <template>
   <div>
-    <p>
-      {{ text }}
-    </p>
+    <p v-html="text"></p>
   </div>
 </template>
 
@@ -20,10 +18,10 @@ export default {
   methods: {
     test() {
       const data = ["口德", "肚量", "内涵"];
-      data.forEach((item) => {
-        console.log(item);
-        this.text.replace(item, `<span style="color:red">${item}</span>`);
-      });
+      const regexp = new RegExp(`(${data.join("|")})`, "ig");
+      let text = this.text;
+      text = text.replace(regexp, `<span style="color:red">$1</span>`);
+      this.text = text;
     },
   },
 };
