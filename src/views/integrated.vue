@@ -206,19 +206,32 @@
                       <el-col :span="5">
                         <div class="matching">
                           <h5>模糊开关</h5>
-                          <el-switch v-model="value" size="medium"> </el-switch>
+                          <el-switch
+                            v-model="value"
+                            size="medium"
+                            @change="vague"
+                          >
+                          </el-switch>
                         </div>
                       </el-col>
                       <el-col :span="14">
                         <div class="matching">
                           <h5>模糊度调整</h5>
-                          <el-slider v-model="value1"></el-slider>
+                          <el-slider
+                            v-model="value1"
+                            @change="vagueNumber"
+                            :disabled="disable"
+                          ></el-slider>
                         </div>
                       </el-col>
                       <el-col :span="5">
                         <div class="matching text-right">
                           <h5>同近义词</h5>
-                          <el-switch v-model="value2" size="medium">
+                          <el-switch
+                            v-model="value2"
+                            size="medium"
+                            @change="synonsm"
+                          >
                           </el-switch>
                         </div>
                       </el-col>
@@ -285,8 +298,17 @@
                   <p>{{ list.chapters }}</p>
                   <p>{{ list.sections }}</p>
                   <p>{{ list.keyword }}</p>
-                  <p>{{ list.startDate }}</p>
-                  <p>{{ list.endDate }}</p>
+                  <p>{{ list.text }}</p>
+                  <p v-if="list.date">日期范围:{{ list.date }}</p>
+                  <p v-if="list.startDate">起始日期:{{ list.startDate }}</p>
+                  <p v-if="list.endDate">结束日期:{{ list.endDate }}</p>
+                  <p v-if="list.value">
+                    模糊匹配:{{ list.value == true ? "开" : "关" }}
+                  </p>
+                  <p v-if="list.value1">模糊度:{{ list.value1 }}</p>
+                  <p v-if="list.value2">
+                    同近义词:{{ list.value2 == true ? "开" : "关" }}
+                  </p>
                 </li>
               </ul>
               <el-row :gutter="20">
@@ -316,6 +338,8 @@ export default {
     return {
       show: false,
       showAri: true,
+      synonym: [],
+      disable: false,
       items: [
         { name: "故障描述", isshow: false },
         { name: "关键词组", isshow: false },
@@ -362,6 +386,9 @@ export default {
       codes: [],
       codeValue: "",
       restCode: [],
+
+      //
+      number: 0,
     };
   },
 
@@ -441,27 +468,76 @@ export default {
     },
     //故障描述提交渲染关键词组
     faultSubmit() {
-      api
-        .get(`/WordRecord/cut/${this.text}`)
-        .then((res) => {
-          const arr = [];
-          this.checkboxValue.forEach((item) => {
-            const newdata = [...res.data].filter((e) => {
-              if (e.category == item) {
-                return e;
-              }
+      if (this.text) {
+        api
+          .get(`/WordRecord/${this.text}/cut/synonym`)
+          .then((res) => {
+            const arr = [];
+            this.checkboxValue.forEach((item) => {
+              const newdata = [...res.data].filter((e) => {
+                if (e.category == item) {
+                  return e;
+                }
+              });
+              arr.push(...newdata);
             });
-            arr.push(...newdata);
-          });
-          this.keywords = arr.map((item) => {
-            return item.word;
-          });
-          localStorage.setItem("keyword", JSON.stringify(res.data));
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-        .finally(() => {});
+            this.keywords = arr.map((item) => {
+              return item.word;
+            });
+            localStorage.setItem("keyword", JSON.stringify(res.data));
+            //同义词
+            const data = [];
+            arr
+              .filter((item) => item.synonymWords && item.synonymWords.length)
+              .map((item) => item.synonymWords)
+              .forEach((item) => {
+                item.forEach((obj) => {
+                  data.push(obj.word);
+                });
+              });
+            //判断同义词是否打开，赋值
+            if (data) {
+              localStorage.setItem("synonsm", JSON.stringify(data));
+            } else {
+              localStorage.removeItem("synonsm");
+            }
+            if (this.value2 == true) {
+              this.synonym = data;
+            }
+            console.log(this.value2, this.synonym);
+          })
+          .catch((err) => {
+            console.log(err);
+          })
+          .finally(() => {});
+      } else {
+        this.$message.warning("请输入故障描述");
+      }
+    },
+
+    //同近义词选择
+    synonsm(val) {
+      const data = JSON.parse(localStorage.getItem("synonsm"));
+      if (val == true) {
+        this.synonym = data;
+      } else {
+        this.synonym = [];
+      }
+      console.log("change", this.synonym);
+    },
+    //模糊开关
+    vague(val) {
+      if (this.value == true) {
+        this.disable = false;
+        this.value1 = this.number;
+      } else {
+        this.disable = true;
+        this.value1 = 0;
+      }
+    },
+
+    vagueNumber(val) {
+      this.number = val;
     },
     getdata() {
       api
@@ -518,10 +594,10 @@ export default {
         }
       }
       if (this.items[2].isshow == true) {
-        if (this.dynamicTags.length > 0) {
+        if (this.codes.length > 0) {
           this.addCondition.push({
             name: "故障代码",
-            text: this.dynamicTags,
+            text: this.codes.join(","),
             id: 2,
           });
         }
@@ -567,7 +643,7 @@ export default {
         if (this.date) {
           this.addCondition.push({
             name: "日期范围",
-            value: this.radio,
+            date: this.radio,
             startDate: this.date[0],
             endDate: this.date[1],
             id: 7,
@@ -575,7 +651,7 @@ export default {
         } else {
           this.addCondition.push({
             name: "日期范围",
-            value: this.radio,
+            date: this.radio,
             id: 7,
           });
         }
@@ -612,6 +688,9 @@ export default {
         airplaneTypes: this.planes,
         airplanes: this.airplane.join(),
         keyword: this.keywords,
+        synonymWords: this.synonym,
+        faultCode: this.codes,
+        fuzzyMatching: this.value1,
         index: "de_record_list",
       };
       api

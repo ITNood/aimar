@@ -40,18 +40,23 @@
                       </p>
                       <p>【故障排除概率： <span>72 %</span>】</p>
                       <p>（参照 DE # <span>987654,321098</span> ）</p>
-                      <div class="other">
+                      <div
+                        class="other"
+                        v-for="(item, index) in lists"
+                        :key="index"
+                      >
                         <h5>-若故障仍未解除：</h5>
-                        <p>执行 <span>ZZXX</span> 操作；</p>
-                        <p>【故障排除概率：<span> 32 %</span>】</p>
-                        <p>（参照 DE # <span>987654</span>）</p>
-                      </div>
-
-                      <div class="other">
-                        <h5>-若故障仍未解除：</h5>
-                        <p>执行 <span>ZZXX</span> 操作；</p>
-                        <p>【故障排除概率：<span> 69 %</span>】</p>
-                        <p>（参照 DE # <span>987654</span>）</p>
+                        <p>
+                          执行 <span>{{ item.name }}</span> 操作；
+                        </p>
+                        <p>
+                          【故障排除概率：<span> {{ item.percentage }} %</span
+                          >】
+                        </p>
+                        <p>
+                          （参照 DE # <span>{{ item.case }}</span
+                          >）
+                        </p>
                       </div>
 
                       <div class="other">
@@ -105,18 +110,19 @@
                 </p>
                 <p>【故障排除概率： <span>72 %</span>】</p>
                 <p>（参照 DE # <span>987654,321098</span> ）</p>
-                <div class="other">
-                  <h5>-若故障仍未解除：</h5>
-                  <p>执行 <span>ZZXX</span> 操作；</p>
-                  <p>【故障排除概率：<span> 32 %</span>】</p>
-                  <p>（参照 DE # <span>987654</span>）</p>
-                </div>
 
-                <div class="other">
+                <div class="other" v-for="(item, index) in lists" :key="index">
                   <h5>-若故障仍未解除：</h5>
-                  <p>执行 <span>ZZXX</span> 操作；</p>
-                  <p>【故障排除概率：<span> 69 %</span>】</p>
-                  <p>（参照 DE # <span>987654</span>）</p>
+                  <p>
+                    执行 <span>{{ item.name }}</span> 操作；
+                  </p>
+                  <p>
+                    【故障排除概率：<span> {{ item.percentage }} %</span>】
+                  </p>
+                  <p>
+                    （参照 DE # <span>{{ item.case }}</span
+                    >）
+                  </p>
                 </div>
 
                 <div class="other">
@@ -127,15 +133,15 @@
                 </div>
               </li>
               <li>【综合排故概率： <span>94 %</span>】</li>
-              <div class="mt20 submitBtn">
-                <el-button class="el-icon-delete btn empty"
-                  >&nbsp;&nbsp;清空</el-button
-                >
-                <el-button class="el-icon-check btn submit"
-                  >&nbsp;&nbsp;确认</el-button
-                >
-              </div>
             </ul>
+          </div>
+          <div class="mt20 submitBtn center">
+            <el-button class="el-icon-delete btn empty"
+              >&nbsp;&nbsp;清空</el-button
+            >
+            <el-button class="el-icon-check btn submit"
+              >&nbsp;&nbsp;确认</el-button
+            >
           </div>
         </div>
       </el-col>
@@ -153,6 +159,10 @@ export default {
           name: "关键词组",
           text: "自动抽取: ABCD , EFGH , XYZ 手动输入: ACEG , ZYX",
         },
+      ],
+      lists: [
+        { id: 1, name: "XXX", percentage: "88.5", case: "SDADSF" },
+        { id: 2, name: "XXX", percentage: "88.5", case: "SDADSF" },
       ],
       radio: "1",
     };
