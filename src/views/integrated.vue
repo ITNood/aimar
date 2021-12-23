@@ -504,7 +504,6 @@ export default {
             if (this.value2 == true) {
               this.synonym = data;
             }
-            console.log(this.value2, this.synonym);
           })
           .catch((err) => {
             console.log(err);

@@ -5,7 +5,6 @@ class api {
     return await http.post(url, params)
   }
   async get(url, params) {
-    console.log(url)
     //请求。页面中.then执行成功时的操作。
     return await http.get(url, params)
   }

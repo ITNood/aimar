@@ -1,15 +1,12 @@
 import axios from 'axios'
 import { Loading, Message } from 'element-ui'
-import json_response_codes from './codes'
 import Vue from 'vue'
 import Router from 'vue-router'
 Vue.use(Router)
 
 // 创建axios实例
 const Axios = axios.create({
-  // http://10.17.10.222:8080
   baseURL: process.env.NODE_ENV === 'production' ? "http://10.17.10.222:8082" : "/api/",
-  // baseURL: "/api",
   timeout: 10000,//超时请求
   maxRedirects: 1,
   headers: { "Content-Type": 'application/json' },
@@ -34,7 +31,7 @@ Axios.interceptors.request.use(
 )
 // 拦截所有的 api 响应，可以实现自动弹窗报错
 Axios.interceptors.response.use(
-  response => {   // when HTTP_STATUS in [ 200 , 299 ]
+  response => {
     // load.close()
     //判断登录状态，跳转路由
     if (response.data.code === 500) {//退出登录
@@ -44,7 +41,7 @@ Axios.interceptors.response.use(
     } else if (response.data.code === 400) {//返回错误
       this.$message.error(response.data.msg)
       return Promise.resolve(response.data)
-    } else if (response.data.code === json_response_codes.status) {//code===200返回数据
+    } else if (response.data.code === 200) {//code===200返回数据
       return Promise.resolve(response.data);
     }
   },
