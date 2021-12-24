@@ -104,19 +104,26 @@ img {
 
 
 .el-header {
+  position: fixed !important;
+  top     : 0;
+  right   : 0;
+  z-index : 99;
+  left    : 230px;
+  padding : 0;
+}
+
+.header {
   background-color  : #005a95;
   box-shadow        : 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
   -webkit-box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
   color             : #333;
   line-height       : 60px;
-  position          : fixed !important;
-  top               : 0;
-  right             : 0;
-  left              : 230px;
   align-items       : center;
   justify-items     : right;
-  z-index           : 99;
-  width             : calc(100vw - 230px);
+
+  width  : calc(100vw - 270px);
+  height : 70px;
+  padding: 0 20px;
 
   h4 {
     float      : left;
@@ -141,7 +148,7 @@ img {
 }
 
 .el-main {
-  margin-top: 70px;
+  margin-top: 132px;
 }
 
 .logo {
@@ -358,7 +365,7 @@ img {
   .screenCondition {
     height: 100%;
     border: 1px solid $theme;
-    height: calc(100vh - 212px);
+    height: calc(100vh - 274px);
 
     h2 {
       @extend %h2
@@ -393,7 +400,7 @@ img {
   }
 
   .integrateedContent {
-    height     : calc(100vh - 212px);
+    height     : calc(100vh - 274px);
     border     : 1px solid $theme;
     border-left: none;
 
@@ -403,7 +410,7 @@ img {
 
     .conditionList {
       padding   : 40px 20px;
-      height    : calc(100vh - 373px);
+      height    : calc(100vh - 435px);
       overflow-y: auto;
 
       .conditionTable {
@@ -482,7 +489,7 @@ img {
 .selecteds {
   border     : 1px solid $theme;
   border-left: none;
-  height     : calc(100vh - 212px);
+  height     : calc(100vh - 274px);
 
   h2 {
     @extend %h2
@@ -492,11 +499,11 @@ img {
     padding: 40px 20px;
 
     .selectedsContentList {
-      height: calc(100vh - 373px);
+      height: calc(100vh - 435px);
 
       ul {
         margin-bottom: 20px;
-        height       : calc(100vh - 438px);
+        height       : calc(100vh - 498px);
         overflow-y   : auto;
         overflow-x   : hidden;
 
@@ -695,13 +702,13 @@ img {
 }
 
 .scheme {
-  height  : calc(100vh - 210px);
+  height  : calc(100vh - 272px);
   overflow: hidden;
 
   .entryFault {
     height: 100%;
     border: 1px solid $theme;
-    height: calc(100vh - 212px);
+    height: calc(100vh - 274px);
 
     h2 {
       color        : #012A4A;
@@ -737,7 +744,7 @@ img {
   .selectedsProgramme {
     border     : 1px solid $theme;
     border-left: none;
-    height     : calc(100vh - 212px);
+    height     : calc(100vh - 274px);
 
     h2 {
       color        : #012A4A;
@@ -770,7 +777,7 @@ img {
 .programmeDetails {
   padding     : 20px;
   border-right: 1px solid $theme;
-  height      : calc(100vh - 413px);
+  height      : calc(100vh - 475px);
   overflow-y  : auto;
 
   h4 {
@@ -844,7 +851,7 @@ img {
   padding: 20px;
 
   .programmeImg {
-    height    : calc(100vh - 413px);
+    height    : calc(100vh - 475px);
     overflow-y: auto;
 
     h3 {
@@ -904,7 +911,7 @@ img {
 }
 
 .component {
-  height    : calc(100vh - 393px);
+  height    : calc(100vh - 455px);
   overflow-y: auto;
 }
 
@@ -950,7 +957,7 @@ img {
   padding: 20px;
 
   ul {
-    height    : calc(100vh - 650px);
+    height    : calc(100vh - 712px);
     overflow-y: auto;
 
     li {
@@ -1077,5 +1084,15 @@ img {
   &:focus {
     background-color: $theme;
     color           : $withe;
+  }
+}
+
+.tabs {
+  background-color: $titleBgk;
+  padding         : 15px;
+  overflow-x      : auto;
+
+  .el-tag {
+    margin: 0 8px;
   }
 }

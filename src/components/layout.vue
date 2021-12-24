@@ -22,45 +22,59 @@
       </el-aside>
       <!-- 右侧内容区域 -->
       <el-container class="app_content">
-        <el-header height="70px" style="text-align: right; position: relative">
-          <h4>{{ title }}</h4>
-          <router-link to="/main">
-            <i class="icon iconfont icon-setting-fill"></i>
-          </router-link>
-          <el-badge :value="total" class="item">
-            <i class="icon iconfont icon-lingdang"></i>
-          </el-badge>
-          <el-badge :value="total2" class="item">
-            <i class="icon iconfont icon-email"></i>
-          </el-badge>
-          <el-badge :value="total3" class="item">
-            <i class="icon iconfont icon-warning"></i>
-          </el-badge>
-          <el-dropdown>
-            <span
-              class="el-dropdown-link"
-              style="color: #858796; font-weight: 800"
+        <el-header>
+          <div class="header" style="text-align: right; position: relative">
+            <h4>{{ title }}</h4>
+            <router-link to="/main">
+              <i class="icon iconfont icon-setting-fill"></i>
+            </router-link>
+            <el-badge :value="total" class="item">
+              <i class="icon iconfont icon-lingdang"></i>
+            </el-badge>
+            <el-badge :value="total2" class="item">
+              <i class="icon iconfont icon-email"></i>
+            </el-badge>
+            <el-badge :value="total3" class="item">
+              <i class="icon iconfont icon-warning"></i>
+            </el-badge>
+            <el-dropdown>
+              <span
+                class="el-dropdown-link"
+                style="color: #858796; font-weight: 800"
+              >
+                <img
+                  src="../assets/logo.png"
+                  style="width: 40px; border-radius: 50%"
+                />
+              </span>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item
+                  ><i class="el-icon-user-solid"></i>个人中心</el-dropdown-item
+                >
+                <el-dropdown-item
+                  ><i class="el-icon-s-tools"></i>设置</el-dropdown-item
+                >
+                <el-dropdown-item style="border-bottom: 1px solid #e3e6f0"
+                  ><i class="el-icon-s-operation"></i>活动日志</el-dropdown-item
+                >
+                <el-dropdown-item @click.native="outSystem"
+                  ><i class="el-icon-s-unfold"></i>登出</el-dropdown-item
+                >
+              </el-dropdown-menu>
+            </el-dropdown>
+          </div>
+
+          <div class="tabs">
+            <el-tag
+              v-for="tag in tags"
+              :key="tag.path"
+              :closable="tag.clearclose"
+              @close="handleCloseTag(tag)"
+              @click="tabs(tag.path)"
             >
-              <img
-                src="../assets/logo.png"
-                style="width: 40px; border-radius: 50%"
-              />
-            </span>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item
-                ><i class="el-icon-user-solid"></i>个人中心</el-dropdown-item
-              >
-              <el-dropdown-item
-                ><i class="el-icon-s-tools"></i>设置</el-dropdown-item
-              >
-              <el-dropdown-item style="border-bottom: 1px solid #e3e6f0"
-                ><i class="el-icon-s-operation"></i>活动日志</el-dropdown-item
-              >
-              <el-dropdown-item @click.native="outSystem"
-                ><i class="el-icon-s-unfold"></i>登出</el-dropdown-item
-              >
-            </el-dropdown-menu>
-          </el-dropdown>
+              {{ tag.title }}
+            </el-tag>
+          </div>
           <!-- <el-popconfirm title="确定退出登录吗？" @confirm="outSystem" >
             <el-button slot="reference" type="primary" size="mini">退出</el-button>
           </el-popconfirm> -->
@@ -106,6 +120,7 @@ export default {
       total3: 3,
       search: "",
       title: "",
+      tags: [],
     };
   },
   created() {
@@ -114,9 +129,50 @@ export default {
   updated() {
     this.title = this.$route.meta.title;
   },
+  watch: {
+    //路由变化,设置标签
+    $route(newValue, oldValue) {
+      this.setTags(newValue);
+    },
+  },
+  mounted() {
+    this.setTags(this.$route);
+  },
   methods: {
+    tabs(path) {
+      this.$router.push(path);
+    },
+    handleCloseTag(tag) {
+      this.tags.splice(this.tags.indexOf(tag), 1);
+
+      if (this.tags.length > 0) {
+        this.$router.push(this.tags[this.tags.length - 1].path);
+      } else {
+        this.$router.push({ title: "总控制台" });
+      }
+    },
+    setTags(route) {
+      const isExsit = this.tags.some((item) => {
+        return item.path === route.fullPath;
+      });
+      if (isExsit == false) {
+        if (route.meta.title == "总控制台") {
+          this.tags.push({
+            title: route.meta.title, //标签名
+            path: route.fullPath, //路由
+            clearclose: false,
+          });
+        } else {
+          this.tags.push({
+            title: route.meta.title, //标签名
+            path: route.fullPath, //路由
+            clearclose: true,
+          });
+        }
+      }
+    },
+    //退出系统
     outSystem() {
-      //退出系统
       this.$confirm("是否退出登录？", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
@@ -135,10 +191,6 @@ export default {
     onReload() {
       this.$router.push("/main");
     },
-  },
-  mounted() {
-    // console.log("菜单的展开跟路由有关系，查看elementui--el-menu  的default-active 属性")
-    // console.log(this.$route.path)
   },
 };
 </script>

@@ -29,7 +29,6 @@
               <el-col :span="12">
                 <div class="programmeDetails">
                   <ul>
-                    <li>依据 <span>AMM 34-45-01</span></li>
                     <li>
                       针对 <span>XXXX</span> 出现 <span>YYYYYY</span> 故障 ；
                     </li>
@@ -49,6 +48,7 @@
                         <p>
                           执行 <span>{{ item.name }}</span> 操作；
                         </p>
+                        <p>依据 <span>AMM 34-45-01</span></p>
                         <p>
                           【故障排除概率：<span> {{ item.percentage }} %</span
                           >】
