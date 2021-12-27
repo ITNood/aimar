@@ -674,6 +674,7 @@ export default {
     },
 
     //确认
+    //这个接口要调用http那个
     submit() {
       if (this.date) {
         var startDate = this.date[0];

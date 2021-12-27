@@ -27,27 +27,36 @@
                 :label="index"
                 v-for="(todo, index) in result"
                 :key="index"
-                >方案 #{{ index + 1 }}
+                >方案 #{{ index + 1 }}({{ todo.SolutionProbability }})
               </el-radio-button>
             </el-radio-group>
             <el-row class="border">
               <el-col :span="12">
                 <div class="programmeDetails">
                   <ul>
+                    <li v-if="show">
+                      依据<span>{{ reference }}</span>
+                    </li>
                     <li>
-                      针对 <span>{{ reference }}</span> 出现
-                      <span>{{ target }}</span> 故障 ；
+                      针对 <span>{{ target }}</span> 出现
+                      <span>{{ fault }}</span> 故障 ；
                     </li>
                     <li>
                       <p>
-                        执行 <span>{{ fault }}</span> 操作，执行
-                        <span>{{ action }}</span> 操作；
+                        执行<span>{{ action }}</span> 操作；
                       </p>
                       <p>
                         【故障排除概率： <span>{{ probability }} </span>】
                       </p>
                       <p>
-                        （参照 DE # <span>{{ de }}</span> ）
+                        （参照 DE #
+                        <span
+                          v-for="(item, index) in des"
+                          :key="index"
+                          @click="openDe(item)"
+                          >{{ item }};</span
+                        >
+                        ）
                       </p>
                       <div
                         class="other"
@@ -59,14 +68,16 @@
                           执行 <span>{{ item.Action }}</span> 操作；
                         </p>
                         <p>
-                          依据 <span>{{ item.Reference }}}</span>
+                          依据 <span>{{ item.Reference }}</span>
                         </p>
                         <p>
                           【故障排除概率：<span> {{ item.Probability }} </span
                           >】
                         </p>
                         <p>
-                          （参照 DE # <span>{{ item.DE.join() }}</span
+                          （参照 DE #
+                          <span v-for="(list, index) in item.DE" :key="index"
+                            >{{ list }};</span
                           >）
                         </p>
                       </div>
@@ -135,7 +146,12 @@
                   </p>
                   <p>
                     （参照 DE #
-                    <span>{{ val.SolutionHeader.DE.join() }}</span> ）
+                    <span
+                      v-for="(item, index) in val.SolutionHeader.DE"
+                      :key="index"
+                      >{{ item }};</span
+                    >
+                    ）
                   </p>
 
                   <div
@@ -212,7 +228,7 @@ export default {
       fault: "",
       action: "",
       probability: "",
-      de: "",
+      des: [],
       lists: [],
       solutionProbability: "",
       result: [],
@@ -220,6 +236,7 @@ export default {
       todos: [],
       arr: [],
       arrs: [],
+      show: false,
     };
   },
   created() {
@@ -231,15 +248,20 @@ export default {
       api
         .get(`/scheme/recommendation/by/all?manufacturer=Airbus&section=2151`)
         .then((res) => {
-          const arr = [];
           this.result = res.data.Solutions;
+          console.log("result", this.result);
           const data = res.data.Solutions[0];
-          this.reference = data.SolutionHeader.Reference;
+          if (data.SolutionHeader.Reference) {
+            this.show = true;
+            this.reference = data.SolutionHeader.Reference;
+          } else {
+            this.show = false;
+          }
           this.target = data.SolutionHeader.Target;
           this.fault = data.SolutionHeader.Fault;
           this.action = data.SolutionHeader.Action;
           this.probability = data.SolutionHeader.Probability;
-          this.de = data.SolutionHeader.DE.join();
+          this.des = data.SolutionHeader.DE;
           this.solutionProbability = data.SolutionProbability;
           if (data.SolutionMEL.length) {
             this.SolutionMEL = true;
@@ -296,9 +318,16 @@ export default {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning",
-      }).then(() => {
-        this.arrs = [];
-      });
+      })
+        .then(() => {
+          this.arrs = [];
+        })
+        .catch(() => {
+          this.$message.info("取消了清空方案!!!");
+        });
+    },
+    openDe(item) {
+      console.log(item);
     },
   },
 };

@@ -5,8 +5,9 @@ import Router from 'vue-router'
 Vue.use(Router)
 
 // 创建axios实例
+
 const Axios = axios.create({
-  baseURL: process.env.NODE_ENV === 'production' ? "http://10.17.10.150:8082" : "/api/",
+  baseURL: '/',
   timeout: 10000,//超时请求
   maxRedirects: 1,
   headers: { "Content-Type": 'application/json' },
@@ -41,7 +42,7 @@ Axios.interceptors.response.use(
     } else if (response.data.code === 400) {//返回错误
       this.$message.error(response.data.msg)
       return Promise.resolve(response.data)
-    } else if (response.data.code === 200) {//code===200返回数据
+    } else if (response.data.code === 200 || response.data.code === '200') {//code===200返回数据
       return Promise.resolve(response.data);
     }
   },

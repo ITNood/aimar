@@ -796,6 +796,7 @@ img {
       font-size  : 1.2rem;
       font-weight: 600;
       margin     : 0 10px;
+      cursor     : pointer;
 
       &:first-child {
         color: $red;
@@ -824,6 +825,7 @@ img {
       span {
         color      : $theme;
         font-weight: 600;
+        cursor     : pointer;
       }
     }
 
