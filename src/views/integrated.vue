@@ -697,6 +697,7 @@ export default {
         .then((res) => {
           if (res.code == 200) {
             this.$message.success("成功！！！");
+            this.$router.push("/searchResult");
           }
         })
         .catch((err) => {
@@ -708,7 +709,6 @@ export default {
     closeKeyword(tag) {
       this.keywords.splice(this.keywords.indexOf(tag), 1);
       const keyword = JSON.parse(localStorage.getItem("keyword"));
-      console.log(keyword);
       const arr = [];
       this.keywords.map((item) => {
         const data = keyword.filter((e) => {

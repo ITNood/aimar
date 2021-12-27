@@ -6,7 +6,7 @@ Vue.use(Router)
 
 // 创建axios实例
 const Axios = axios.create({
-  baseURL: process.env.NODE_ENV === 'production' ? "http://10.17.10.222:8082" : "/api/",
+  baseURL: process.env.NODE_ENV === 'production' ? "http://10.17.10.150:8082" : "/api/",
   timeout: 10000,//超时请求
   maxRedirects: 1,
   headers: { "Content-Type": 'application/json' },

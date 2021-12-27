@@ -1093,6 +1093,14 @@ img {
   overflow-x      : auto;
 
   .el-tag {
-    margin: 0 8px;
+    margin          : 0 5px;
+    cursor          : pointer;
+    color           : $font333;
+    border-color    : $bordercolor;
+    background-color: $withe;
+
+    .el-tag__close {
+      color: $font333;
+    }
   }
 }

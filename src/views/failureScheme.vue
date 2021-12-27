@@ -18,27 +18,37 @@
         <div class="selectedsProgramme">
           <h2>选择排故方案</h2>
           <div class="programme">
-            <el-radio-group v-model="radio" class="selectRadioGroup">
-              <el-radio-button label="1">方案 # 12345678 (94%)</el-radio-button>
-              <el-radio-button label="2">方案 # 23456789 (89%)</el-radio-button>
-              <el-radio-button label="3">方案 # 34567890 (78%)</el-radio-button>
-              <el-radio-button label="4">方案 # 45678901 (76%)</el-radio-button>
-              <el-radio-button label="5">方案 # 56789012 (72%)</el-radio-button>
+            <el-radio-group
+              v-model="radio"
+              class="selectRadioGroup"
+              @change="changeRadio"
+            >
+              <el-radio-button
+                :label="index"
+                v-for="(todo, index) in result"
+                :key="index"
+                >方案 #{{ index + 1 }}
+              </el-radio-button>
             </el-radio-group>
             <el-row class="border">
               <el-col :span="12">
                 <div class="programmeDetails">
                   <ul>
                     <li>
-                      针对 <span>XXXX</span> 出现 <span>YYYYYY</span> 故障 ；
+                      针对 <span>{{ reference }}</span> 出现
+                      <span>{{ target }}</span> 故障 ；
                     </li>
                     <li>
                       <p>
-                        执行 <span>ZZZ</span> 操作，执行
-                        <span>ZZZXX</span> 操作；
+                        执行 <span>{{ fault }}</span> 操作，执行
+                        <span>{{ action }}</span> 操作；
                       </p>
-                      <p>【故障排除概率： <span>72 %</span>】</p>
-                      <p>（参照 DE # <span>987654,321098</span> ）</p>
+                      <p>
+                        【故障排除概率： <span>{{ probability }} </span>】
+                      </p>
+                      <p>
+                        （参照 DE # <span>{{ de }}</span> ）
+                      </p>
                       <div
                         class="other"
                         v-for="(item, index) in lists"
@@ -46,29 +56,34 @@
                       >
                         <h5>-若故障仍未解除：</h5>
                         <p>
-                          执行 <span>{{ item.name }}</span> 操作；
+                          执行 <span>{{ item.Action }}</span> 操作；
                         </p>
-                        <p>依据 <span>AMM 34-45-01</span></p>
                         <p>
-                          【故障排除概率：<span> {{ item.percentage }} %</span
+                          依据 <span>{{ item.Reference }}}</span>
+                        </p>
+                        <p>
+                          【故障排除概率：<span> {{ item.Probability }} </span
                           >】
                         </p>
                         <p>
-                          （参照 DE # <span>{{ item.case }}</span
+                          （参照 DE # <span>{{ item.DE.join() }}</span
                           >）
                         </p>
                       </div>
 
-                      <div class="other">
+                      <div class="other" v-if="SolutionMEL">
                         <h5>-若故障仍未解除：</h5>
                         <p>依据 <span>MEL 34-45-02</span> ；</p>
                         <p>执行 <span>保留、监控</span>；</p>
                         <p>（参照 DE # <span>987654</span>）</p>
                       </div>
                     </li>
-                    <li>【综合排故概率： <span>94 %</span>】</li>
+                    <li>
+                      【综合排故概率： <span>{{ solutionProbability }}</span
+                      >】
+                    </li>
                     <div class="btncenter">
-                      <el-button class="el-icon-check"
+                      <el-button class="el-icon-check" @click="confirm"
                         >&nbsp;&nbsp;确认</el-button
                       >
                       <el-button class="el-icon-edit"
@@ -97,46 +112,75 @@
         <div class="selecteds">
           <h2>已选择排故方案</h2>
           <div class="programmeDetails" style="border-right: none">
-            <h1 class="clear">
-              方案 # 12345678 <i class="el-icon-close"></i
-              ><i class="el-icon-edit"></i>
-            </h1>
-            <ul>
-              <li>依据 <span>AMM 34-45-01</span></li>
-              <li>针对 <span>XXXX</span> 出现 <span>YYYYYY</span> 故障 ；</li>
-              <li>
-                <p>
-                  执行 <span>ZZZ</span> 操作，执行 <span>ZZZXX</span> 操作；
-                </p>
-                <p>【故障排除概率： <span>72 %</span>】</p>
-                <p>（参照 DE # <span>987654,321098</span> ）</p>
+            <div v-for="(val, index) in arrs" :key="index">
+              <h1 class="clear">
+                方案 # {{ val.key + 1 }}
+                <i class="el-icon-close" @click="close(index)"></i
+                ><i class="el-icon-edit"></i>
+              </h1>
+              <ul>
+                <li>
+                  针对 <span>{{ val.SolutionHeader.Reference }}</span> 出现
+                  <span>{{ val.SolutionHeader.Target }}</span> 故障 ；
+                </li>
+                <li>
+                  <p>
+                    执行 <span>{{ val.SolutionHeader.Fault }}</span> 操作，执行
+                    <span>{{ val.SolutionHeader.Action }}</span> 操作；
+                  </p>
+                  <p>
+                    【故障排除概率：
+                    <span>{{ val.SolutionHeader.Probability }}</span
+                    >】
+                  </p>
+                  <p>
+                    （参照 DE #
+                    <span>{{ val.SolutionHeader.DE.join() }}</span> ）
+                  </p>
 
-                <div class="other" v-for="(item, index) in lists" :key="index">
-                  <h5>-若故障仍未解除：</h5>
-                  <p>
-                    执行 <span>{{ item.name }}</span> 操作；
-                  </p>
-                  <p>
-                    【故障排除概率：<span> {{ item.percentage }} %</span>】
-                  </p>
-                  <p>
-                    （参照 DE # <span>{{ item.case }}</span
-                    >）
-                  </p>
-                </div>
+                  <div
+                    class="other"
+                    v-for="(item, index) in val.SolutionBody"
+                    :key="index"
+                  >
+                    <h5>-若故障仍未解除：</h5>
+                    <p>
+                      执行 <span>{{ item.Action }}</span> 操作；
+                    </p>
+                    <p>
+                      依据 <span>{{ item.Reference }}</span>
+                    </p>
+                    <p>
+                      【故障排除概率：<span> {{ item.Probability }}</span
+                      >】
+                    </p>
+                    <p>
+                      （参照 DE # <span>{{ item.DE.join() }}</span
+                      >）
+                    </p>
+                  </div>
 
-                <div class="other">
-                  <h5>-若故障仍未解除：</h5>
-                  <p>依据 <span>MEL 34-45-02</span> ；</p>
-                  <p>执行 <span>保留、监控</span>；</p>
-                  <p>（参照 DE # <span>987654</span>）</p>
-                </div>
-              </li>
-              <li>【综合排故概率： <span>94 %</span>】</li>
-            </ul>
+                  <div class="other" v-if="val.SolutionMEL.length > 0">
+                    <h5>-若故障仍未解除：</h5>
+                    <p>
+                      依据 <span>{{ item.SolutionMEL.Reference }}</span> ；
+                    </p>
+                    <p>执行 <span>保留、监控</span>；</p>
+                    <p>
+                      （参照 DE # <span>{{ item.SolutionMEL.DE.join() }}</span
+                      >）
+                    </p>
+                  </div>
+                </li>
+                <li>
+                  【综合排故概率： <span>{{ val.SolutionProbability }}</span
+                  >】
+                </li>
+              </ul>
+            </div>
           </div>
           <div class="mt20 submitBtn center">
-            <el-button class="el-icon-delete btn empty"
+            <el-button class="el-icon-delete btn empty" @click="clean"
               >&nbsp;&nbsp;清空</el-button
             >
             <el-button class="el-icon-check btn submit"
@@ -150,6 +194,7 @@
 </template>
 
 <script>
+import api from "../API/index";
 export default {
   data() {
     return {
@@ -160,16 +205,102 @@ export default {
           text: "自动抽取: ABCD , EFGH , XYZ 手动输入: ACEG , ZYX",
         },
       ],
-      lists: [
-        { id: 1, name: "XXX", percentage: "88.5", case: "SDADSF" },
-        { id: 2, name: "XXX", percentage: "88.5", case: "SDADSF" },
-      ],
-      radio: "1",
+
+      radio: "0",
+      reference: "",
+      target: "",
+      fault: "",
+      action: "",
+      probability: "",
+      de: "",
+      lists: [],
+      solutionProbability: "",
+      result: [],
+      SolutionMEL: false,
+      todos: [],
+      arr: [],
+      arrs: [],
     };
   },
-  created() {},
+  created() {
+    this.getdata();
+  },
   mounted() {},
-  methods: {},
+  methods: {
+    getdata() {
+      api
+        .get(`/scheme/recommendation/by/all?manufacturer=Airbus&section=2151`)
+        .then((res) => {
+          const arr = [];
+          this.result = res.data.Solutions;
+          const data = res.data.Solutions[0];
+          this.reference = data.SolutionHeader.Reference;
+          this.target = data.SolutionHeader.Target;
+          this.fault = data.SolutionHeader.Fault;
+          this.action = data.SolutionHeader.Action;
+          this.probability = data.SolutionHeader.Probability;
+          this.de = data.SolutionHeader.DE.join();
+          this.solutionProbability = data.SolutionProbability;
+          if (data.SolutionMEL.length) {
+            this.SolutionMEL = true;
+          } else {
+            this.SolutionMEL = false;
+          }
+          this.lists = data.SolutionBody;
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+        .finally(() => {});
+    },
+    //选择方案
+    changeRadio(val) {
+      const data = this.result[val];
+      this.reference = data.SolutionHeader.Reference;
+      this.target = data.SolutionHeader.Target;
+      this.fault = data.SolutionHeader.Fault;
+      this.action = data.SolutionHeader.Action;
+      this.probability = data.SolutionHeader.Probability;
+      this.de = data.SolutionHeader.DE.join();
+      this.solutionProbability = data.SolutionProbability;
+      if (data.SolutionMEL.length) {
+        this.SolutionMEL = true;
+      } else {
+        this.SolutionMEL = false;
+      }
+      this.lists = data.SolutionBody;
+    },
+
+    //确认
+    confirm() {
+      let val = this.radio;
+      if (this.arrs.filter((item) => item.key === val).length > 0) {
+        // 弹提示已添加
+        this.$message.warning("该方案已添加!!!");
+      } else {
+        this.arrs.push({
+          ...this.result[val],
+          key: val,
+        });
+      }
+    },
+    //关闭
+    close(index) {
+      const list = [...this.arrs];
+      list.splice(index, 1);
+      this.arrs = [...list];
+    },
+    //清空
+    clean() {
+      this.$confirm("确定要清空已选方案 ?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      }).then(() => {
+        this.arrs = [];
+      });
+    },
+  },
 };
 </script>
 
