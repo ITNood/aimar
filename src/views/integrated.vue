@@ -94,15 +94,6 @@
                         @blur="handlekeyword"
                       >
                       </el-input>
-                      <!-- <el-autocomplete
-                        class="input-new-tag"
-                        v-model="keywordValue"
-                        ref="saveTagInput"
-                        size="small"
-                        @keyup.enter.native="handlekeyword"
-                        @blur="handlekeyword"
-                      >
-                      </el-autocomplete> -->
                     </div>
                     <el-checkbox-group
                       v-model="checkboxValue"
@@ -389,7 +380,6 @@ export default {
       codeValue: "",
       restCode: [],
 
-      //
       number: 0,
     };
   },

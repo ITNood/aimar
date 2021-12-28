@@ -19,7 +19,7 @@ const deOrder = () => import('../views/deOrder')
 const task = () => import('../views/task')
 const componentReplacement = () => import('../views/componentReplacement')
 const reportDownload = () => import('../views/reportDownload')
-// const test = () => import('../views/test')
+const test = () => import('../views/test')
 
 const data = () => import('@/views/data')
 
@@ -141,19 +141,7 @@ export const fixedRouter = [{
     }
   }]
 },
-// {
-//   path: '',
-//   component: layout,
-//   children: [{
-//     path: 'test',
-//     component: test,
-//     meta: {
-//       title: '测试',
-//       icon: 'icon-cc',
-//       roles: ['user', 'admin'],
-//     }
-//   }]
-// },
+
 {
   path: '',
   component: layout,
@@ -240,6 +228,20 @@ export const fixedRouter = [{
     component: reportDownload,
     meta: {
       title: '工单报告下载中心',
+      roles: ['user', 'admin'],
+    }
+  }],
+  hidden: true
+},
+{
+  path: '',
+  component: layout,
+  children: [{
+    path: 'test',
+    component: test,
+    meta: {
+      title: '测试',
+      icon: 'icon-cc',
       roles: ['user', 'admin'],
     }
   }],

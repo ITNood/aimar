@@ -354,15 +354,13 @@ export default {
           this.arrs = [];
         })
         .catch(() => {
-          this.$message.info("取消了清空方案!!!");
+          this.$message.info("取消了!!!");
         });
     },
     openDe(item) {
-      console.log(item);
       api
         .get(`/DeRecord/by/id/${item}`)
         .then((res) => {
-          console.log(res);
           if (res.data) {
             this.de = item;
             this.date = res.data.dateAction;
