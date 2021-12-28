@@ -185,6 +185,7 @@
                         ><el-input
                           v-model="start"
                           placeholder="ATA 章节 (2位)"
+                          maxlength="2"
                         ></el-input
                       ></el-col>
                       <el-col :span="2" class="line">-</el-col>
@@ -192,6 +193,7 @@
                         ><el-input
                           v-model="end"
                           placeholder="ATA 章节 (4位)"
+                          maxlength="4"
                         ></el-input
                       ></el-col>
                     </el-row>
@@ -341,8 +343,8 @@ export default {
       synonym: [],
       disable: false,
       items: [
-        { name: "故障描述", isshow: false },
-        { name: "关键词组", isshow: false },
+        { name: "故障描述", isshow: true },
+        { name: "关键词组", isshow: true },
         { name: "故障代码", isshow: false },
         { name: "模糊匹配", isshow: false },
         { name: "选定飞机", isshow: false },
@@ -522,7 +524,6 @@ export default {
       } else {
         this.synonym = [];
       }
-      console.log("change", this.synonym);
     },
     //模糊开关
     vague(val) {
@@ -674,37 +675,45 @@ export default {
     },
 
     //确认
-    //这个接口要调用http那个
     submit() {
-      if (this.date) {
-        var startDate = this.date[0];
-        var endDate = this.date[1];
+      console.log(this.keywords, this.text, this.lists);
+      if (this.keyword || (this.lists.length && this.lists)) {
+        //存储已选条件
+        localStorage.setItem("listData", JSON.stringify(this.lists));
+
+        if (this.date) {
+          var startDate = this.date[0];
+          var endDate = this.date[1];
+        }
+        const data = {
+          startDate: startDate,
+          endDate: endDate,
+          chapters: this.start,
+          sections: this.end,
+          airplaneTypes: this.planes,
+          airplanes: this.airplane.join(),
+          keyword: this.keywords,
+          synonymWords: this.synonym,
+          faultCode: this.codes,
+          fuzzyMatching: this.value1,
+          index: "de_record_list",
+        };
+        api
+          .post("/elasticSearch/deRecord/page", data)
+          .then((res) => {
+            if (res.code == 200) {
+              localStorage.setItem("tableData", JSON.stringify(res.data));
+              this.$message.success("成功！！！");
+              this.$router.push("/searchResult");
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          })
+          .finally(() => {});
+      } else {
+        this.$message.warning("请输入故障描述!!!");
       }
-      const data = {
-        startDate: startDate,
-        endDate: endDate,
-        chapters: this.start,
-        sections: this.end,
-        airplaneTypes: this.planes,
-        airplanes: this.airplane.join(),
-        keyword: this.keywords,
-        synonymWords: this.synonym,
-        faultCode: this.codes,
-        fuzzyMatching: this.value1,
-        index: "de_record_list",
-      };
-      api
-        .post("/elasticSearch/deRecord/page", data)
-        .then((res) => {
-          if (res.code == 200) {
-            this.$message.success("成功！！！");
-            this.$router.push("/searchResult");
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-        .finally(() => {});
     },
     //关键词
     closeKeyword(tag) {
@@ -715,7 +724,6 @@ export default {
         const data = keyword.filter((e) => {
           return e.word == item;
         });
-
         arr.push(...data);
       });
       localStorage.setItem("keyword", JSON.stringify(arr));

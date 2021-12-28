@@ -13,10 +13,26 @@
           :key="index"
         >
           <h5>
-            {{ item.title }}
-            <i class="el-icon-close"></i><i class="el-icon-edit"></i>
+            {{ item.name }}
+            <i class="el-icon-close" @click="del(index)"></i
+            ><i class="el-icon-edit"></i>
           </h5>
+          <p>{{ item.airplaneTypes }}</p>
+          <p>{{ item.airplanes }}</p>
+          <p>{{ item.chapters }}</p>
+          <p>{{ item.sections }}</p>
+          <p>{{ item.keyword }}</p>
           <p>{{ item.text }}</p>
+          <p v-if="item.date">日期范围:{{ item.date }}</p>
+          <p v-if="item.startDate">起始日期:{{ item.startDate }}</p>
+          <p v-if="item.endDate">结束日期:{{ item.endDate }}</p>
+          <p v-if="item.value">
+            模糊匹配:{{ item.value == true ? "开" : "关" }}
+          </p>
+          <p v-if="item.value1">模糊度:{{ item.value1 }}</p>
+          <p v-if="item.value2">
+            同近义词:{{ item.value2 == true ? "开" : "关" }}
+          </p>
         </el-col>
       </el-row>
     </div>
@@ -77,16 +93,24 @@
               fontWeight: 'normal',
             }"
             max-height="500"
-            class="mt20"
+            class="mt20 table"
           >
             <el-table-column type="selection" width="55"></el-table-column>
-            <el-table-column prop="id" label="DE号"></el-table-column>
-            <el-table-column prop="start" label="开单ATA"></el-table-column>
-            <el-table-column prop="end" label="关单ATA"></el-table-column>
-            <el-table-column prop="date" label="日期"></el-table-column>
-            <el-table-column prop="text" label="故障描述"></el-table-column>
+            <el-table-column prop="de" label="DE号"></el-table-column>
+            <el-table-column prop="ataOpen" label="开单ATA"></el-table-column>
+            <el-table-column prop="ataClose" label="关单ATA"></el-table-column>
+            <el-table-column prop="dateAction" label="日期"></el-table-column>
+            <el-table-column prop="description" label="故障描述">
+              <template #default="row" class="hidefont">{{
+                row.row.description
+              }}</template>
+            </el-table-column>
             <el-table-column prop="plan" label="计划措施"></el-table-column>
-            <el-table-column prop="measures" label="排故措施"></el-table-column>
+            <el-table-column prop="action" label="排故措施">
+              <template #default="row" class="hidefont">{{
+                row.row.action
+              }}</template>
+            </el-table-column>
             <el-table-column label="查看 DE 详情" #default="row">
               <el-button size="mini" @click="lookDe(row)" class="btnfont"
                 >查看DE</el-button
@@ -121,28 +145,19 @@
         >
       </div>
     </div>
+    <!---->
+    <de-details :dialogVisible="show" />
   </div>
 </template>
 
 <script>
+import DeDetails from "../components/deDetails.vue";
 import pagination from "../components/pagination.vue";
 export default {
-  components: { pagination },
+  components: { pagination, DeDetails },
   data() {
     return {
-      items: [
-        { title: "故障描述", text: "ABCDEFGHIGKLMNOPQRSTUVWXYZ" },
-        {
-          title: "关键词组",
-          text: "自动抽取: ABCD , EFGH , XYZ 手动输入: ACEG , ZYX",
-        },
-        { title: "故障描述", text: "ABCDEFGHIGKLMNOPQRSTUVWXYZ" },
-        {
-          title: "关键词组",
-          text: "自动抽取: ABCD , EFGH , XYZ 手动输入: ACEG , ZYX",
-        },
-        { title: "故障描述", text: "ABCDEFGHIGKLMNOPQRSTUVWXYZ" },
-      ],
+      items: [],
       total: 10,
       checkedNumber: 0,
       startChapter: "12:飞机维修",
@@ -150,31 +165,58 @@ export default {
       listChapter: "36:就殴打Jodi",
       radio: 3,
       checked: false,
-      tableData: [
-        {
-          id: 2641654,
-          start: 5454,
-          end: 8548,
-          date: "2021-12-13",
-          text: "dadgasgas",
-          plan: "deadagasg",
-          measures: "dasgasgsagdgas",
-        },
-      ],
+      tableData: [],
       multipleSelection: [],
       totalPage: 100,
       pageSize: 10,
       currentPage: 1,
+
+      show: false,
     };
   },
-  created() {},
+  created() {
+    this.getdata();
+  },
   mounted() {},
   methods: {
+    formateDate(datetime) {
+      // let  = "2019-11-06T16:00:00.000Z"
+      function addDateZero(num) {
+        return num < 10 ? "0" + num : num;
+      }
+      let d = new Date(datetime);
+      let formatdatetime =
+        d.getFullYear() +
+        "/" +
+        addDateZero(d.getMonth() + 1) +
+        "/" +
+        addDateZero(d.getDate());
+      return formatdatetime;
+    },
+    getdata() {
+      //条件
+      const list = JSON.parse(localStorage.getItem("listData"));
+      this.items = list;
+      //table
+      const data = JSON.parse(localStorage.getItem("tableData"));
+      data.map((item) => {
+        item.dateAction = this.formateDate(item.dateAction);
+      });
+      console.log(data);
+      this.tableData = data;
+    },
     handleSizeChange(val) {
       this.pageSize = val;
     },
     handleCurrentChange(val) {
       this.currentPage = val;
+    },
+    //删除条件
+    del(index) {
+      const list = [...this.items];
+      list.splice(index, 1);
+      this.items = [...list];
+      localStorage.setItem("listData", JSON.stringify(this.items));
     },
     //刷新
     refresh() {},

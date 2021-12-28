@@ -54,6 +54,7 @@
                           v-for="(item, index) in des"
                           :key="index"
                           @click="openDe(item)"
+                          class="text-decoration"
                           >{{ item }};</span
                         >
                         ）
@@ -76,7 +77,10 @@
                         </p>
                         <p>
                           （参照 DE #
-                          <span v-for="(list, index) in item.DE" :key="index"
+                          <span
+                            v-for="(list, index) in item.DE"
+                            :key="index"
+                            class="text-decoration"
                             >{{ list }};</span
                           >）
                         </p>
@@ -206,12 +210,28 @@
         </div>
       </el-col>
     </el-row>
+    <de-details
+      :de="de"
+      :date="date"
+      :open="open"
+      :close="closed"
+      :terminal="terminal"
+      :number="number"
+      :model="model"
+      :fault="faults"
+      :plan="plan"
+      :programme="programme"
+      @closedDialog="closedDialog"
+      ref="child"
+    />
   </div>
 </template>
 
 <script>
 import api from "../API/index";
+import deDetails from "../components/deDetails.vue";
 export default {
+  components: { deDetails },
   data() {
     return {
       items: [
@@ -237,6 +257,17 @@ export default {
       arr: [],
       arrs: [],
       show: false,
+      //DE详情
+      de: "",
+      date: "",
+      open: 0,
+      closed: 0,
+      terminal: "",
+      number: "",
+      model: "",
+      faults: "",
+      plan: "",
+      programme: "",
     };
   },
   created() {
@@ -328,6 +359,33 @@ export default {
     },
     openDe(item) {
       console.log(item);
+      api
+        .get(`/DeRecord/by/id/${item}`)
+        .then((res) => {
+          console.log(res);
+          if (res.data) {
+            this.de = item;
+            this.date = res.data.dateAction;
+            this.open = res.data.ataOpen;
+            this.closed = res.data.ataClose;
+            this.terminal = res.data.station;
+            this.number = res.data.acId;
+            this.model = res.data.acType;
+            this.faults = res.data.description;
+            this.plan = res.data.plannedAction;
+            this.programme = res.data.action;
+            this.closedDialog();
+          } else {
+            this.$message.warning("没有数据!!!");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+        .finally(() => {});
+    },
+    closedDialog() {
+      this.$refs.child.closeDialog();
     },
   },
 };
