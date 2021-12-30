@@ -243,8 +243,8 @@
                   >
                 </el-col>
                 <el-col :span="12">
-                  <el-button class="el-icon-check btn submit"
-                    >&nbsp;&nbsp;确认</el-button
+                  <el-button class="icon iconfont icon-download btn submit"
+                    >&nbsp;&nbsp;下载</el-button
                   >
                 </el-col>
               </el-row>

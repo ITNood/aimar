@@ -237,13 +237,13 @@
             <el-checkbox v-model="checked3" class="check">
               同时建议可替换件</el-checkbox
             >
-            <el-button class="icon iconfont icon-cc download"
+            <el-button class="icon iconfont icon-download download"
               >&nbsp;&nbsp;自动生成CC单</el-button
             >
-            <el-button class="icon iconfont icon-cc download"
+            <el-button class="icon iconfont icon-download download"
               >&nbsp;&nbsp;自动生成MR单</el-button
             >
-            <el-button class="icon iconfont icon-cc download"
+            <el-button class="icon iconfont icon-download download"
               >&nbsp;&nbsp;领料报告下载</el-button
             >
           </div>

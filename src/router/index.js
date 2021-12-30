@@ -128,19 +128,19 @@ export const fixedRouter = [{
     }
   }]
 },
-{
-  path: '',
-  component: layout,
-  children: [{
-    path: 'task',
-    component: task,
-    meta: {
-      title: '任务中心',
-      icon: 'icon-renwu',
-      roles: ['user', 'admin'],
-    }
-  }]
-},
+// {
+//   path: '',
+//   component: layout,
+//   children: [{
+//     path: 'task',
+//     component: task,
+//     meta: {
+//       title: '任务中心',
+//       icon: 'icon-renwu',
+//       roles: ['user', 'admin'],
+//     }
+//   }]
+// },
 
 {
   path: '',
@@ -227,11 +227,12 @@ export const fixedRouter = [{
     path: 'reportDownload',
     component: reportDownload,
     meta: {
-      title: '工单报告下载中心',
+      title: '报告下载中心',
+      icon: 'icon-download',
       roles: ['user', 'admin'],
     }
   }],
-  hidden: true
+
 },
 {
   path: '',

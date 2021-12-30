@@ -286,12 +286,13 @@
                     <i class="el-icon-close" @click="close(index)"></i
                     ><i class="el-icon-edit" @click="edit(list.id)"></i>
                   </div>
-                  <p>{{ list.airplaneTypes }}</p>
-                  <p>{{ list.airplanes }}</p>
-                  <p>{{ list.chapters }}</p>
-                  <p>{{ list.sections }}</p>
-                  <p>{{ list.keyword }}</p>
-                  <p>{{ list.text }}</p>
+                  <p v-if="list.airplaneTypes">{{ list.airplaneTypes }}</p>
+                  <p v-if="list.airplanes">{{ list.airplanes }}</p>
+                  <p v-if="list.chapters || list.sections">
+                    {{ list.chapters }} 一 {{ list.sections }}
+                  </p>
+                  <p v-if="list.keyword">{{ list.keyword }}</p>
+                  <p v-if="list.text">{{ list.text }}</p>
                   <p v-if="list.date">日期范围:{{ list.date }}</p>
                   <p v-if="list.startDate">起始日期:{{ list.startDate }}</p>
                   <p v-if="list.endDate">结束日期:{{ list.endDate }}</p>

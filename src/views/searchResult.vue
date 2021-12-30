@@ -17,12 +17,13 @@
             <i class="el-icon-close" @click="del(index)"></i
             ><i class="el-icon-edit"></i>
           </h5>
-          <p>{{ item.airplaneTypes }}</p>
-          <p>{{ item.airplanes }}</p>
-          <p>{{ item.chapters }}</p>
-          <p>{{ item.sections }}</p>
-          <p>{{ item.keyword }}</p>
-          <p>{{ item.text }}</p>
+          <p v-if="item.airplaneTypes">{{ item.airplaneTypes }}</p>
+          <p v-if="item.airplanes">{{ item.airplanes }}</p>
+          <p v-if="item.chapters || item.sections">
+            {{ item.chapters }}一{{ item.sections }}
+          </p>
+          <p v-if="item.keyword">{{ item.keyword }}</p>
+          <p v-if="item.text">{{ item.text }}</p>
           <p v-if="item.date">日期范围:{{ item.date }}</p>
           <p v-if="item.startDate">起始日期:{{ item.startDate }}</p>
           <p v-if="item.endDate">结束日期:{{ item.endDate }}</p>
@@ -115,20 +116,33 @@
                 <div v-html="row.row.action"></div>
               </template>
             </el-table-column>
-            <el-table-column label="查看 DE 详情" #default="row">
-              <el-button size="mini" @click="lookDe(row)" class="btnfont"
-                >查看DE</el-button
-              >
+            <el-table-column label="查看 DE 详情">
+              <template #default="row">
+                <el-button size="mini" @click="lookDe(row)" class="btnfont"
+                  >查看DE</el-button
+                >
+              </template>
             </el-table-column>
-            <el-table-column label="查看相关 CC 单" #default="row">
-              <el-button size="mini" @click="lookDe(row)" class="btnfont"
-                >查看CC</el-button
-              >
+            <el-table-column label="查看相关 CC 单">
+              <template #default="row">
+                <el-button size="mini" @click="lookDe(row)" class="btnfont"
+                  >查看CC</el-button
+                >
+              </template>
             </el-table-column>
-            <el-table-column label="查看相关 MR 单" #default="row">
-              <el-button size="mini" @click="lookDe(row)" class="btnfont"
-                >查看MR</el-button
-              >
+            <el-table-column label="查看相关 MR 单">
+              <template #default="row">
+                <el-button size="mini" @click="lookDe(row)" class="btnfont"
+                  >查看MR</el-button
+                >
+              </template>
+            </el-table-column>
+            <el-table-column label="收藏">
+              <template #default="row">
+                <el-button size="mini" @click="collection(row)" class="btnfont"
+                  >收藏</el-button
+                >
+              </template>
             </el-table-column>
           </el-table>
           <pagination
@@ -272,6 +286,10 @@ export default {
       list.splice(index, 1);
       this.items = [...list];
       localStorage.setItem("listData", JSON.stringify(this.items));
+    },
+    //收藏
+    collection(row) {
+      console.log(row);
     },
     //刷新
     refresh() {},

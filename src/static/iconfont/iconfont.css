@@ -1,6 +1,6 @@
 @font-face {
   font-family: "iconfont"; /* Project id  */
-  src: url('iconfont.ttf?t=1639020103692') format('truetype');
+  src: url('iconfont.ttf?t=1640832613911') format('truetype');
 }
 
 .iconfont {
@@ -73,5 +73,9 @@
 
 .icon-weixiufangan:before {
   content: "\e7d2";
+}
+
+.icon-download:before {
+  content: "\e66c";
 }
 

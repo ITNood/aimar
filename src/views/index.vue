@@ -3,8 +3,7 @@
     <el-row :gutter="40">
       <el-col :md="24" :lg="15" :xl="16" class="border-right">
         <Home />
-        <!--消息中心-->
-        <new-center />
+        <echarts />
       </el-col>
       <el-col :md="24" :lg="9" :xl="8">
         <el-row :gutter="40" class="border-bottom">
@@ -24,8 +23,9 @@
             <task />
           </el-col>
           <!--甘特图-->
-          <el-col :span="24" class="mt20">
-            <echarts />
+          <el-col :span="24">
+            <!--消息中心-->
+            <new-center />
           </el-col>
         </el-row>
       </el-col>
