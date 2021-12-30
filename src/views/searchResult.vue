@@ -101,15 +101,19 @@
             <el-table-column prop="ataClose" label="关单ATA"></el-table-column>
             <el-table-column prop="dateAction" label="日期"></el-table-column>
             <el-table-column prop="description" label="故障描述">
-              <template #default="row" class="hidefont">{{
-                row.row.description
-              }}</template>
+              <template #default="row">
+                <div v-html="row.row.description"></div>
+              </template>
             </el-table-column>
-            <el-table-column prop="plan" label="计划措施"></el-table-column>
+            <el-table-column prop="plannedAction" label="计划措施">
+              <template #default="row">
+                <div>{{ row.row.plannedAction }}</div>
+              </template>
+            </el-table-column>
             <el-table-column prop="action" label="排故措施">
-              <template #default="row" class="hidefont">{{
-                row.row.action
-              }}</template>
+              <template #default="row">
+                <div v-html="row.row.action"></div>
+              </template>
             </el-table-column>
             <el-table-column label="查看 DE 详情" #default="row">
               <el-button size="mini" @click="lookDe(row)" class="btnfont"
@@ -146,7 +150,20 @@
       </div>
     </div>
     <!---->
-    <de-details :dialogVisible="show" />
+    <de-details
+      :de="de"
+      :date="date"
+      :open="open"
+      :close="closed"
+      :terminal="terminal"
+      :number="number"
+      :model="model"
+      :fault="faults"
+      :plan="plan"
+      :programme="programme"
+      @closedDialog="closedDialog"
+      ref="child"
+    />
   </div>
 </template>
 
@@ -170,8 +187,18 @@ export default {
       totalPage: 100,
       pageSize: 10,
       currentPage: 1,
-
       show: false,
+      //de详情
+      de: "",
+      date: "",
+      open: 0,
+      closed: 0,
+      terminal: "",
+      number: "",
+      model: "",
+      faults: "",
+      plan: "",
+      programme: "",
     };
   },
   created() {
@@ -193,17 +220,45 @@ export default {
         addDateZero(d.getDate());
       return formatdatetime;
     },
+    //替换文字显示高亮
+    replaces(data, textfont) {
+      const regexp = new RegExp(`(${data.join("|")})`, "ig");
+      return textfont.replace(regexp, `<span style="color:#F59A23">$1</span>`);
+    },
+
+    //文字中间显示省略号
+    getSubStr(str) {
+      var subStr1 = str.substr(0, 4);
+      var subStr2 = str.substr(str.length - 5, 4);
+      var subStr = subStr1 + "..." + subStr2;
+      return subStr;
+    },
     getdata() {
       //条件
       const list = JSON.parse(localStorage.getItem("listData"));
       this.items = list;
+
+      //关键词组
+      var keyword = list
+        .filter((item) => {
+          return item.keyword;
+        })
+        .map((item) => item.keyword.split(","))
+        .flat();
       //table
       const data = JSON.parse(localStorage.getItem("tableData"));
-      data.map((item) => {
-        item.dateAction = this.formateDate(item.dateAction);
+      const tableData = data.map((item) => {
+        return {
+          ...item,
+          dateAction: this.formateDate(item.dateAction),
+          description: this.replaces(keyword, item.description),
+          action: this.getSubStr(item.action),
+          if(plannedAction) {
+            plannedAction: this.getSubStr(item.plannedAction);
+          },
+        };
       });
-      console.log(data);
-      this.tableData = data;
+      this.tableData = tableData;
     },
     handleSizeChange(val) {
       this.pageSize = val;
@@ -222,8 +277,30 @@ export default {
     refresh() {},
     //添加条件
     addCondition() {},
+    closedDialog() {
+      this.$refs.child.closeDialog();
+    },
     lookDe(row) {
-      console.log(row.row);
+      var id = row.row.de;
+      const data = JSON.parse(localStorage.getItem("tableData"));
+      // console.log(data);
+      const newdata = data.filter((item) => {
+        console.log(item.de);
+        return item.de == id;
+      });
+      this.closedDialog();
+      this.de = newdata[0].de.toString();
+      this.date = this.formateDate(newdata[0].dateAction);
+      this.open = newdata[0].ataOpen;
+      this.closed = newdata[0].ataClose;
+      this.terminal = newdata[0].station;
+      this.number = newdata[0].acId;
+      this.model = newdata[0].acType;
+      this.faults = newdata[0].description;
+      if (newdata[0].plannedAction) {
+        this.plan = newdata[0].plannedAction;
+      }
+      this.programme = newdata[0].action;
     },
     //table checkedbox
     handleSelectionChange(val) {

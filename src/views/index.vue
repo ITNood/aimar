@@ -10,11 +10,11 @@
         <el-row :gutter="40" class="border-bottom">
           <!--监控中-->
           <el-col :span="12" class="border-right" style="padding-bottom: 20px">
-            <monitor />
+            <monitor :items="items" @openData="openData" />
           </el-col>
           <!--为解决-->
           <el-col :span="12">
-            <notsolve />
+            <notsolve :items="items" @openData="openData" />
           </el-col>
         </el-row>
 
@@ -30,6 +30,21 @@
         </el-row>
       </el-col>
     </el-row>
+    <task-card ref="task" @opendialog="opendialog" />
+    <de-details
+      :de="de"
+      :date="date"
+      :open="open"
+      :close="closed"
+      :terminal="terminal"
+      :number="number"
+      :model="model"
+      :fault="faults"
+      :plan="plan"
+      :programme="programme"
+      @closedDialog="closedDialog"
+      ref="child"
+    />
   </div>
 </template>
 
@@ -40,15 +55,56 @@ import monitor from "../components/monitor.vue";
 import Notsolve from "../components/notsolve.vue";
 import Task from "../components/task.vue";
 import Echarts from "../components/echarts.vue";
+import TaskCard from "../components/taskCard.vue";
+import DeDetails from "../components/deDetails.vue";
 
 export default {
-  components: { Home, NewCenter, monitor, Notsolve, Task, Echarts },
+  components: {
+    Home,
+    NewCenter,
+    monitor,
+    Notsolve,
+    Task,
+    Echarts,
+    TaskCard,
+    DeDetails,
+  },
   data() {
-    return {};
+    return {
+      items: [
+        { de: "S-855", ataChater: "1564" },
+        { de: "S-855", ataChater: "1564" },
+        { de: "S-855", ataChater: "1564" },
+        { de: "S-855", ataChater: "1564" },
+      ],
+      //de详情
+      de: "",
+      date: "",
+      open: 0,
+      closed: 0,
+      terminal: "",
+      number: "",
+      model: "",
+      faults: "",
+      plan: "",
+      programme: "",
+    };
   },
   created() {},
   mounted() {},
-  methods: {},
+  methods: {
+    openData(de) {
+      console.log(de);
+      this.$refs.task.close();
+    },
+    opendialog(row) {
+      console.log(row);
+      this.closedDialog();
+    },
+    closedDialog() {
+      this.$refs.child.closeDialog();
+    },
+  },
 };
 </script>
 
