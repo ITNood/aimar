@@ -27,12 +27,12 @@
           <p v-if="item.date">日期范围:{{ item.date }}</p>
           <p v-if="item.startDate">起始日期:{{ item.startDate }}</p>
           <p v-if="item.endDate">结束日期:{{ item.endDate }}</p>
-          <p v-if="item.value">
-            模糊匹配:{{ item.value == true ? "开" : "关" }}
-          </p>
-          <p v-if="item.value1">模糊度:{{ item.value1 }}</p>
-          <p v-if="item.value2">
-            同近义词:{{ item.value2 == true ? "开" : "关" }}
+          <p v-if="item.value || item.value1 || item.value2">
+            模糊匹配:{{
+              item.value == true ? "开" : "关"
+            }};&nbsp;&nbsp;模糊度:{{ item.value1 }}; &nbsp;&nbsp;同近义词:{{
+              item.value2 == true ? "开" : "关"
+            }}
           </p>
         </el-col>
       </el-row>
@@ -75,10 +75,14 @@
         </el-col>
         <el-col :md="16" :lg="18" :xl="20">
           <div class="clear">
-            <el-radio-group v-model="radio" class="selectradio">
-              <el-radio :label="3"> 按综合相似度排序</el-radio>
-              <el-radio :label="6"> 按描述相似度排序</el-radio>
-              <el-radio :label="9"> 按时间排序</el-radio>
+            <el-radio-group
+              v-model="radio"
+              class="selectradio"
+              @change="changesSort"
+            >
+              <el-radio :label="0"> 按综合相似度排序</el-radio>
+              <el-radio :label="1"> 按描述相似度排序</el-radio>
+              <el-radio :label="2"> 按时间排序</el-radio>
             </el-radio-group>
             <el-checkbox v-model="checked" class="selectcheckbox">
               仅查看相关ATA</el-checkbox
@@ -155,10 +159,10 @@
         </el-col>
       </el-row>
       <div class="mt20 mb20" style="padding-right: 20px; float: right">
-        <el-button class="el-icon-check refreshResult"
+        <el-button class="el-icon-check refreshResult" @click="recommend"
           >&nbsp;&nbsp;推荐排故方案</el-button
         >
-        <el-button class="el-icon-back addCondition"
+        <el-button class="el-icon-back addCondition" @click="goback"
           >&nbsp;&nbsp;返回查询页面</el-button
         >
       </div>
@@ -178,14 +182,17 @@
       @closedDialog="closedDialog"
       ref="child"
     />
+    <condition ref="conditions" :data="items" :synonym="synonym" />
   </div>
 </template>
 
 <script>
+import api from "../API/index";
+import Condition from "../components/condition.vue";
 import DeDetails from "../components/deDetails.vue";
 import pagination from "../components/pagination.vue";
 export default {
-  components: { pagination, DeDetails },
+  components: { pagination, DeDetails, Condition },
   data() {
     return {
       items: [],
@@ -194,7 +201,7 @@ export default {
       startChapter: "12:飞机维修",
       endChapter: "16:维修结果",
       listChapter: "36:就殴打Jodi",
-      radio: 3,
+      radio: 0,
       checked: false,
       tableData: [],
       multipleSelection: [],
@@ -213,13 +220,117 @@ export default {
       faults: "",
       plan: "",
       programme: "",
+
+      keywords: [],
+      start: "",
+      end: "",
+      planes: [],
+      airplane: "",
+      codes: [],
+      value1: 0,
+      synonym: [],
+      startDate: "",
+      endDate: "",
+      arr: [],
     };
   },
   created() {
     this.getdata();
+    this.gettabledata();
   },
   mounted() {},
   methods: {
+    //推荐
+    recommend() {
+      this.$router.push("/failureScheme");
+    },
+    gettabledata() {
+      this.items.forEach((item) => {
+        if (item.id == 1) {
+          if (this.keywords) {
+            this.keywords = item.keyword.toString().split(",");
+          } else {
+            this.keywords = [];
+          }
+        }
+        if (item.id == 2) {
+          if (item.text) {
+            this.codes = item.text.toString().split(",");
+          } else {
+            this.codes = [];
+          }
+        }
+        if (item.id == 3) {
+          this.value1 = item.value1;
+        }
+        if (item.id == 4) {
+          this.airplane = item.airplanes;
+        }
+        if (item.id == 5) {
+          if (item.airplaneTypes) {
+            this.planes = item.airplaneTypes.toString().split(",");
+          } else {
+            this.planes = [];
+          }
+        }
+        if (item.id == 6) {
+          this.start = item.chapters;
+          this.end = item.sections;
+        }
+        if (item.id == 7) {
+          this.startDate = item.startDate;
+          this.endDate = item.endDate;
+        }
+      });
+      const data = {
+        startDate: this.startDate,
+        endDate: this.endDate,
+        chapters: this.start,
+        sections: this.end,
+        airplaneTypes: this.planes,
+        airplanes: this.airplane,
+        keyword: this.keywords.toString().split(","),
+        synonymWords: this.synonym,
+        faultCode: this.codes.toString().split(","),
+        fuzzyMatching: this.value1,
+        index: "de_record_list",
+        pageNum: this.currentPage,
+        pageSize: this.pageSize,
+        sort: this.radio,
+      };
+      api
+        .post("/elasticSearch/deRecord/page", data)
+        .then((res) => {
+          if (res.code == 200) {
+            //关键词组
+            var keyword = this.items
+              .filter((item) => {
+                return item.keyword;
+              })
+              .map((item) => JSON.stringify(item.keyword).split(","))
+              .flat();
+            //table
+            this.arr = res.data;
+            const tableData = [...res.data].map((item) => {
+              return {
+                ...item,
+                dateAction: this.formateDate(item.dateAction),
+                description: this.replaces(keyword, item.description),
+                action: this.getSubStr(item.action),
+                if(plannedAction) {
+                  plannedAction: this.getSubStr(item.plannedAction);
+                },
+              };
+            });
+            this.tableData = tableData;
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+        .finally(() => {});
+    },
+
     formateDate(datetime) {
       // let  = "2019-11-06T16:00:00.000Z"
       function addDateZero(num) {
@@ -251,34 +362,14 @@ export default {
       //条件
       const list = JSON.parse(localStorage.getItem("listData"));
       this.items = list;
-
-      //关键词组
-      var keyword = list
-        .filter((item) => {
-          return item.keyword;
-        })
-        .map((item) => item.keyword.split(","))
-        .flat();
-      //table
-      const data = JSON.parse(localStorage.getItem("tableData"));
-      const tableData = data.map((item) => {
-        return {
-          ...item,
-          dateAction: this.formateDate(item.dateAction),
-          description: this.replaces(keyword, item.description),
-          action: this.getSubStr(item.action),
-          if(plannedAction) {
-            plannedAction: this.getSubStr(item.plannedAction);
-          },
-        };
-      });
-      this.tableData = tableData;
     },
     handleSizeChange(val) {
       this.pageSize = val;
+      this.gettabledata();
     },
     handleCurrentChange(val) {
       this.currentPage = val;
+      this.gettabledata();
     },
     //删除条件
     del(index) {
@@ -292,17 +383,28 @@ export default {
       console.log(row);
     },
     //刷新
-    refresh() {},
+    refresh() {
+      this.gettabledata();
+    },
+    changesSort() {
+      this.gettabledata();
+    },
+    goback() {
+      localStorage.setItem("listData", JSON.stringify(this.items));
+      this.$router.push("/integrated");
+    },
     //添加条件
-    addCondition() {},
+    addCondition() {
+      // this.$refs.conditions.close();
+    },
     closedDialog() {
       this.$refs.child.closeDialog();
     },
     lookDe(row) {
+      console.log(row.row);
+      const data = row.row;
       var id = row.row.de;
-      const data = JSON.parse(localStorage.getItem("tableData"));
-      // console.log(data);
-      const newdata = data.filter((item) => {
+      const newdata = this.arr.filter((item) => {
         console.log(item.de);
         return item.de == id;
       });

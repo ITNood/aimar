@@ -19,9 +19,9 @@
 
         <el-row :gutter="40" class="mt20">
           <!--已分配任务-->
-          <el-col :span="24" class="border-bottom" style="padding-bottom: 20px">
+          <!-- <el-col :span="24" class="border-bottom" style="padding-bottom: 20px">
             <task />
-          </el-col>
+          </el-col> -->
           <!--甘特图-->
           <el-col :span="24">
             <!--消息中心-->
@@ -72,10 +72,10 @@ export default {
   data() {
     return {
       items: [
-        { de: "S-855", ataChater: "1564" },
-        { de: "S-855", ataChater: "1564" },
-        { de: "S-855", ataChater: "1564" },
-        { de: "S-855", ataChater: "1564" },
+        { de: "B-xxx", ataChater: "21-2151" },
+        { de: "B-xxx ", ataChater: "21-2151" },
+        { de: "B-xxx ", ataChater: "21-2151" },
+        { de: "B-xxx ", ataChater: "21-2151" },
       ],
       //de详情
       de: "",

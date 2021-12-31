@@ -76,32 +76,7 @@ export const fixedRouter = [{
     }
   }]
 },
-{
-  path: '',
-  component: layout,
-  children: [{
-    path: 'data',
-    component: data,
-    meta: {
-      title: '维修方案输出',
-      icon: 'icon-weixiu',
-      roles: ['user', 'admin'],
-    }
-  }]
-},
-{
-  path: '',
-  component: layout,
-  children: [{
-    path: 'data',
-    component: data,
-    meta: {
-      title: '部件流转追溯',
-      icon: 'icon-zhuisu',
-      roles: ['user', 'admin'],
-    }
-  }]
-},
+
 {
   path: '',
   component: layout,
@@ -115,19 +90,7 @@ export const fixedRouter = [{
     }
   }]
 },
-{
-  path: '',
-  component: layout,
-  children: [{
-    path: 'data',
-    component: data,
-    meta: {
-      title: '领料方案输出',
-      icon: 'icon-lingliao',
-      roles: ['user', 'admin'],
-    }
-  }]
-},
+
 // {
 //   path: '',
 //   component: layout,
@@ -234,6 +197,45 @@ export const fixedRouter = [{
   }],
 
 },
+// {
+//   path: '',
+//   component: layout,
+//   children: [{
+//     path: 'data',
+//     component: data,
+//     meta: {
+//       title: '维修方案输出',
+//       icon: 'icon-weixiu',
+//       roles: ['user', 'admin'],
+//     }
+//   }]
+// },
+// {
+//   path: '',
+//   component: layout,
+//   children: [{
+//     path: 'data',
+//     component: data,
+//     meta: {
+//       title: '部件流转追溯',
+//       icon: 'icon-zhuisu',
+//       roles: ['user', 'admin'],
+//     }
+//   }]
+// },
+// {
+//   path: '',
+//   component: layout,
+//   children: [{
+//     path: 'data',
+//     component: data,
+//     meta: {
+//       title: '领料方案输出',
+//       icon: 'icon-lingliao',
+//       roles: ['user', 'admin'],
+//     }
+//   }]
+// },
 {
   path: '',
   component: layout,

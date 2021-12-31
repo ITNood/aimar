@@ -129,7 +129,7 @@ img {
 }
 
 .header {
-  background-color  : #005a95;
+  background-color  : #012a4a;
   box-shadow        : 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
   -webkit-box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
   color             : #333;
@@ -254,8 +254,8 @@ img {
 }
 
 .newslist {
-  padding: 40px 20px;
-  height : 354px;
+  padding: 20px 20px;
+  height : 602px;
 }
 
 .title {
@@ -290,7 +290,7 @@ img {
 
 #echarts {
   padding: 15px;
-  height : 404px;
+  height : 300px;
 }
 
 #footer {
@@ -434,57 +434,59 @@ img {
       @extend %h2
     }
 
-    .conditionList {
-      padding   : 40px 20px;
-      height    : calc(100vh - 435px);
-      overflow-y: auto;
 
-      .conditionTable {
-        border       : 1px solid $theme;
-        margin-bottom: 20px;
+  }
+}
 
-        h4 {
-          background-color: $titleBgk;
-          color           : $theme;
-          line-height     : 40px;
-          font-weight     : 600;
-          font-size       : 1.2rem;
-          padding         : 0 20px;
-          border-bottom   : 1px solid $theme;
+.conditionList {
+  padding   : 40px 20px;
+  height    : calc(100vh - 435px);
+  overflow-y: auto;
+
+  .conditionTable {
+    border       : 1px solid $theme;
+    margin-bottom: 20px;
+
+    h4 {
+      background-color: $titleBgk;
+      color           : $theme;
+      line-height     : 40px;
+      font-weight     : 600;
+      font-size       : 1.2rem;
+      padding         : 0 20px;
+      border-bottom   : 1px solid $theme;
+    }
+
+    .conditionTableContent {
+      padding: 15px 20px;
+      height : 130px;
+
+      .el-textarea__inner {
+        height    : 90px;
+        overflow-y: auto;
+        border    : none;
+        font-size : 1.2rem;
+      }
+
+      .el-input--small input {
+        min-width: 150px;
+      }
+
+      .line {
+        line-height: 40px;
+        text-align : center;
+      }
+
+      .matching {
+        h5 {
+          color        : $theme;
+          margin-bottom: 15px;
         }
+      }
 
-        .conditionTableContent {
-          padding: 15px 20px;
-          height : 130px;
-
-          .el-textarea__inner {
-            height    : 90px;
-            overflow-y: auto;
-            border    : none;
-            font-size : 1.2rem;
-          }
-
-          .el-input--small input {
-            min-width: 150px;
-          }
-
-          .line {
-            line-height: 40px;
-            text-align : center;
-          }
-
-          .matching {
-            h5 {
-              color        : $theme;
-              margin-bottom: 15px;
-            }
-          }
-
-          .setDate {
-            line-height: 40px;
-            margin-top : 15px;
-          }
-        }
+      .setDate {
+        line-height: 40px;
+        margin-top : 15px;
       }
     }
   }
@@ -889,6 +891,14 @@ img {
       font-size  : 1.5rem;
     }
 
+    .echarts {
+      height         : calc(100vh - 444px);
+      width          : 100%;
+      display        : flex;
+      align-items    : center;
+      justify-content: center;
+    }
+
     img {
       margin    : 0 auto;
       margin-top: 40px;
@@ -1206,4 +1216,104 @@ img {
       }
     }
   }
+}
+
+#main {
+  width : 100%;
+  height: 400px;
+}
+
+.newscenterlist {
+  overflow-y   : auto;
+  height       : 561px;
+  padding-right: 15px;
+
+  li {
+    margin-bottom: 8px;
+
+    a {
+      display     : block;
+      padding-left: 60px;
+      position    : relative;
+      color       : black;
+
+      i {
+        width           : 10px;
+        height          : 10px;
+        border-radius   : 50%;
+        background-color: red;
+        position        : absolute;
+        top             : 50%;
+        margin-top      : -5px;
+        left            : 0;
+      }
+
+      span {
+        position  : absolute;
+        left      : 12px;
+        top       : 50%;
+        margin-top: -12px;
+      }
+
+      p {
+        @extend %fontEllipsis;
+        line-height: 38px;
+      }
+
+      &:hover {
+        color: #409eff !important;
+      }
+    }
+  }
+}
+
+.newstitle {
+  font-size       : 1.2rem;
+  font-weight     : 600;
+  border-bottom   : 1px solid $bordercolor;
+  line-height     : 40px;
+  background-color: $titleBgk;
+  padding         : 0 15px;
+}
+
+.tips,
+.emaillist {
+  height       : 301px;
+  border-bottom: 1px solid $bordercolor;
+
+  .tipslist {
+    height        : 245px;
+    overflow-y    : auto;
+    padding-bottom: 15px;
+
+    a {
+      display      : block;
+      color        : black;
+      line-height  : 38px;
+      position     : relative;
+      padding-left : 50px;
+      margin-bottom: 8px;
+
+      span {
+        position : absolute;
+        left     : 12px;
+        top      : 0;
+        font-size: 0.8rem
+      }
+
+      p {
+        @extend %fontEllipsis;
+        line-height: 38px;
+      }
+
+      &:hover {
+        color: #409eff !important;
+      }
+    }
+  }
+}
+
+.emaillist {
+  height     : 301px;
+  padding-top: 15px;
 }

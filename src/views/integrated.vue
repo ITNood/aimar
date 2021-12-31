@@ -185,6 +185,7 @@
                           v-model="end"
                           placeholder="ATA 章节 (4位)"
                           maxlength="4"
+                          minlength="4"
                         ></el-input
                       ></el-col>
                     </el-row>
@@ -387,6 +388,49 @@ export default {
 
   created() {
     this.getdata();
+    const data = JSON.parse(localStorage.getItem("listData"));
+    this.lists = data;
+    console.log(this.lists);
+    this.lists.forEach((item) => {
+      if (item.id == 0) {
+        this.text = item.text;
+      }
+      if (item.id == 1) {
+        if (this.keywords) {
+          this.keywords = item.keyword.toString().split(",");
+        } else {
+          this.keywords = [];
+        }
+      }
+      if (item.id == 2) {
+        if (item.text) {
+          this.codes = item.text.toString().split(",");
+        } else {
+          this.codes = [];
+        }
+      }
+      if (item.id == 3) {
+        this.value1 = item.value1;
+      }
+      if (item.id == 4) {
+        this.airplane = item.airplanes;
+      }
+      if (item.id == 5) {
+        if (item.airplaneTypes) {
+          this.planes = item.airplaneTypes.toString().split(",");
+        } else {
+          this.planes = [];
+        }
+      }
+      if (item.id == 6) {
+        this.start = item.chapters;
+        this.end = item.sections;
+      }
+      if (item.id == 7) {
+        this.startDate = item.startDate;
+        this.endDate = item.endDate;
+      }
+    });
   },
   mounted() {
     this.restaurants = this.loadAll();
@@ -579,7 +623,7 @@ export default {
         if (this.keywords.length > 0) {
           this.addCondition.push({
             name: "关键词组",
-            keyword: this.keywords.join(","),
+            keyword: this.keywords.join(),
             id: 1,
           });
         }
@@ -588,7 +632,7 @@ export default {
         if (this.codes.length > 0) {
           this.addCondition.push({
             name: "故障代码",
-            text: this.codes.join(","),
+            text: this.codes.join(),
             id: 2,
           });
         }
@@ -615,7 +659,7 @@ export default {
         if (this.planes.length > 0) {
           this.addCondition.push({
             name: "选定机型",
-            airplaneTypes: this.planes.join(","),
+            airplaneTypes: this.planes.join(),
             id: 5,
           });
         }
@@ -667,41 +711,10 @@ export default {
 
     //确认
     submit() {
-      console.log(this.keywords, this.text, this.lists);
       if (this.keyword || (this.lists.length && this.lists)) {
         //存储已选条件
         localStorage.setItem("listData", JSON.stringify(this.lists));
-
-        if (this.date) {
-          var startDate = this.date[0];
-          var endDate = this.date[1];
-        }
-        const data = {
-          startDate: startDate,
-          endDate: endDate,
-          chapters: this.start,
-          sections: this.end,
-          airplaneTypes: this.planes,
-          airplanes: this.airplane.join(),
-          keyword: this.keywords,
-          synonymWords: this.synonym,
-          faultCode: this.codes,
-          fuzzyMatching: this.value1,
-          index: "de_record_list",
-        };
-        api
-          .post("/elasticSearch/deRecord/page", data)
-          .then((res) => {
-            if (res.code == 200) {
-              localStorage.setItem("tableData", JSON.stringify(res.data));
-              this.$message.success("成功！！！");
-              this.$router.push("/searchResult");
-            }
-          })
-          .catch((err) => {
-            console.log(err);
-          })
-          .finally(() => {});
+        this.$router.push("/searchResult");
       } else {
         this.$message.warning("请输入故障描述!!!");
       }

@@ -76,7 +76,7 @@
 
       <el-col :span="12" class="border-bottom" style="padding-bottom: 20px">
         <div class="queryCenter border mt20">
-          <h2>推荐中心</h2>
+          <h2>下载中心</h2>
           <div class="queryList small">
             <router-link to="/main">
               <i class="icon iconfont icon-weixiu"></i>

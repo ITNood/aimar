@@ -115,7 +115,10 @@
                 <div class="proprammeRight">
                   <div class="programmeImg">
                     <h3>推荐推理逻辑可视化展示 <span>beta</span></h3>
-                    <img src="../static/image/img.png" />
+                    <!-- <img src="../static/image/img.png" /> -->
+                    <div class="echarts">
+                      <div id="main"></div>
+                    </div>
                   </div>
                 </div>
               </el-col>
@@ -228,6 +231,8 @@
 </template>
 
 <script>
+import solution from "../solutiongraph";
+import * as echarts from "echarts";
 import api from "../API/index";
 import deDetails from "../components/deDetails.vue";
 export default {
@@ -273,14 +278,15 @@ export default {
   created() {
     this.getdata();
   },
-  mounted() {},
+  mounted() {
+    this.getEcharts();
+  },
   methods: {
     getdata() {
       api
         .get(`/scheme/recommendation/by/all?manufacturer=Airbus&section=2151`)
         .then((res) => {
           this.result = res.data.Solutions;
-          console.log("result", this.result);
           const data = res.data.Solutions[0];
           if (data.SolutionHeader.Reference) {
             this.show = true;
@@ -384,6 +390,103 @@ export default {
     },
     closedDialog() {
       this.$refs.child.closeDialog();
+    },
+    getEcharts() {
+      // let nodes = [],
+      //   links = [],
+      //   categories = [];
+
+      // solution.forEach((e) => {
+      //   Object.entries(e.data).forEach((c) => {
+      //     switch (c[0]) {
+      //       case "nodes":
+      //         nodes.push(c[1]);
+      //         break;
+      //       case "links":
+      //         links.push(c[1]);
+      //         break;
+      //       case "categories":
+      //         categories.push(c[1]);
+      //         break;
+      //     }
+      //   });
+      // });
+
+      // const data = {
+      //   nodes: nodes.flat(),
+      //   links: links.flat(),
+      //   categories: categories.flat(),
+      // };
+      var chartDom = document.getElementById("main");
+      var myChart = echarts.init(chartDom);
+      var option;
+      myChart.showLoading();
+      myChart.hideLoading();
+
+      solution.case2151AirbusGraph.nodes.map((node) => {
+        node.label = {
+          show: node.symbolSize > 30,
+        };
+      });
+
+      option = {
+        title: {
+          // text: "Les Miserables",
+          // subtext: "Default layout",
+          top: "bottom",
+          left: "right",
+        },
+        tooltip: {},
+        legend: [
+          {
+            data: solution.case2151AirbusGraph.categories.map((a) => {
+              return a.name;
+            }),
+            // data: graph.data.categories.map((a) => {
+            //   return a.name;
+            // }),
+          },
+        ],
+
+        animationDuration: 1500,
+        animationEasingUpdate: "quinticInOut",
+        series: [
+          {
+            // name: "Les Miserables",
+            type: "graph",
+            layout: "none",
+
+            // data: graph.data.nodes,
+            // links: graph.data.links,
+            // categories: graph.data.categories,
+            data: solution.case2151AirbusGraph.nodes,
+            links: solution.case2151AirbusGraph.links,
+            categories: solution.case2151AirbusGraph.categories,
+
+            roam: true,
+            label: {
+              position: "inside",
+              formatter: "{b}",
+            },
+            lineStyle: {
+              color: "source",
+              curveness: 0.3,
+            },
+            emphasis: {
+              focus: "adjacency",
+              lineStyle: {
+                width: 10,
+              },
+            },
+          },
+        ],
+      };
+      myChart.setOption(option);
+
+      option && myChart.setOption(option, true);
+      window.onresize = function () {
+        myChart.resize();
+      };
     },
   },
 };
