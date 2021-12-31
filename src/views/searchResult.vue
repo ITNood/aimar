@@ -204,7 +204,6 @@ export default {
       radio: 0,
       checked: false,
       tableData: [],
-      multipleSelection: [],
       totalPage: 100,
       pageSize: 10,
       currentPage: 1,
@@ -232,6 +231,7 @@ export default {
       startDate: "",
       endDate: "",
       arr: [],
+      multipleSelection: [],
     };
   },
   created() {
@@ -240,6 +240,11 @@ export default {
   },
   mounted() {},
   methods: {
+    handleSelectionChange(val) {
+      console.log(val);
+      this.checkedNumber = val.length;
+      this.multipleSelection = val;
+    },
     //推荐
     recommend() {
       this.$router.push("/failureScheme");
@@ -421,10 +426,6 @@ export default {
         this.plan = newdata[0].plannedAction;
       }
       this.programme = newdata[0].action;
-    },
-    //table checkedbox
-    handleSelectionChange(val) {
-      this.multipleSelection = val;
     },
   },
 };
