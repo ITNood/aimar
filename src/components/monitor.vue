@@ -7,9 +7,9 @@
           <li
             v-for="(item, index) in items"
             :key="index"
-            @click="openData(item.de)"
+            @click="openData(item.name)"
           >
-            {{ item.de }} | {{ item.ataChater }}
+            {{ item.name }} | {{ item.date }}
           </li>
         </ul>
       </div>

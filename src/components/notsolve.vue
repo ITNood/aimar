@@ -9,7 +9,7 @@
             :key="index"
             @click="openData(item.de)"
           >
-            {{ item.de }} | {{ item.ataChater }}
+            {{ item.name }} | {{ item.date }}
           </li>
         </ul>
       </div>

@@ -68,6 +68,10 @@ img {
   word-break   : break-all;
 }
 
+.fonthide {
+  @extend %fontEllipsis
+}
+
 %h2 {
   color        : $theme;
   line-height  : 80px;
@@ -266,7 +270,7 @@ img {
 }
 
 .monitor {
-  padding   : 15px;
+  padding   : 15px 20px;
   height    : 192px;
   overflow-y: auto;
 
@@ -982,6 +986,7 @@ img {
     p {
       line-height: 150%;
       @extend %wordWrap;
+      min-height: 24px;
 
       &:last-child {
         color      : $theme;

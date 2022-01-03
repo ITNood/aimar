@@ -510,85 +510,71 @@ export default {
     //添加条件
     addData() {
       this.addCondition = [];
-      if (this.items[0].isshow == true) {
-        if (this.text) {
-          this.addCondition.push({ name: "故障描述", text: this.text, id: 0 });
-        }
+      if (this.text) {
+        this.addCondition.push({ name: "故障描述", text: this.text, id: 0 });
       }
-      if (this.items[1].isshow == true) {
-        if (this.keywords.length > 0) {
-          this.addCondition.push({
-            name: "关键词组",
-            keyword: this.keywords.join(","),
-            id: 1,
-          });
-        }
-      }
-      if (this.items[2].isshow == true) {
-        if (this.codes.length > 0) {
-          this.addCondition.push({
-            name: "故障代码",
-            text: this.codes.join(","),
-            id: 2,
-          });
-        }
-      }
-      if (this.items[3].isshow == true) {
+      if (this.keywords.length > 0) {
         this.addCondition.push({
-          name: "模糊匹配",
-          value: this.value,
-          value1: this.value1,
-          value2: this.value2,
-          id: 3,
+          name: "关键词组",
+          keyword: this.keywords.join(","),
+          id: 1,
         });
       }
-      if (this.items[4].isshow == true) {
-        if (this.airplane.length > 0) {
-          this.addCondition.push({
-            name: "选定飞机",
-            airplanes: this.airplane.join(),
-            id: 4,
-          });
-        }
+      if (this.codes.length > 0) {
+        this.addCondition.push({
+          name: "故障代码",
+          text: this.codes.join(","),
+          id: 2,
+        });
       }
-      if (this.items[5].isshow == true) {
-        if (this.planes.length > 0) {
-          this.addCondition.push({
-            name: "选定机型",
-            airplaneTypes: this.planes.join(","),
-            id: 5,
-          });
-        }
+      this.addCondition.push({
+        name: "模糊匹配",
+        value: this.value,
+        value1: this.value1,
+        value2: this.value2,
+        id: 3,
+      });
+      if (this.airplane.length > 0) {
+        this.addCondition.push({
+          name: "选定飞机",
+          airplanes: this.airplane.join(),
+          id: 4,
+        });
       }
-      if (this.items[6].isshow == true) {
-        if (this.start || this.end) {
-          this.addCondition.push({
-            name: "章节范围",
-            chapters: this.start,
-            sections: this.end,
-            id: 6,
-          });
-        }
+      if (this.planes.length > 0) {
+        this.addCondition.push({
+          name: "选定机型",
+          airplaneTypes: this.planes.join(","),
+          id: 5,
+        });
       }
-      if (this.items[7].isshow == true) {
-        if (this.date) {
-          this.addCondition.push({
-            name: "日期范围",
-            date: this.radio,
-            startDate: this.date[0],
-            endDate: this.date[1],
-            id: 7,
-          });
-        } else {
-          this.addCondition.push({
-            name: "日期范围",
-            date: this.radio,
-            id: 7,
-          });
-        }
+      if (this.start || this.end) {
+        this.addCondition.push({
+          name: "章节范围",
+          chapters: this.start,
+          sections: this.end,
+          id: 6,
+        });
+      }
+      if (this.date) {
+        this.addCondition.push({
+          name: "日期范围",
+          date: this.radio,
+          startDate: this.date[0],
+          endDate: this.date[1],
+          id: 7,
+        });
+      } else {
+        this.addCondition.push({
+          name: "日期范围",
+          date: this.radio,
+          id: 7,
+        });
       }
       this.lists = this.addCondition;
       localStorage.setItem("listData", JSON.stringify(this.lists));
+      this.$emit("addData", this.lists);
+      this.close();
     },
     //关键词
     closeKeyword(tag) {

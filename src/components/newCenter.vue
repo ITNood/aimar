@@ -50,7 +50,7 @@
               <div class="tipslist">
                 <router-link
                   to=""
-                  v-for="(item, index) in tips"
+                  v-for="(item, index) in message"
                   :key="index"
                   :style="{ color: item.read == 1 ? '#666' : '' }"
                 >
@@ -67,140 +67,29 @@
 </template>
 
 <script>
+import message from "../main_notificationsjson";
 export default {
   props: {},
   name: "NewCenter",
   data() {
     return {
-      news: [
-        {
-          id: 1,
-          read: 0,
-          warning: 1,
-          text: "的考点金佛爱舒服就好安多佛卡就发扫i",
-        },
-        {
-          id: 1,
-          read: 0,
-          warning: 2,
-          text: "的考点金佛爱舒服就好安多佛卡就发扫i",
-        },
-        {
-          id: 1,
-          read: 1,
-          warning: 3,
-          text: "的考点金佛爱舒服就好安多佛卡就发扫i",
-        },
-        {
-          id: 1,
-          read: 0,
-          warning: 1,
-          text: "的考点金佛爱舒服就好安多佛卡就发扫i",
-        },
-        {
-          id: 1,
-          read: 0,
-          warning: 2,
-          text: "的考点金佛爱舒服就好安多佛卡就发扫i",
-        },
-        {
-          id: 1,
-          read: 1,
-          warning: 3,
-          text: "的考点金佛爱舒服就好安多佛卡就发扫i",
-        },
-        {
-          id: 1,
-          read: 0,
-          warning: 1,
-          text: "的考点金佛爱舒服就好安多佛卡就发扫i",
-        },
-        {
-          id: 1,
-          read: 0,
-          warning: 2,
-          text: "的考点金佛爱舒服就好安多佛卡就发扫i",
-        },
-        {
-          id: 1,
-          read: 1,
-          warning: 3,
-          text: "的考点金佛爱舒服就好安多佛卡就发扫i",
-        },
-        {
-          id: 1,
-          read: 1,
-          warning: 3,
-          text: "的考点金佛爱舒服就好安多佛卡就发扫i",
-        },
-        {
-          id: 1,
-          read: 0,
-          warning: 1,
-          text: "的考点金佛爱舒服就好安多佛卡就发扫i",
-        },
-        {
-          id: 1,
-          read: 0,
-          warning: 2,
-          text: "的考点金佛爱舒服就好安多佛卡就发扫i",
-        },
-        {
-          id: 1,
-          read: 1,
-          warning: 3,
-          text: "的考点金佛爱舒服就好安多佛卡就发扫i",
-        },
-        {
-          id: 1,
-          read: 1,
-          warning: 3,
-          text: "的考点金佛爱舒服就好安多佛卡就发扫i",
-        },
-        {
-          id: 1,
-          read: 0,
-          warning: 1,
-          text: "的考点金佛爱舒服就好安多佛卡就发扫i",
-        },
-        {
-          id: 1,
-          read: 0,
-          warning: 2,
-          text: "的考点金佛爱舒服就好安多佛卡就发扫i",
-        },
-        {
-          id: 1,
-          read: 1,
-          warning: 3,
-          text: "的考点金佛爱舒服就好安多佛卡就发扫i",
-        },
-      ],
-      tips: [
-        {
-          id: 1,
-          read: 0,
-          warning: 1,
-          text: "的考点金佛爱舒服就好安多佛卡就发扫i",
-        },
-        {
-          id: 1,
-          read: 0,
-          warning: 2,
-          text: "的考点金佛爱舒服就好安多佛卡就发扫i",
-        },
-        {
-          id: 1,
-          read: 1,
-          warning: 3,
-          text: "的考点金佛爱舒服就好安多佛卡就发扫i",
-        },
-      ],
+      news: [],
+      tips: [],
+      message: [],
     };
   },
-  created() {},
+  created() {
+    this.getdata();
+  },
   mounted() {},
-  methods: {},
+  methods: {
+    getdata() {
+      console.log(message);
+      this.message = message.message;
+      this.tips = message.monitor;
+      this.news = message.notification;
+    },
+  },
 };
 </script>
 

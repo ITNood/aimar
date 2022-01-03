@@ -91,7 +91,7 @@
                 >
               </li>
             </ul>
-            <el-button class="el-icon-search searchbtn mt20"
+            <el-button class="el-icon-search searchbtn mt20" @click="screen"
               >&nbsp;&nbsp;筛选</el-button
             >
           </div>
@@ -101,11 +101,13 @@
         <div class="selectedsProgramme">
           <h2>选择排故方案</h2>
           <div class="programme">
-            <el-radio-group v-model="radio">
-              <el-radio-button label="1">PN # ABCD123</el-radio-button>
-              <el-radio-button label="2">PN # ABCD124</el-radio-button>
-              <el-radio-button label="3">PN # ABCD125</el-radio-button>
-              <el-radio-button label="4">PN # ABCD126</el-radio-button>
+            <el-radio-group v-model="radio" @change="changePn">
+              <el-radio-button
+                :label="index"
+                v-for="(item, index) in pns"
+                :key="index"
+                >PN # {{ item }}</el-radio-button
+              >
             </el-radio-group>
             <el-row class="border">
               <el-col :span="12">
@@ -115,50 +117,58 @@
                     <el-row :gutter="20">
                       <el-col :md="24" :lg="24" :xl="12">
                         <p>PN#：</p>
-                        <p>ABCD123</p>
+                        <p>{{ pn }}</p>
                       </el-col>
                       <el-col :md="24" :lg="24" :xl="12">
-                        <p>PN是否在机(B-1234)：</p>
-                        <p>是</p>
+                        <p>PN是否在机({{ pn }}})：</p>
+                        <p>{{ isonline }}</p>
                       </el-col>
                       <el-col :md="24" :lg="24" :xl="12">
                         <p>部件名称：</p>
-                        <p>ABCDEFG；ABCDEFH；ABCDE-FG</p>
+                        <p>{{ pnName }}</p>
                       </el-col>
                       <el-col :md="24" :lg="24" :xl="12">
                         <p>可替换PN：</p>
-                        <p>ABCD456；ABCD567；ABCE123</p>
+                        <p>{{ replacePn }}</p>
                       </el-col>
                       <el-col :md="24" :lg="24" :xl="12">
                         <p>PN平均在机时间：</p>
-                        <p>123 天</p>
+                        <p>{{ onlineDate }} 天</p>
                       </el-col>
                       <el-col :md="24" :lg="24" :xl="12">
-                        <p>PN平均在机时间(B-1234)：</p>
-                        <p>234 天</p>
+                        <p>PN平均在机时间({{ pn }})：</p>
+                        <p>{{ averageDate }} 天</p>
                       </el-col>
                       <el-col :md="24" :lg="24" :xl="12">
                         <p>PN故障概率：</p>
-                        <p>67%</p>
+                        <p>{{ percent }}%</p>
                       </el-col>
                       <el-col :md="24" :lg="24" :xl="12">
                         <p>PN更换排故概率：</p>
-                        <p>78%</p>
+                        <p>{{ replacePercent }}%</p>
                       </el-col>
                     </el-row>
                   </div>
-                  <el-table border :data="tableData" class="mt20">
+                  <el-table
+                    border
+                    :data="tableData"
+                    class="mt20"
+                    ref="multipleTable"
+                    @selection-change="handleSelectionChange"
+                  >
                     <el-table-column
                       type="selection"
                       width="55"
                     ></el-table-column>
                     <el-table-column label="SN" prop="sn"></el-table-column>
-                    <el-table-column label="在机时长" prop="date">
-                      <template #default="row">{{ row.row.date }}天</template>
+                    <el-table-column label="在机时长" prop="onlineDays">
+                      <template #default="row"
+                        >{{ row.row.onlineDays }}天</template
+                      >
                     </el-table-column>
                     <el-table-column
                       label="历史更换次数"
-                      prop="number"
+                      prop="historyChangeCount"
                     ></el-table-column>
                     <el-table-column label="流转信息">
                       <template #default="row">
@@ -222,10 +232,11 @@
             <ul>
               <li v-for="(item, index) in items" :key="index">
                 <p>
-                  {{ item.name }}<i class="el-icon-close"></i
+                  PN# {{ item.pn
+                  }}<i class="el-icon-close" @click="delData(index)"></i
                   ><i class="el-icon-edit"></i>
                 </p>
-                <p>{{ item.text }}</p>
+                <p>SN# {{ item.sn }}</p>
               </li>
             </ul>
             <el-checkbox v-model="checked1" class="check mt20">
@@ -254,19 +265,18 @@
 </template>
 
 <script>
+import api from "../API/index";
+import solution from "../solutiongraph";
 export default {
   data() {
     return {
-      radio: "1",
+      radio: "0",
       dynamicTags: [],
       inputValue: "",
       restaurants: [],
       checkbox1: false,
       checkbox2: false,
-      tableData: [
-        { id: 1, sn: "dsafaf", date: "225", number: 4548 },
-        { id: 2, sn: "dsafaf", date: "225", number: 4548 },
-      ],
+      tableData: [],
       data: [
         {
           id: 1,
@@ -276,13 +286,22 @@ export default {
           putOn: "C-4854",
         },
       ],
-      items: [
-        { name: "PN # ABCD123", text: "SN # 123456" },
-        { name: "PN # ABCD123", text: "SN # 123456" },
-      ],
+      items: [],
       checked1: false,
       checked2: false,
       checked3: false,
+      pns: [],
+      pn: "",
+      replacePercent: "",
+      percent: "",
+      averageDate: "",
+      onlineDate: "",
+      replacePn: "",
+      pnName: "",
+      isonline: "",
+      multipleSelection: [],
+      getPn: "",
+      result: [],
     };
   },
   created() {},
@@ -290,6 +309,81 @@ export default {
     this.restaurants = this.loadAll();
   },
   methods: {
+    handleSelectionChange(val) {
+      console.log(val);
+      this.multipleSelection = val;
+      const arr = this.multipleSelection.map((item) => {
+        return { pn: this.pn, sn: item.sn };
+      });
+      this.items = arr;
+    },
+    delData(index) {
+      const list = [...this.items];
+      list.splice(index, 1);
+      this.items = [...list];
+      console.log(this.items);
+      this.$refs.multipleTable.toggleRowSelection(this.items, true);
+    },
+    changePn(val) {
+      const data = this.result[val];
+      this.onlineDate = data.onlineDayTotal;
+      this.averageDate = data.averageOnlineDays;
+      this.percent = data.oyfp;
+      if (data.pnNames) {
+        this.pnName = data.pnNames.join();
+      }
+      if (data.replacePn) {
+        this.replacePn = data.replacePn.join();
+      }
+      if (data.pnOnline == true) {
+        console.log(111);
+        this.isonline = "是";
+      } else {
+        this.isonline = "否";
+      }
+      this.tableData = data.snList;
+    },
+    screen() {
+      const data = {
+        acId: "",
+        onlyMainComponents: false,
+        onlyOnline: false,
+        pnCodes: ["109-9554304"],
+        pnNames: [],
+      };
+      api
+        .post("/ccDeInfo/merged/de", data)
+        .then((res) => {
+          console.log(res);
+          this.result = res.data;
+          this.pns = [...res.data].map((item) => {
+            return item.pn;
+          });
+          let data = res.data[0];
+          this.pn = data.pn;
+          // this.replacePercent = data.oyfp;
+          this.onlineDate = data.onlineDayTotal;
+          this.averageDate = data.averageOnlineDays;
+          this.percent = data.oyfp;
+          if (data.pnNames) {
+            this.pnName = data.pnNames.join();
+          }
+          if (data.replacePn) {
+            this.replacePn = data.replacePn.join();
+          }
+          if (data.pnOnline == true) {
+            console.log(111);
+            this.isonline = "是";
+          } else {
+            this.isonline = "否";
+          }
+          this.tableData = data.snList;
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+        .finally(() => {});
+    },
     //CC/MR记录
     record(row) {
       console.log(row.row);

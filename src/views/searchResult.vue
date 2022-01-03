@@ -62,14 +62,14 @@
             </li>
             <li>
               <h3>ATA章节：</h3>
-              <p>-{{ startChapter }}</p>
-              <p>-{{ endChapter }}</p>
+              <p>-{{ startChapter1 }}</p>
+              <p v-if="show1">-{{ endChapter1 }}</p>
             </li>
             <li>
               <h3>ATA次章节：</h3>
-              <p>-{{ startChapter }}</p>
-              <p>-{{ endChapter }}</p>
-              <p>-{{ listChapter }}</p>
+              <p>-{{ startChapter2 }}</p>
+              <p v-if="show2">-{{ endChapter2 }}</p>
+              <p v-if="show3">-{{ listChapter }}</p>
             </li>
           </ul>
         </el-col>
@@ -80,13 +80,13 @@
               class="selectradio"
               @change="changesSort"
             >
-              <el-radio :label="0"> 按综合相似度排序</el-radio>
-              <el-radio :label="1"> 按描述相似度排序</el-radio>
-              <el-radio :label="2"> 按时间排序</el-radio>
+              <el-radio label="0"> 按综合相似度排序</el-radio>
+              <el-radio label="1"> 按描述相似度排序</el-radio>
+              <el-radio label="2"> 按时间排序</el-radio>
             </el-radio-group>
-            <el-checkbox v-model="checked" class="selectcheckbox">
+            <!-- <el-checkbox v-model="checked" class="selectcheckbox">
               仅查看相关ATA</el-checkbox
-            >
+            > -->
           </div>
           <el-table
             :data="tableData"
@@ -106,44 +106,56 @@
             <el-table-column prop="ataClose" label="关单ATA"></el-table-column>
             <el-table-column prop="dateAction" label="日期"></el-table-column>
             <el-table-column prop="description" label="故障描述">
-              <template #default="row">
-                <div v-html="row.row.description"></div>
+              <template slot-scope="scope">
+                <div v-html="scope.row.description"></div>
               </template>
             </el-table-column>
             <el-table-column prop="plannedAction" label="计划措施">
-              <template #default="row">
-                <div>{{ row.row.plannedAction }}</div>
+              <template slot-scope="scope">
+                <div>{{ scope.row.plannedAction }}</div>
               </template>
             </el-table-column>
             <el-table-column prop="action" label="排故措施">
-              <template #default="row">
-                <div v-html="row.row.action"></div>
+              <template slot-scope="scope">
+                <div v-html="scope.row.action"></div>
               </template>
             </el-table-column>
             <el-table-column label="查看 DE 详情">
-              <template #default="row">
-                <el-button size="mini" @click="lookDe(row)" class="btnfont"
+              <template slot-scope="scope">
+                <el-button
+                  size="mini"
+                  @click="lookDe(scope.row)"
+                  class="btnfont"
                   >查看DE</el-button
                 >
               </template>
             </el-table-column>
             <el-table-column label="查看相关 CC 单">
-              <template #default="row">
-                <el-button size="mini" @click="lookDe(row)" class="btnfont"
+              <template slot-scope="scope">
+                <el-button
+                  size="mini"
+                  @click="lookDe(scope.row)"
+                  class="btnfont"
                   >查看CC</el-button
                 >
               </template>
             </el-table-column>
             <el-table-column label="查看相关 MR 单">
-              <template #default="row">
-                <el-button size="mini" @click="lookDe(row)" class="btnfont"
+              <template slot-scope="scope">
+                <el-button
+                  size="mini"
+                  @click="lookDe(scope.row)"
+                  class="btnfont"
                   >查看MR</el-button
                 >
               </template>
             </el-table-column>
             <el-table-column label="收藏">
-              <template #default="row">
-                <el-button size="mini" @click="collection(row)" class="btnfont"
+              <template slot-scope="scope">
+                <el-button
+                  size="mini"
+                  @click="collection(scope.row)"
+                  class="btnfont"
                   >收藏</el-button
                 >
               </template>
@@ -182,7 +194,12 @@
       @closedDialog="closedDialog"
       ref="child"
     />
-    <condition ref="conditions" :data="items" :synonym="synonym" />
+    <condition
+      ref="conditions"
+      :data="items"
+      :synonym="synonym"
+      @addData="addData"
+    />
   </div>
 </template>
 
@@ -198,10 +215,12 @@ export default {
       items: [],
       total: 10,
       checkedNumber: 0,
-      startChapter: "12:飞机维修",
-      endChapter: "16:维修结果",
-      listChapter: "36:就殴打Jodi",
-      radio: 0,
+      startChapter1: "",
+      endChapter1: "",
+      listChapter: "",
+      startChapter2: "",
+      endChapter2: "",
+      radio: "0",
       checked: false,
       tableData: [],
       totalPage: 100,
@@ -232,6 +251,9 @@ export default {
       endDate: "",
       arr: [],
       multipleSelection: [],
+      show1: true,
+      show2: true,
+      show3: true,
     };
   },
   created() {
@@ -294,9 +316,9 @@ export default {
         sections: this.end,
         airplaneTypes: this.planes,
         airplanes: this.airplane,
-        keyword: this.keywords.toString().split(","),
+        keyword: this.keywords,
         synonymWords: this.synonym,
-        faultCode: this.codes.toString().split(","),
+        faultCode: this.codes,
         fuzzyMatching: this.value1,
         index: "de_record_list",
         pageNum: this.currentPage,
@@ -316,7 +338,8 @@ export default {
               .flat();
             //table
             this.arr = res.data;
-            const tableData = [...res.data].map((item) => {
+            let data = [...res.data.list].slice(0, 10);
+            const tableData = data.map((item) => {
               return {
                 ...item,
                 dateAction: this.formateDate(item.dateAction),
@@ -328,12 +351,31 @@ export default {
               };
             });
             this.tableData = tableData;
+            //章节
+            this.startChapter1 = res.data.aAtaChapterFirst;
+            if (res.data.aAtaChapterSen) {
+              this.show1 = true;
+              this.endChapter1 = res.data.aAtaChapterSen;
+            }
+            if (res.data.taSectionFirst) {
+              this.startChapter2 = res.data.taSectionFirst;
+            }
+            if (res.data.taSectionSen) {
+              this.endChapter2 = res.data.taSectionSen;
+            }
+            if (res.data.taSectionThr) {
+              this.listChapter = res.data.taSectionThr;
+            }
           }
         })
         .catch((err) => {
           console.log(err);
         })
         .finally(() => {});
+    },
+    addData(data) {
+      console.log(data);
+      this.items = data;
     },
 
     formateDate(datetime) {
@@ -378,10 +420,12 @@ export default {
     },
     //删除条件
     del(index) {
+      console.log("111");
       const list = [...this.items];
       list.splice(index, 1);
       this.items = [...list];
       localStorage.setItem("listData", JSON.stringify(this.items));
+      console.log(this.items);
     },
     //收藏
     collection(row) {
@@ -400,7 +444,7 @@ export default {
     },
     //添加条件
     addCondition() {
-      // this.$refs.conditions.close();
+      this.$refs.conditions.close();
     },
     closedDialog() {
       this.$refs.child.closeDialog();

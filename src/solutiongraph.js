@@ -1,5 +1,5 @@
 const solution = {
-  "case2151AirbusGraph": {
+  "2151": {
     "nodes": [
       {
         "id": "0",
@@ -388,7 +388,7 @@ const solution = {
       }
     ]
   },
-  "case3611AirbusGraph": {
+  "3611": {
     "nodes": [
       {
         "id": "0",
@@ -1222,7 +1222,7 @@ const solution = {
       }
     ]
   },
-  "case3445BoeingGraph": {
+  "3445": {
     "nodes": [
       {
         "id": "0",
@@ -1501,7 +1501,7 @@ const solution = {
       }
     ]
   },
-  "case3453BoeingGraph": {
+  "3453": {
     "nodes": [
       {
         "id": "0",
@@ -1832,7 +1832,7 @@ const solution = {
       }
     ]
   },
-  "case4951AirbusGraph": {
+  "4951": {
     "nodes": [
       {
         "id": "0",

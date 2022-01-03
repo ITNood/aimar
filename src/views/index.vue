@@ -13,7 +13,7 @@
           </el-col>
           <!--为解决-->
           <el-col :span="12">
-            <notsolve :items="items" @openData="openData" />
+            <notsolve :items="lists" @openData="openData" />
           </el-col>
         </el-row>
 
@@ -30,7 +30,21 @@
         </el-row>
       </el-col>
     </el-row>
-    <task-card ref="task" @opendialog="opendialog" />
+    <task-card
+      ref="task"
+      @opendialog="opendialog"
+      :cardDe="cardDe"
+      :acid="acid"
+      :ataChater="ataChater"
+      :date="cardDate"
+      :station="station"
+      :describe="describe"
+      :plans="plancard"
+      :programmes="programmes"
+      :statusPlan="statusPlan"
+      :repairData="repairData"
+      :data="data"
+    />
     <de-details
       :de="de"
       :date="date"
@@ -57,7 +71,8 @@ import Task from "../components/task.vue";
 import Echarts from "../components/echarts.vue";
 import TaskCard from "../components/taskCard.vue";
 import DeDetails from "../components/deDetails.vue";
-
+import monitorjs from "../main_monitor_data";
+import api from "../API/index";
 export default {
   components: {
     Home,
@@ -71,12 +86,7 @@ export default {
   },
   data() {
     return {
-      items: [
-        { de: "B-xxx", ataChater: "21-2151" },
-        { de: "B-xxx ", ataChater: "21-2151" },
-        { de: "B-xxx ", ataChater: "21-2151" },
-        { de: "B-xxx ", ataChater: "21-2151" },
-      ],
+      items: [],
       //de详情
       de: "",
       date: "",
@@ -88,18 +98,99 @@ export default {
       faults: "",
       plan: "",
       programme: "",
+      lists: [],
+      cardDe: "",
+      acid: "",
+      ataChater: "",
+      date: "",
+      station: "",
+      describe: "",
+      plans: "",
+      programmes: "",
+      statusPlan: [],
+      repairData: [],
+      data: [],
+      plancard: "",
+      cardDate: "",
+      deArray: [],
+      newArray: [],
     };
   },
-  created() {},
+  created() {
+    this.getdata();
+  },
   mounted() {},
   methods: {
-    openData(de) {
-      console.log(de);
+    getdata() {
+      console.log(monitorjs);
+      this.items = monitorjs.map((item) => {
+        return { name: item.name, date: item.date };
+      });
+      this.lists = this.items.reverse();
+      console.log(this.items.reverse());
+    },
+    openData(name) {
       this.$refs.task.close();
+      console.log(name);
+      const data = monitorjs.filter((item) => {
+        if (item.name == name) {
+          return item;
+        }
+      });
+      this.cardDe = data[0].data.LastRecord;
+      this.acid = data[0].name;
+      this.statusPlan = data[0].data.ACStatusPlan;
+      this.deArray = data[0].data.FaultRelatedRecord;
+      api
+        .get(`/DeRecord/by/id/${this.cardDe}`)
+        .then((res) => {
+          this.cardDate = res.data.dateAction;
+          this.station = res.data.station;
+          this.describe = res.data.description;
+          // this.plans=res.data.
+          this.programmes = res.data.action;
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+        .finally(() => {});
+      console.log(this.deArray);
+      this.deArray.map((item) => {
+        api
+          .get(`/DeRecord/by/id/${item}`)
+          .then((res) => {
+            console.log(res.data);
+            this.newArray.push(res.data);
+            const arr = Object.assign(res.data, { de: item });
+            this.newArray.push(arr);
+
+            this.newArray = this.unique(this.newArray);
+            console.log("222", this.newArray);
+            this.repairData = this.newArray;
+            this.data = this.newArray;
+          })
+          .catch((err) => {
+            console.log(err);
+          })
+          .finally(() => {});
+      });
+    },
+    unique(arr) {
+      const res = new Map();
+      return arr.filter((arr) => !res.has(arr.de) && res.set(arr.de, 1));
     },
     opendialog(row) {
       console.log(row);
       this.closedDialog();
+      this.de = row.de;
+      this.date = row.dateAction;
+      this.open = row.ataOpen;
+      this.closed = row.ataClose;
+      this.terminal = row.station;
+      this.number = row.acId;
+      this.model = row.acType;
+      this.faults = row.description;
+      this.programme = row.action;
     },
     closedDialog() {
       this.$refs.child.closeDialog();

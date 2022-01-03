@@ -8,7 +8,23 @@
             <ul>
               <li v-for="(item, index) in items" :key="index">
                 <h5>{{ item.name }}</h5>
-                <p>{{ item.text }}</p>
+                <p v-if="item.airplaneTypes">{{ item.airplaneTypes }}</p>
+                <p v-if="item.airplanes">{{ item.airplanes }}</p>
+                <p v-if="item.chapters || item.sections">
+                  {{ item.chapters }} 一 {{ item.sections }}
+                </p>
+                <p v-if="item.keyword">{{ item.keyword }}</p>
+                <p v-if="item.text">{{ item.text }}</p>
+                <p v-if="item.date">日期范围:{{ item.date }}</p>
+                <p v-if="item.startDate">起始日期:{{ item.startDate }}</p>
+                <p v-if="item.endDate">结束日期:{{ item.endDate }}</p>
+                <p v-if="item.value">
+                  模糊匹配:{{ item.value == true ? "开" : "关" }}
+                </p>
+                <p v-if="item.value1">模糊度:{{ item.value1 }}</p>
+                <p v-if="item.value2">
+                  同近义词:{{ item.value2 == true ? "开" : "关" }}
+                </p>
               </li>
             </ul>
           </div>
@@ -239,13 +255,7 @@ export default {
   components: { deDetails },
   data() {
     return {
-      items: [
-        { name: "故障描述", text: "ABCDEFGHIGKLMNOPQRSTUVWXYZ" },
-        {
-          name: "关键词组",
-          text: "自动抽取: ABCD , EFGH , XYZ 手动输入: ACEG , ZYX",
-        },
-      ],
+      items: [],
 
       radio: "0",
       reference: "",
@@ -273,39 +283,73 @@ export default {
       faults: "",
       plan: "",
       programme: "",
+      chatnumber: "",
     };
   },
   created() {
+    this.getCacheData();
     this.getdata();
+    this.$nextTick(() => {
+      const nodes = solution.case2151AirbusGraph.nodes;
+      const name = solution.case2151AirbusGraph.categories.map((a) => {
+        return a.name;
+      });
+      const links = solution.case2151AirbusGraph.links;
+      const categories = solution.case2151AirbusGraph.categories;
+      this.getEcharts(nodes, name, links, categories);
+    });
   },
   mounted() {
-    this.getEcharts();
+    // this.getEcharts();
   },
   methods: {
+    //获取缓存
+    getCacheData() {
+      const data = JSON.parse(localStorage.getItem("listData"));
+      console.log(data);
+      this.items = data;
+    },
     getdata() {
+      const data = this.items.filter((item) => {
+        return item.chapters;
+      });
+      this.chatnumber = data[0].chapters + data[0].sections;
       api
-        .get(`/scheme/recommendation/by/all?manufacturer=Airbus&section=2151`)
+        .get(
+          `/scheme/recommendation/by/all?manufacturer=Airbus&section=${this.chatnumber}`
+        )
         .then((res) => {
-          this.result = res.data.Solutions;
-          const data = res.data.Solutions[0];
-          if (data.SolutionHeader.Reference) {
-            this.show = true;
-            this.reference = data.SolutionHeader.Reference;
-          } else {
-            this.show = false;
+          if (res.data) {
+            this.result = res.data.Solutions;
+            const data = res.data.Solutions[0];
+            if (data.SolutionHeader.Reference) {
+              this.show = true;
+              this.reference = data.SolutionHeader.Reference;
+            } else {
+              this.show = false;
+            }
+            this.target = data.SolutionHeader.Target;
+            this.fault = data.SolutionHeader.Fault;
+            this.action = data.SolutionHeader.Action;
+            this.probability = data.SolutionHeader.Probability;
+            this.des = data.SolutionHeader.DE;
+            this.solutionProbability = data.SolutionProbability;
+            if (data.SolutionMEL.length) {
+              this.SolutionMEL = true;
+            } else {
+              this.SolutionMEL = false;
+            }
+            this.lists = data.SolutionBody;
           }
-          this.target = data.SolutionHeader.Target;
-          this.fault = data.SolutionHeader.Fault;
-          this.action = data.SolutionHeader.Action;
-          this.probability = data.SolutionHeader.Probability;
-          this.des = data.SolutionHeader.DE;
-          this.solutionProbability = data.SolutionProbability;
-          if (data.SolutionMEL.length) {
-            this.SolutionMEL = true;
-          } else {
-            this.SolutionMEL = false;
-          }
-          this.lists = data.SolutionBody;
+          const number = this.chatnumber;
+          console.log("duqu ", solution[number]);
+          const nodes = solution[number].nodes;
+          const name = solution[number].categories.map((a) => {
+            return a.name;
+          });
+          const links = solution[number].links;
+          const categories = solution[number].categories;
+          this.getEcharts(nodes, name, links, categories);
         })
         .catch((err) => {
           console.log(err);
@@ -391,39 +435,21 @@ export default {
     closedDialog() {
       this.$refs.child.closeDialog();
     },
-    getEcharts() {
-      // let nodes = [],
-      //   links = [],
-      //   categories = [];
-
-      // solution.forEach((e) => {
-      //   Object.entries(e.data).forEach((c) => {
-      //     switch (c[0]) {
-      //       case "nodes":
-      //         nodes.push(c[1]);
-      //         break;
-      //       case "links":
-      //         links.push(c[1]);
-      //         break;
-      //       case "categories":
-      //         categories.push(c[1]);
-      //         break;
-      //     }
-      //   });
+    getEcharts(nodes, name, links, categories) {
+      // const nodes = solution.case2151AirbusGraph.nodes;
+      // const name = solution.case2151AirbusGraph.categories.map((a) => {
+      //   return a.name;
       // });
+      // const links = solution.case2151AirbusGraph.links;
+      // const categories = solution.case2151AirbusGraph.categories;
 
-      // const data = {
-      //   nodes: nodes.flat(),
-      //   links: links.flat(),
-      //   categories: categories.flat(),
-      // };
       var chartDom = document.getElementById("main");
       var myChart = echarts.init(chartDom);
       var option;
       myChart.showLoading();
       myChart.hideLoading();
 
-      solution.case2151AirbusGraph.nodes.map((node) => {
+      nodes.forEach((node) => {
         node.label = {
           show: node.symbolSize > 30,
         };
@@ -439,12 +465,10 @@ export default {
         tooltip: {},
         legend: [
           {
-            data: solution.case2151AirbusGraph.categories.map((a) => {
-              return a.name;
-            }),
-            // data: graph.data.categories.map((a) => {
+            // data: solution.case2151AirbusGraph.categories.map((a) => {
             //   return a.name;
             // }),
+            data: name,
           },
         ],
 
@@ -456,12 +480,9 @@ export default {
             type: "graph",
             layout: "none",
 
-            // data: graph.data.nodes,
-            // links: graph.data.links,
-            // categories: graph.data.categories,
-            data: solution.case2151AirbusGraph.nodes,
-            links: solution.case2151AirbusGraph.links,
-            categories: solution.case2151AirbusGraph.categories,
+            data: nodes,
+            links: links,
+            categories: categories,
 
             roam: true,
             label: {

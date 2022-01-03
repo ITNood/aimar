@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-dialog
-      :title="`${acid} | ${ataChater}`"
+      :title="`${acid}`"
       :visible.sync="dialogVisible"
       width="80%"
       :close-on-click-modal="false"
@@ -10,7 +10,7 @@
       <el-row :gutter="30">
         <!--最近维修记录-->
         <el-col :span="12" class="mb20">
-          <div class="de-title">最近维修记录：DE - 123456</div>
+          <div class="de-title">最近维修记录：DE - {{ cardDe }}</div>
           <div class="tableDetails">
             <el-row :gutter="30">
               <el-col :span="12">
@@ -25,11 +25,13 @@
                 </div>
               </el-col>
               <el-col :span="24">
-                <div class="textContent"><span>计划措施：</span>{{ plan }}</div>
+                <div class="textContent">
+                  <span>计划措施：</span>{{ plans }}
+                </div>
               </el-col>
               <el-col :span="24">
                 <div class="textContent">
-                  <span>排故方案：</span>{{ programme }}
+                  <span>排故方案：</span>{{ programmes }}
                 </div>
               </el-col>
             </el-row>
@@ -46,12 +48,12 @@
             }"
             max-height="280"
           >
-            <el-table-column label="时间" prop="date"></el-table-column>
+            <el-table-column label="时间" prop="time"></el-table-column>
             <el-table-column label="航站" prop="station"></el-table-column>
             <el-table-column label="状态" prop="status"></el-table-column>
             <el-table-column label="相关维修记录">
               <template #default="row">
-                <el-button @click="opendialog(row.row)" size="mini"
+                <el-button @click="opendialogs(row.row)" size="mini"
                   >查看</el-button
                 >
               </template>
@@ -63,15 +65,24 @@
           <div class="de-title">故障相关维修记录</div>
           <el-table :data="repairData" border>
             <el-table-column label="DE" prop="de"></el-table-column>
-            <el-table-column label="ATA" prop="ata"></el-table-column>
-            <el-table-column label="日期" prop="date"></el-table-column>
+            <el-table-column label="ATA" prop="ataClose"></el-table-column>
+            <el-table-column label="日期" prop="dateAction"></el-table-column>
             <el-table-column label="航站" prop="station"></el-table-column>
-            <el-table-column label="故障描述" prop="describe"></el-table-column>
-            <el-table-column label="计划措施" prop="plan"></el-table-column>
-            <el-table-column
-              label="排故方案"
-              prop="programme"
-            ></el-table-column>
+            <el-table-column label="故障描述" prop="description">
+              <template slot-scope="scope"
+                ><div class="fonthide" v-html="scope.row.description"></div
+              ></template>
+            </el-table-column>
+            <el-table-column label="计划措施" prop="plan">
+              <template slot-scope="scope"
+                ><div class="fonthide" v-html="scope.row.plan"></div
+              ></template>
+            </el-table-column>
+            <el-table-column label="排故方案" prop="action">
+              <template slot-scope="scope"
+                ><div class="fonthide" v-html="scope.row.action"></div
+              ></template>
+            </el-table-column>
             <el-table-column label="查看详情">
               <template #default="row">
                 <el-button size="mini" @click="opendialog(row.row)"
@@ -86,15 +97,24 @@
           <div class="de-title">历史相关维修记录</div>
           <el-table :data="data" border>
             <el-table-column label="DE" prop="de"></el-table-column>
-            <el-table-column label="ATA" prop="ata"></el-table-column>
-            <el-table-column label="日期" prop="date"></el-table-column>
+            <el-table-column label="ATA" prop="ataClose"></el-table-column>
+            <el-table-column label="日期" prop="dateAction"></el-table-column>
             <el-table-column label="航站" prop="station"></el-table-column>
-            <el-table-column label="故障描述" prop="describe"></el-table-column>
-            <el-table-column label="计划措施" prop="plan"></el-table-column>
-            <el-table-column
-              label="排故方案"
-              prop="programme"
-            ></el-table-column>
+            <el-table-column label="故障描述" prop="description">
+              <template slot-scope="scope"
+                ><div class="fonthide" v-html="scope.row.description"></div
+              ></template>
+            </el-table-column>
+            <el-table-column label="计划措施" prop="plan">
+              <template slot-scope="scope"
+                ><div class="fonthide" v-html="scope.row.plan"></div
+              ></template>
+            </el-table-column>
+            <el-table-column label="排故方案" prop="action">
+              <template slot-scope="scope"
+                ><div class="fonthide" v-html="scope.row.action"></div
+              ></template>
+            </el-table-column>
             <el-table-column label="查看详情">
               <template #default="row">
                 <el-button size="mini" @click="opendialog(row.row)"
@@ -112,79 +132,24 @@
 <script>
 export default {
   name: "taskCard",
+  props: {
+    acid: String,
+    ataChater: String,
+    cardDe: String,
+    cardDate: String,
+    station: String,
+    describe: String,
+    plancard: String,
+    programmes: String,
+    statusPlan: Array,
+    data: Array,
+    repairData: Array,
+    date: String,
+    plans: String,
+  },
   data() {
     return {
       dialogVisible: false,
-      acid: "B-4154",
-      ataChater: "14564",
-      date: "2021-12-29 12:00",
-      station: "T3",
-      describe: "就卡了很嗲事发地哦杀父i第三方接口的算法",
-      plan: "就卡了很嗲事发地哦杀父i第三方接口的算法",
-      programme: "就卡了很嗲事发地哦杀父i第三方接口的算法",
-      statusPlan: [
-        { date: "2021-12-29 00:00", station: "SHDSH", status: "航后" },
-        { date: "2021-12-29 00:00", station: "SHDSH", status: "航后" },
-        { date: "2021-12-29 00:00", station: "SHDSH", status: "航后" },
-      ],
-      repairData: [
-        {
-          de: "52656",
-          ata: "49849",
-          date: "2021-12-29",
-          station: "SAS",
-          describe: "扩大是否哈桑",
-          plan: "i到手的覅",
-          programme: "街道荷花",
-        },
-        {
-          de: "52656",
-          ata: "49849",
-          date: "2021-12-29",
-          station: "SAS",
-          describe: "扩大是否哈桑",
-          plan: "i到手的覅",
-          programme: "街道荷花",
-        },
-        {
-          de: "52656",
-          ata: "49849",
-          date: "2021-12-29",
-          station: "SAS",
-          describe: "扩大是否哈桑",
-          plan: "i到手的覅",
-          programme: "街道荷花",
-        },
-      ],
-      data: [
-        {
-          de: "52656",
-          ata: "49849",
-          date: "2021-12-29",
-          station: "SAS",
-          describe: "扩大是否哈桑",
-          plan: "i到手的覅",
-          programme: "街道荷花",
-        },
-        {
-          de: "52656",
-          ata: "49849",
-          date: "2021-12-29",
-          station: "SAS",
-          describe: "扩大是否哈桑",
-          plan: "i到手的覅",
-          programme: "街道荷花",
-        },
-        {
-          de: "52656",
-          ata: "49849",
-          date: "2021-12-29",
-          station: "SAS",
-          describe: "扩大是否哈桑",
-          plan: "i到手的覅",
-          programme: "街道荷花",
-        },
-      ],
     };
   },
   created() {},
@@ -194,6 +159,7 @@ export default {
       console.log(row);
       this.$emit("opendialog", row);
     },
+    opendialogs(row) {},
     close() {
       this.dialogVisible = !this.dialogVisible;
     },
