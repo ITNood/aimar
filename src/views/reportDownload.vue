@@ -181,7 +181,8 @@
                 <li v-for="(list, index) in lists" :key="index">
                   <div class="name">
                     {{ list.reportType }}
-                    <i class="el-icon-close"></i><i class="el-icon-edit"></i>
+                    <i class="el-icon-close" @click="deltel(index)"></i
+                    ><i class="el-icon-edit"></i>
                   </div>
                   <p>{{ list.reportId }}</p>
                 </li>
@@ -193,7 +194,9 @@
                   >
                 </el-col>
                 <el-col :span="12">
-                  <el-button class="icon iconfont icon-download btn submit"
+                  <el-button
+                    class="icon iconfont icon-download btn submit"
+                    @click="download"
                     >&nbsp;&nbsp;下载</el-button
                   >
                 </el-col>
@@ -283,42 +286,42 @@ export default {
       },
       reportRecord: [
         {
-          id: 1,
+          id: 3445,
           date: "20YY-MM-DD",
           reportType: "推荐方案",
           reportId: "2022-3445",
         },
         {
-          id: 2,
+          id: 3453,
           date: "20YY-MM-DD",
           reportType: "推荐方案",
           reportId: "2022-3453",
         },
         {
-          id: 3,
+          id: 3453,
           date: "20YY-MM-DD",
           reportType: "推荐方案",
-          reportId: "2022-4951",
+          reportId: "2022-3453",
         },
       ],
       reportData: [
         {
-          id: 1,
+          id: 3445,
           date: "20YY-MM-DD",
           reportType: "推荐方案",
           reportId: "2022-3445",
         },
         {
-          id: 2,
+          id: 3453,
           date: "20YY-MM-DD",
           reportType: "推荐方案",
           reportId: "2022-3453",
         },
         {
-          id: 3,
+          id: 3453,
           date: "20YY-MM-DD",
           reportType: "推荐方案",
-          reportId: "2022-4951",
+          reportId: "2022-3453",
         },
       ],
       checkedCities: [],
@@ -342,6 +345,30 @@ export default {
     // });
   },
   methods: {
+    deltel(index) {
+      const list = [...this.lists];
+      list.splice(index, 1);
+      this.lists = [...list];
+    },
+    download() {
+      const data = this.lists.map((item) => {
+        return item.id;
+      });
+      data.map((e) => {
+        const url = `../static/pdf/${e}.pdf`;
+        console.log(url);
+        var a = document.createElement("a");
+        // 获取文件名fileName
+        //var fileName = `${e}.pdf`;
+        // fileName = fileName[fileName.length - 1];
+        // fileName = fileName.replace(/"/g, "");
+        a.download = `${e}.pdf`;
+        a.href = url;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      });
+    },
     handleSelectionChange(val) {
       this.dataselection = val;
       this.lists.push(...this.dataselection);

@@ -337,7 +337,8 @@ export default {
               .map((item) => JSON.stringify(item.keyword).split(","))
               .flat();
             //table
-            this.arr = res.data;
+            this.arr = res.data.list;
+            console.log(this.arr);
             let data = [...res.data.list].slice(0, 10);
             const tableData = data.map((item) => {
               return {
@@ -450,9 +451,9 @@ export default {
       this.$refs.child.closeDialog();
     },
     lookDe(row) {
-      console.log(row.row);
-      const data = row.row;
-      var id = row.row.de;
+      console.log(row);
+      const data = row;
+      var id = row.de;
       const newdata = this.arr.filter((item) => {
         console.log(item.de);
         return item.de == id;
