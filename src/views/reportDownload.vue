@@ -225,6 +225,8 @@
 </template>
 
 <script>
+import { downloadFile } from "@/utlis/utlis";
+
 const cityOptions = [
   "同时下载关联DE工单",
   "同时下载相关CC工单",
@@ -337,13 +339,7 @@ export default {
   },
 
   created() {},
-  mounted() {
-    // this.restaurants = this.loadAll();
-    // let _this = this;
-    // this.$nextTick(function () {
-    //   _this.$PDFObject.embed("../static/pdf/3445.pdf", "#example1");
-    // });
-  },
+  mounted() {},
   methods: {
     deltel(index) {
       const list = [...this.lists];
@@ -351,22 +347,12 @@ export default {
       this.lists = [...list];
     },
     download() {
-      const data = this.lists.map((item) => {
-        return item.id;
-      });
-      data.map((e) => {
-        const url = `../static/pdf/${e}.pdf`;
-        console.log(url);
-        var a = document.createElement("a");
-        // 获取文件名fileName
-        //var fileName = `${e}.pdf`;
-        // fileName = fileName[fileName.length - 1];
-        // fileName = fileName.replace(/"/g, "");
-        a.download = `${e}.pdf`;
-        a.href = url;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
+      this.lists.forEach((item, index) => {
+        try {
+          downloadFile(`${item.id}.pdf`, `${location.origin}/${item.id}.pdf`);
+        } catch (e) {
+          console.log("download error", e);
+        }
       });
     },
     handleSelectionChange(val) {
