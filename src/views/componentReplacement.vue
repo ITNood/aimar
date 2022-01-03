@@ -11,14 +11,14 @@
                 <div class="tagBorder">
                   <el-tag
                     :key="tag"
-                    v-for="tag in dynamicTags"
+                    v-for="tag in ariNumber"
                     closable
                     :disable-transitions="false"
                     @close="handleClose(tag)"
                   >
                     {{ tag }}
                   </el-tag>
-                  <el-autocomplete
+                  <el-input
                     class="input-new-tag"
                     v-model="inputValue"
                     ref="saveTagInput"
@@ -27,7 +27,17 @@
                     :fetch-suggestions="querySearch"
                     @select="handleInputConfirm"
                   >
-                  </el-autocomplete>
+                  </el-input>
+                  <!-- <el-autocomplete
+                    class="input-new-tag"
+                    v-model="inputValue"
+                    ref="saveTagInput"
+                    size="small"
+                    @keyup.enter.native="handleInputConfirm"
+                    :fetch-suggestions="querySearch"
+                    @select="handleInputConfirm"
+                  >
+                  </el-autocomplete> -->
                 </div>
               </li>
               <li>
@@ -35,24 +45,33 @@
                 <div class="tagBorder">
                   <el-tag
                     :key="tag"
-                    v-for="tag in dynamicTags"
+                    v-for="tag in names"
                     closable
                     :disable-transitions="false"
                     @close="handleClose(tag)"
                   >
                     {{ tag }}
                   </el-tag>
-                  <el-autocomplete
+                  <!-- <el-autocomplete
                     class="input-new-tag"
-                    v-model="inputValue"
+                    v-model="inputValue1"
                     ref="saveTagInput"
                     size="small"
-                    @keyup.enter.native="handleInputConfirm"
-                    @blur="handleInputConfirm"
-                    :fetch-suggestions="querySearch"
-                    @select="handleInputConfirm"
+                    @keyup.enter.native="handleInputConfirm1"
+                    :fetch-suggestions="querySearch1"
+                    @select="handleInputConfirm1"
                   >
-                  </el-autocomplete>
+                  </el-autocomplete> -->
+                  <el-input
+                    class="input-new-tag"
+                    v-model="inputValue1"
+                    ref="saveTagInput"
+                    size="small"
+                    @keyup.enter.native="handleInputConfirm1"
+                    :fetch-suggestions="querySearch1"
+                    @select="handleInputConfirm1"
+                  >
+                  </el-input>
                 </div>
               </li>
               <li>
@@ -69,13 +88,13 @@
                   </el-tag>
                   <el-autocomplete
                     class="input-new-tag"
-                    v-model="inputValue"
+                    v-model="inputValue2"
                     ref="saveTagInput"
                     size="small"
-                    @keyup.enter.native="handleInputConfirm"
-                    @blur="handleInputConfirm"
-                    :fetch-suggestions="querySearch"
-                    @select="handleInputConfirm"
+                    style="width: 150px !important"
+                    @keyup.enter.native="handleInputConfirm2"
+                    :fetch-suggestions="querySearch2"
+                    @select="handleInputConfirm2"
                   >
                   </el-autocomplete>
                 </div>
@@ -99,7 +118,7 @@
       </el-col>
       <el-col :md="14" :lg="14" :xl="15">
         <div class="selectedsProgramme">
-          <h2>选择排故方案</h2>
+          <h2>选择更换部件</h2>
           <div class="programme">
             <el-radio-group v-model="radio" @change="changePn">
               <el-radio-button
@@ -169,7 +188,8 @@
                     <el-table-column
                       label="历史更换次数"
                       prop="historyChangeCount"
-                    ></el-table-column>
+                    >
+                    </el-table-column>
                     <el-table-column label="流转信息">
                       <template #default="row">
                         <el-button size="mini" @click="lookUp(row)"
@@ -183,36 +203,41 @@
               <el-col :span="12">
                 <div class="proprammeRight">
                   <div class="programmeImg">
-                    <h3>部件流转信息可视化展示 <span>beta</span></h3>
-                    <img src="../static/image/img.png" />
+                    <h3>部件流转信息展示 <span>beta</span></h3>
+                    <!-- <img src="../static/image/img.png" /> -->
                     <el-table :data="data" border class="mt20">
                       <el-table-column
                         label="更换时间"
-                        prop="date"
-                      ></el-table-column>
+                        prop="changeOnDateTime,changeOffDateTime"
+                      >
+                        <template slot-scope="scope">
+                          <p>{{ scope.row.changeOnDateTime }}</p>
+                          <p>{{ scope.row.changeOffDateTime }}</p>
+                        </template></el-table-column
+                      >
                       <el-table-column label="在机时长" prop="time">
-                        <template #default="row">
-                          {{ row.row.time }}天
+                        <template slot-scope="scope">
+                          {{ scope.row.onlineDays }}
                         </template>
                       </el-table-column>
                       <el-table-column
                         label="拆下"
-                        prop="remove"
+                        prop="acOff"
                       ></el-table-column>
                       <el-table-column
                         label="装上"
-                        prop="putOn"
+                        prop="acOn"
                       ></el-table-column>
                       <el-table-column label="CC/MR记录">
-                        <template #default="row">
-                          <el-button size="mini" @click="record(row)"
+                        <template slot-scope="scope">
+                          <el-button size="mini" @click="record(scope.row)"
                             >查看</el-button
                           >
                         </template>
                       </el-table-column>
                       <el-table-column label="DE记录">
-                        <template #default="row">
-                          <el-button size="mini" @click="DErecord(row)"
+                        <template slot-scope="scope">
+                          <el-button size="mini" @click="DErecord(scope.row)"
                             >查看</el-button
                           >
                         </template>
@@ -270,22 +295,20 @@ import solution from "../solutiongraph";
 export default {
   data() {
     return {
+      ariNumber: [],
+      names: [],
       radio: "0",
       dynamicTags: [],
       inputValue: "",
+      inputValue1: "",
+      inputValue2: "",
       restaurants: [],
+      restaurants2: [],
+      restaurants1: [],
       checkbox1: false,
       checkbox2: false,
       tableData: [],
-      data: [
-        {
-          id: 1,
-          date: "2021-12-14",
-          time: 22,
-          remove: "B-26556",
-          putOn: "C-4854",
-        },
-      ],
+      data: [],
       items: [],
       checked1: false,
       checked2: false,
@@ -306,7 +329,7 @@ export default {
   },
   created() {},
   mounted() {
-    this.restaurants = this.loadAll();
+    this.restaurants2 = this.loadAll();
   },
   methods: {
     handleSelectionChange(val) {
@@ -345,11 +368,11 @@ export default {
     },
     screen() {
       const data = {
-        acId: "",
+        acId: this.ariNumber.join(),
         onlyMainComponents: false,
         onlyOnline: false,
-        pnCodes: ["109-9554304"],
-        pnNames: [],
+        pnCodes: this.dynamicTags,
+        pnNames: this.names,
       };
       api
         .post("/ccDeInfo/merged/de", data)
@@ -365,6 +388,12 @@ export default {
           this.onlineDate = data.onlineDayTotal;
           this.averageDate = data.averageOnlineDays;
           this.percent = data.oyfp;
+          // if (data.oyfp) {
+          //   this.percent = data.oyfp;
+          // } else {
+          //   this.percent = NAN;
+          // }
+
           if (data.pnNames) {
             this.pnName = data.pnNames.join();
           }
@@ -394,6 +423,7 @@ export default {
     },
     lookUp(row) {
       console.log(row.row);
+      this.data = row.row.snChangeDetail;
     },
     handleClose(tag) {
       this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
@@ -402,15 +432,44 @@ export default {
     handleInputConfirm() {
       let inputValue = this.inputValue;
       if (inputValue) {
-        this.dynamicTags.push(inputValue);
-        console.log(this.dynamicTags);
+        this.ariNumber.push(inputValue);
       }
       this.inputValue = "";
+    },
+    handleInputConfirm1() {
+      let inputValue = this.inputValue1;
+      if (inputValue) {
+        this.names.push(inputValue);
+      }
+      this.inputValue1 = "";
+    },
+    handleInputConfirm2() {
+      let inputValue = this.inputValue2;
+      if (inputValue) {
+        this.dynamicTags.push(inputValue);
+      }
+      this.inputValue2 = "";
     },
     querySearch(queryString, cb) {
       var restaurants = this.restaurants;
       var results = queryString
         ? restaurants.filter(this.createFilter(queryString))
+        : restaurants;
+      // 调用 callback 返回建议列表的数据
+      cb(results);
+    },
+    querySearch1(queryString, cb) {
+      var restaurants = this.restaurants2;
+      var results = queryString
+        ? restaurants.filter(this.createFilter1(queryString))
+        : restaurants;
+      // 调用 callback 返回建议列表的数据
+      cb(results);
+    },
+    querySearch2(queryString, cb) {
+      var restaurants = this.restaurants2;
+      var results = queryString
+        ? restaurants.filter(this.createFilter2(queryString))
         : restaurants;
       // 调用 callback 返回建议列表的数据
       cb(results);
@@ -423,23 +482,54 @@ export default {
         );
       };
     },
+    createFilter1(queryString) {
+      return (restaurant) => {
+        return (
+          restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) ===
+          0
+        );
+      };
+    },
+    createFilter2(queryString) {
+      return (restaurant) => {
+        return (
+          restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) ===
+          0
+        );
+      };
+    },
     loadAll() {
       return [
-        { value: "三全鲜食（北新泾店）", address: "长宁区新渔路144号" },
+        { value: "109-9554304" },
         {
-          value: "Hot honey 首尔炸鸡（仙霞路）",
-          address: "上海市长宁区淞虹路661号",
+          value: "1-11-3802",
         },
         {
-          value: "新旺角茶餐厅",
-          address: "上海市普陀区真北路988号创邑金沙谷6号楼113",
+          value: "30-0000A3031",
         },
-        { value: "泷千家(天山西路店)", address: "天山西路438号" },
+        { value: "542-6242511" },
         {
-          value: "胖仙女纸杯蛋糕（上海凌空店）",
-          address: "上海市长宁区金钟路968号1幢18号楼一层商铺18-101",
+          value: "102-8787-226",
         },
-        { value: "贡茶", address: "上海市长宁区金钟路633号" },
+        { value: "10-20-101471" },
+        {
+          value: "1MNA143H",
+        },
+        {
+          value: "AA10-27991-3604",
+        },
+        {
+          value: "100-4045-228",
+        },
+        {
+          value: "8-3911063",
+        },
+        {
+          value: "500-5726-297",
+        },
+        {
+          value: "1-0577163",
+        },
       ];
     },
   },
@@ -447,4 +537,19 @@ export default {
 </script>
 
 <style  scoped>
+.el-tag + .el-tag {
+  margin-left: 10px;
+}
+.button-new-tag {
+  margin-left: 10px;
+  height: 32px;
+  line-height: 30px;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.input-new-tag {
+  width: 90px;
+  margin-left: 10px;
+  vertical-align: bottom;
+}
 </style>

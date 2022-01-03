@@ -3,7 +3,7 @@
     <el-row class="integrated">
       <el-col :md="5" :lg="5" :xl="4">
         <div class="screenCondition">
-          <h2>选择筛选条件</h2>
+          <h2>选择类型</h2>
           <ul>
             <li
               class="el-icon-plus"
@@ -19,14 +19,21 @@
       </el-col>
       <el-col :md="14" :lg="14" :xl="15">
         <div class="integrateedContent">
-          <h2>输入筛选条件</h2>
+          <h2>选择工单/报告</h2>
           <div class="conditionList">
             <el-row :gutter="20">
               <el-col :md="24" :lg="12" :xl="12">
                 <div class="conditionTable">
                   <h4>报告生成记录</h4>
-                  <div class="conditionTableContent">
-                    <el-table :data="reportRecord" border>
+                  <div
+                    class="conditionTableContent"
+                    style="height: 500px !important"
+                  >
+                    <el-table
+                      :data="reportRecord"
+                      border
+                      @selection-change="handleSelectionChange"
+                    >
                       <el-table-column
                         type="selection"
                         width="55"
@@ -44,8 +51,10 @@
                         prop="reportId"
                       ></el-table-column>
                       <el-table-column label="查看报告">
-                        <template #default="row">
-                          <el-button size="mini" @click="lookReport(row)"
+                        <template slot-scope="scope">
+                          <el-button
+                            size="mini"
+                            @click="lookReport(scope.$index)"
                             >查看</el-button
                           >
                         </template>
@@ -56,80 +65,14 @@
               </el-col>
               <el-col :md="24" :lg="12" :xl="12">
                 <div class="conditionTable">
-                  <h4>维修手册下载</h4>
-                  <div class="conditionTableContent">
-                    <div class="tagBorder">
-                      <el-tag
-                        :key="tag"
-                        v-for="tag in dynamicTags"
-                        closable
-                        :disable-transitions="false"
-                        @close="handleClose(tag)"
-                      >
-                        {{ tag }}
-                      </el-tag>
-                      <el-autocomplete
-                        class="input-new-tag"
-                        v-model="inputValue"
-                        ref="saveTagInput"
-                        size="small"
-                        @keyup.enter.native="handleInputConfirm"
-                        @blur="handleInputConfirm"
-                        :fetch-suggestions="querySearch"
-                        @select="handleInputConfirm"
-                      >
-                      </el-autocomplete>
-                    </div>
-                  </div>
-                </div>
-              </el-col>
-              <el-col :md="24" :lg="12" :xl="12">
-                <div class="conditionTable">
-                  <h4>DE 工单下载</h4>
-                  <div class="conditionTableContent">
-                    <div class="tagBorder">
-                      <el-tag
-                        :key="tag"
-                        v-for="tag in dynamicTags"
-                        closable
-                        :disable-transitions="false"
-                        @close="handleClose(tag)"
-                      >
-                        {{ tag }}
-                      </el-tag>
-                      <el-autocomplete
-                        class="input-new-tag"
-                        v-model="inputValue"
-                        ref="saveTagInput"
-                        size="small"
-                        @keyup.enter.native="handleInputConfirm"
-                        @blur="handleInputConfirm"
-                        :fetch-suggestions="querySearch"
-                        @select="handleInputConfirm"
-                      >
-                      </el-autocomplete>
-                    </div>
-                    <el-checkbox-group v-model="checkedCities" class="mt20">
-                      <el-checkbox
-                        v-for="(city, index) in cities"
-                        :label="index"
-                        :key="index"
-                        >{{ city }}</el-checkbox
-                      >
-                    </el-checkbox-group>
-                  </div>
-                </div>
-              </el-col>
-              <el-col :md="24" :lg="12" :xl="12">
-                <div class="conditionTable">
                   <h4>工单/报告搜索</h4>
                   <div
                     class="conditionTableContent"
-                    style="min-height: 400px !important"
+                    style="min-height: 500px !important"
                   >
                     <el-row>
                       <el-col :span="24">
-                        <span>报告类型</span
+                        <span>报告类型： &nbsp;&nbsp;</span
                         ><el-select v-model="reportType">
                           <el-option
                             v-for="(list, index) in todos"
@@ -139,6 +82,7 @@
                         </el-select>
                       </el-col>
                       <el-col :span="24" class="mt20">
+                        <span>日期选择：&nbsp;&nbsp;</span>
                         <el-date-picker
                           v-model="date"
                           type="daterange"
@@ -186,7 +130,11 @@
                         ></el-button>
                       </el-input>
 
-                      <el-table :data="reportData" border>
+                      <el-table
+                        :data="reportData"
+                        border
+                        @selection-change="handleSelectionChange1"
+                      >
                         <el-table-column
                           type="selection"
                           width="55"
@@ -204,8 +152,10 @@
                           prop="reportId"
                         ></el-table-column>
                         <el-table-column label="查看报告">
-                          <template #default="row">
-                            <el-button size="mini" @click="lookReport(row)"
+                          <template slot-scope="scope">
+                            <el-button
+                              size="mini"
+                              @click="lookReport(scope.$index)"
                               >查看</el-button
                             >
                           </template>
@@ -224,16 +174,16 @@
       </el-col>
       <el-col :md="5" :lg="5" :xl="5">
         <div class="selecteds">
-          <h2>选定筛选条件</h2>
+          <h2>确定下载</h2>
           <div class="selectedsList">
             <div class="selectedsContentList">
               <ul>
                 <li v-for="(list, index) in lists" :key="index">
                   <div class="name">
-                    {{ list.name }}
+                    {{ list.reportType }}
                     <i class="el-icon-close"></i><i class="el-icon-edit"></i>
                   </div>
-                  <p>{{ list.text }}</p>
+                  <p>{{ list.reportId }}</p>
                 </li>
               </ul>
               <el-row :gutter="20">
@@ -253,6 +203,21 @@
         </div>
       </el-col>
     </el-row>
+    <el-dialog
+      title="预览"
+      :visible.sync="dialogVisible"
+      width="40%"
+      :close-on-click-modal="false"
+    >
+      <div style="height: calc(100vh - 300px); overflow-y: auto">
+        <img
+          v-for="(item, index) in imgs"
+          :src="item"
+          :key="index"
+          width="50%"
+        />
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -265,23 +230,41 @@ const cityOptions = [
 export default {
   data() {
     return {
+      img: [
+        require("../static/pdf/3445_1.png"),
+        require("../static/pdf/3445_2.png"),
+        require("../static/pdf/3445_3.png"),
+        require("../static/pdf/3445_4.png"),
+        require("../static/pdf/3445_5.png"),
+      ],
+
+      img2: [
+        require("../static/pdf/3453_1.png"),
+        require("../static/pdf/3453_2.png"),
+        require("../static/pdf/3453_3.png"),
+        require("../static/pdf/3453_4.png"),
+        require("../static/pdf/3453_5.png"),
+        require("../static/pdf/3453_6.png"),
+      ],
+      img3: [
+        require("../static/pdf/4951_1.png"),
+        require("../static/pdf/4951_2.png"),
+        require("../static/pdf/4951_3.png"),
+        require("../static/pdf/4951_4.png"),
+        require("../static/pdf/4951_5.png"),
+        require("../static/pdf/4951_6.png"),
+      ],
+      dialogVisible: false,
       isshow: false,
       items: [
-        { name: "报告生成记录", isshow: false },
+        { name: "报告生成记录", isshow: true },
         { name: "收藏历史记录", isshow: false },
         { name: "维修手册下载", isshow: false },
-        { name: "DE 工单下载", isshow: false },
         { name: "CC 工单下载", isshow: false },
         { name: "MR 工单下载", isshow: false },
         { name: "工单/报告搜索", isshow: false },
       ],
-      lists: [
-        { name: "故障描述", text: "ABCDEFGHIGKLMNOPQRSTUVWXYZ" },
-        {
-          name: "关键词组",
-          text: "自动抽取: ABCD , EFGH , XYZ 手动输入: ACEG , ZYX",
-        },
-      ],
+      lists: [],
       text: "",
       dynamicTags: [],
       inputValue: "",
@@ -301,17 +284,41 @@ export default {
       reportRecord: [
         {
           id: 1,
-          date: "2021-12-14",
-          reportType: "维修报告",
-          reportId: "156456",
+          date: "20YY-MM-DD",
+          reportType: "推荐方案",
+          reportId: "2022-3445",
+        },
+        {
+          id: 2,
+          date: "20YY-MM-DD",
+          reportType: "推荐方案",
+          reportId: "2022-3453",
+        },
+        {
+          id: 3,
+          date: "20YY-MM-DD",
+          reportType: "推荐方案",
+          reportId: "2022-4951",
         },
       ],
       reportData: [
         {
           id: 1,
-          date: "2021-12-14",
-          reportType: "维修报告",
-          reportId: "156456",
+          date: "20YY-MM-DD",
+          reportType: "推荐方案",
+          reportId: "2022-3445",
+        },
+        {
+          id: 2,
+          date: "20YY-MM-DD",
+          reportType: "推荐方案",
+          reportId: "2022-3453",
+        },
+        {
+          id: 3,
+          date: "20YY-MM-DD",
+          reportType: "推荐方案",
+          reportId: "2022-4951",
         },
       ],
       checkedCities: [],
@@ -320,16 +327,42 @@ export default {
       date: "",
       reportType: "",
       searchValue: "",
+      imgs: [],
+      dataselection: [],
+      listselection: [],
     };
   },
 
   created() {},
   mounted() {
-    this.restaurants = this.loadAll();
+    // this.restaurants = this.loadAll();
+    // let _this = this;
+    // this.$nextTick(function () {
+    //   _this.$PDFObject.embed("../static/pdf/3445.pdf", "#example1");
+    // });
   },
   methods: {
+    handleSelectionChange(val) {
+      this.dataselection = val;
+      this.lists.push(...this.dataselection);
+      console.log(this.lists);
+    },
+    handleSelectionChange1(val) {
+      this.listselection = val;
+      this.lists.push(...this.listselection);
+    },
     //查看报告
-    lookReport(row) {},
+    lookReport(index) {
+      console.log(index);
+      this.dialogVisible = true;
+      if (index == 0) {
+        this.imgs = this.img;
+      } else if (index == 1) {
+        this.imgs = this.img2;
+      } else {
+        this.imgs = this.img3;
+      }
+    },
     toggleShow(index) {
       this.$set(this.items[index], "isshow", !this.items[index].isshow);
     },

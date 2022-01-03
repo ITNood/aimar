@@ -96,6 +96,7 @@
                           <span
                             v-for="(list, index) in item.DE"
                             :key="index"
+                            @click="openDe(list)"
                             class="text-decoration"
                             >{{ list }};</span
                           >）
@@ -310,13 +311,22 @@ export default {
       this.items = data;
     },
     getdata() {
+      console.log(this.items);
       const data = this.items.filter((item) => {
         return item.chapters;
       });
       this.chatnumber = data[0].chapters + data[0].sections;
+      var airplaneTypes = this.items.filter((item) => {
+        return item.airplaneTypes;
+      });
+      if (airplaneTypes.length > 0) {
+        var ariNumber = airplaneTypes[0].airplaneTypes;
+      } else {
+        var ariNumber = 737;
+      }
       api
         .get(
-          `/scheme/recommendation/by/all?manufacturer=Airbus&section=${this.chatnumber}`
+          `/scheme/recommendation/by/all?acType=${ariNumber}&section=${this.chatnumber}`
         )
         .then((res) => {
           if (res.data) {

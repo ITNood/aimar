@@ -25,13 +25,26 @@
               <el-col :md="24" :lg="12" :xl="12" v-show="items[0].isshow">
                 <div class="conditionTable">
                   <h4>故障描述</h4>
-                  <div class="conditionTableContent clear">
+                  <div
+                    class="conditionTableContent clear"
+                    style="position: relative"
+                  >
                     <el-input
-                      type="textarea"
                       v-model="text"
+                      class="blurtext"
                       clearable
+                      @focus="clickhere($event)"
                       placeholder="输入故障描述"
                     ></el-input>
+                    <ul class="listtext" v-show="ishide">
+                      <li
+                        v-for="(item, index) in texts"
+                        :key="index"
+                        @click="selecttext(item)"
+                      >
+                        {{ item }}
+                      </li>
+                    </ul>
                     <el-button
                       size="mini"
                       class="faultSubmit"
@@ -331,6 +344,7 @@ import api from "../API/index";
 export default {
   data() {
     return {
+      ishide: false,
       show: false,
       showAri: true,
       synonym: [],
@@ -383,6 +397,11 @@ export default {
       restCode: [],
 
       number: 0,
+      texts: [
+        "机组反应空中出现TCAS FAIL,复位后正常",
+        "航后机组反应ATC1空中失效",
+        "过站机组反应APU引气压力低，复位引气电门后正常",
+      ],
     };
   },
 
@@ -549,6 +568,18 @@ export default {
       } else {
         this.$message.warning("请输入故障描述");
       }
+    },
+    clickhere(e) {
+      console.log(e.target.value);
+      if (!this.text) {
+        this.ishide = true;
+      } else {
+        this.ishide = false;
+      }
+    },
+    selecttext(item) {
+      this.text = item;
+      this.ishide = false;
     },
 
     //同近义词选择

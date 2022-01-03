@@ -267,6 +267,19 @@ img {
   font-size  : 1.2rem;
   font-weight: 600;
   line-height: 240%;
+
+}
+
+.listtext {
+  position: absolute;
+  top     : 80px;
+  left    : 20px;
+}
+
+.blurtext {
+  // .el-input__inner {
+  //   min-height: 100px;
+  // }
 }
 
 .monitor {
