@@ -205,10 +205,16 @@
                   <div class="programmeImg">
                     <h3>部件流转信息展示 <span>beta</span></h3>
                     <!-- <img src="../static/image/img.png" /> -->
+                    <div class="pntitle">
+                      <strong>PN#:</strong>{{ pn }}&nbsp;&nbsp;<strong
+                        >SN#:</strong
+                      >{{ sn }}
+                    </div>
                     <el-table :data="data" border class="mt20">
                       <el-table-column
                         label="更换时间"
                         prop="changeOnDateTime,changeOffDateTime"
+                        min-width="160"
                       >
                         <template slot-scope="scope">
                           <p class="fonthide">
@@ -315,6 +321,7 @@ export default {
   components: { deDetails },
   data() {
     return {
+      sn: "",
       ariNumber: [],
       names: [],
       radio: "0",
@@ -407,11 +414,11 @@ export default {
       const list = [...this.items];
       list.splice(index, 1);
       this.items = [...list];
-      console.log(this.items);
-      this.$refs.multipleTable.toggleRowSelection(this.items, true);
+      // this.$refs.multipleTable.toggleRowSelection(this.items, true);
     },
     changePn(val) {
       const data = this.result[val];
+      this.pn = data.pn;
       this.onlineDate = data.onlineDayTotal;
       this.averageDate = data.averageOnlineDays;
       this.percent = data.oyfp;
@@ -420,27 +427,29 @@ export default {
       }
       if (data.replacePn) {
         this.replacePn = data.replacePn.join();
+      } else {
+        this.replacePn = "";
       }
       if (data.pnOnline == true) {
-        console.log(111);
         this.isonline = "是";
       } else {
         this.isonline = "否";
       }
       this.tableData = data.snList;
+      this.data = data.snList[0].snChangeDetail;
+      this.sn = data.snList[0].sn;
     },
     screen() {
       const data = {
         acId: this.ariNumber.join(),
-        onlyMainComponents: false,
-        onlyOnline: false,
+        onlyMainComponents: this.checkbox1,
+        onlyOnline: this.checkbox2,
         pnCodes: this.dynamicTags,
         pnNames: this.names,
       };
       api
         .post("/ccDeInfo/merged/de", data)
         .then((res) => {
-          console.log(res);
           this.result = res.data;
           this.pns = [...res.data].map((item) => {
             return item.pn;
@@ -462,6 +471,8 @@ export default {
           }
           if (data.replacePn) {
             this.replacePn = data.replacePn.join();
+          } else {
+            this.replacePn = "";
           }
           if (data.pnOnline == true) {
             console.log(111);
@@ -471,6 +482,7 @@ export default {
           }
           this.tableData = data.snList;
           this.data = data.snList[0].snChangeDetail;
+          this.sn = data.snList[0].sn;
         })
         .catch((err) => {
           console.log(err);
@@ -481,6 +493,7 @@ export default {
     lookUp(row) {
       console.log(row.row);
       this.data = row.row.snChangeDetail;
+      this.sn = row.row.sn;
     },
     handleClose(tag) {
       this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
