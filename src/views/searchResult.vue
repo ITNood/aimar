@@ -213,7 +213,7 @@ export default {
   data() {
     return {
       items: [],
-      total: 10,
+      total: 0,
       checkedNumber: 0,
       startChapter1: "",
       endChapter1: "",
@@ -338,9 +338,9 @@ export default {
               .flat();
             //table
             this.arr = res.data.list;
-            console.log(this.arr);
+            this.total = res.data.total;
             let data = [...res.data.list].slice(0, 10);
-            const tableData = data.map((item) => {
+            const tableData = [...res.data.list].map((item) => {
               return {
                 ...item,
                 dateAction: this.formateDate(item.dateAction),

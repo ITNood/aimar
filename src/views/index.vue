@@ -127,7 +127,6 @@ export default {
         return { name: item.name, date: item.date };
       });
       this.lists = this.items.reverse();
-      console.log(this.items.reverse());
     },
     openData(name) {
       this.$refs.task.close();
@@ -147,7 +146,7 @@ export default {
           this.cardDate = res.data.dateAction;
           this.station = res.data.station;
           this.describe = res.data.description;
-          // this.plans=res.data.
+          this.plans=res.data.plannedAction
           this.programmes = res.data.action;
         })
         .catch((err) => {
@@ -190,6 +189,7 @@ export default {
       this.number = row.acId;
       this.model = row.acType;
       this.faults = row.description;
+      this.plan=row.plannedAction
       this.programme = row.action;
     },
     closedDialog() {

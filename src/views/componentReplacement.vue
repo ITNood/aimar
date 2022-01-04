@@ -211,8 +211,12 @@
                         prop="changeOnDateTime,changeOffDateTime"
                       >
                         <template slot-scope="scope">
-                          <p>{{ scope.row.changeOnDateTime }}</p>
-                          <p>{{ scope.row.changeOffDateTime }}</p>
+                          <p class="fonthide">
+                            {{ scope.row.changeOnDateTime }}
+                          </p>
+                          <p class="fonthide">
+                            {{ scope.row.changeOffDateTime }}
+                          </p>
                         </template></el-table-column
                       >
                       <el-table-column label="在机时长" prop="time">
@@ -286,13 +290,29 @@
         </div>
       </el-col>
     </el-row>
+    <de-details
+      :de="de"
+      :date="date"
+      :open="open"
+      :close="closed"
+      :terminal="terminal"
+      :number="number"
+      :model="model"
+      :fault="faults"
+      :plan="plan"
+      :programme="programme"
+      @closedDialog="closedDialog"
+      ref="child"
+    />
   </div>
 </template>
 
 <script>
 import api from "../API/index";
+import deDetails from "../components/deDetails.vue";
 import solution from "../solutiongraph";
 export default {
+  components: { deDetails },
   data() {
     return {
       ariNumber: [],
@@ -325,6 +345,18 @@ export default {
       multipleSelection: [],
       getPn: "",
       result: [],
+      //DE详情
+      de: "",
+      date: "",
+      open: 0,
+      closed: 0,
+      terminal: "",
+      number: "",
+      model: "",
+      faults: "",
+      plan: "",
+      programme: "",
+      chatnumber: "",
     };
   },
   created() {},
@@ -332,6 +364,37 @@ export default {
     this.restaurants2 = this.loadAll();
   },
   methods: {
+    //CC/MR记录
+    record(row) {
+      console.log(row);
+    },
+    //DE记录
+    DErecord(row) {
+      console.log(row);
+      this.closedDialog();
+      const de = row.de[0];
+      api
+        .get(`/DeRecord/by/id/${de}`)
+        .then((res) => {
+          console.log(res);
+          this.date = res.data.dateAction;
+          this.open = res.data.ataOpen;
+          this.closed = res.data.ataClose;
+          this.terminal = res.data.station;
+          this.number = res.data.acId;
+          this.model = res.data.acType;
+          this.faults = res.data.description;
+          this.plan = res.data.plannedAction;
+          this.programme = res.data.action;
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+        .finally(() => {});
+    },
+    closedDialog() {
+      this.$refs.child.closeDialog();
+    },
     handleSelectionChange(val) {
       console.log(val);
       this.multipleSelection = val;
@@ -407,20 +470,14 @@ export default {
             this.isonline = "否";
           }
           this.tableData = data.snList;
+          this.data = data.snList[0].snChangeDetail;
         })
         .catch((err) => {
           console.log(err);
         })
         .finally(() => {});
     },
-    //CC/MR记录
-    record(row) {
-      console.log(row.row);
-    },
-    //DE记录
-    DErecord(row) {
-      console.log(row.row);
-    },
+
     lookUp(row) {
       console.log(row.row);
       this.data = row.row.snChangeDetail;

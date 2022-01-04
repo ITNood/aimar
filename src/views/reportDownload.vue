@@ -32,11 +32,14 @@
                     <el-table
                       :data="reportRecord"
                       border
+                      row-key="id"
+                      ref="multipleTable"
                       @selection-change="handleSelectionChange"
                     >
                       <el-table-column
                         type="selection"
                         width="55"
+                        :selectable="renderSelectable"
                       ></el-table-column>
                       <el-table-column
                         label="生成时间"
@@ -133,11 +136,14 @@
                       <el-table
                         :data="reportData"
                         border
+                        ref="listdata"
+                        row-key="id"
                         @selection-change="handleSelectionChange1"
                       >
                         <el-table-column
                           type="selection"
                           width="55"
+                          :selectable="renderSelectable"
                         ></el-table-column>
                         <el-table-column
                           label="生成时间"
@@ -189,7 +195,7 @@
               </ul>
               <el-row :gutter="20">
                 <el-col :span="12">
-                  <el-button class="el-icon-delete btn empty"
+                  <el-button class="el-icon-delete btn empty" @click="remove"
                     >&nbsp;&nbsp;清空</el-button
                   >
                 </el-col>
@@ -300,10 +306,10 @@ export default {
           reportId: "2022-3453",
         },
         {
-          id: 3453,
+          id: 4951,
           date: "20YY-MM-DD",
           reportType: "推荐方案",
-          reportId: "2022-3453",
+          reportId: "2022-4951",
         },
       ],
       reportData: [
@@ -320,10 +326,10 @@ export default {
           reportId: "2022-3453",
         },
         {
-          id: 3453,
+          id: 4951,
           date: "20YY-MM-DD",
           reportType: "推荐方案",
-          reportId: "2022-3453",
+          reportId: "2022-4951",
         },
       ],
       checkedCities: [],
@@ -337,14 +343,73 @@ export default {
       listselection: [],
     };
   },
-
+  watch: {},
   created() {},
   mounted() {},
+  computed: {
+    renderSelectable: function () {
+      return (row, index) => {
+        if (row.disabled) {
+          console.log("-------", row);
+        }
+        return !row.disabled;
+      };
+    },
+  },
   methods: {
+    //清空
+    remove() {
+      this.lists = [];
+      this.$refs.multipleTable.clearSelection();
+      this.$refs.listdata.clearSelection();
+    },
+    //删除选中
     deltel(index) {
       const list = [...this.lists];
       list.splice(index, 1);
       this.lists = [...list];
+      console.log("lists", this.lists);
+      if (this.lists.length <= 0) {
+        this.remove();
+      }
+      // this.lists.forEach((row) => {
+      //   this.$refs.multipleTable.toggleRowSelection(row);
+      // });
+    },
+    // 数组对象去重
+    deWeightFour(arr, key) {
+      let obj = {};
+      arr = arr.reduce(function (a, b) {
+        obj[b[key]] ? "" : (obj[b[key]] = true && a.push(b));
+        return a;
+      }, []);
+      return arr;
+    },
+    //表一勾选
+    handleSelectionChange(val) {
+      this.dataselection = [...val];
+      this.lists = this.deWeightFour([...this.listselection, ...val], "id");
+
+      const ids = val.map((item) => item.id);
+      console.log(1, ids, this.lists);
+      // this.renderData("reportData", ids);
+    },
+    //表二勾选
+    handleSelectionChange1(val) {
+      this.listselection = [...val];
+      this.lists = this.deWeightFour([...this.dataselection, ...val], "id");
+      const ids = val.map((item) => item.id);
+      console.log(2, ids, this.lists);
+      // this.renderData("reportRecord", ids);
+    },
+
+    renderData(name, ids) {
+      const list = [...this[name]].map((item) => ({
+        ...item,
+        disabled: ids.includes(item.id),
+      }));
+      this.$set(this, name, list);
+      // this[name] = [...list];
     },
     download() {
       this.lists.forEach((item, index) => {
@@ -355,15 +420,7 @@ export default {
         }
       });
     },
-    handleSelectionChange(val) {
-      this.dataselection = val;
-      this.lists.push(...this.dataselection);
-      console.log(this.lists);
-    },
-    handleSelectionChange1(val) {
-      this.listselection = val;
-      this.lists.push(...this.listselection);
-    },
+
     //查看报告
     lookReport(index) {
       console.log(index);
