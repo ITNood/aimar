@@ -1153,6 +1153,15 @@ img {
       color: $font333;
     }
   }
+
+  .current {
+    background-color: #409eff;
+    color           : $withe;
+
+    i {
+      color: $withe !important;
+    }
+  }
 }
 
 .dialog-de {

@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import createPersistedState from 'vuex-persistedstate';
 
 Vue.use(Vuex)
 
@@ -13,25 +14,28 @@ export default new Vuex.Store({
     }
   },
   mutations: {
-    ADD(state, routerName) {
-      state.routerList.push(routerName);
+    ADD_ROUTER(state, data) {
+      const index = state.routerList.findIndex(item => item.title === data.title)
+      if (index === -1) {
+        state.routerList.push(data);
+      }
     },
-    DEL(state, routerName) {
-      state.routerList.forEach((item, index) => {
-        if (item === routerName) {
-          state.routerList.splice(index);
-        }
-      });
+    DEL_ROUTER(state, routerName) {
+      const list = [...state.routerList].filter(item => item.title !== routerName)
+      state.routerList = [...list]
     }
   },
   actions: {
-    add({ commit }, routerName) {
-      commit("ADD", routerName);
+    addRouter({ commit }, routerName) {
+      commit("ADD_ROUTER", routerName);
     },
-    delete({ commit }, routerName) {
-      commit("DEL", routerName);
+    deleteRouter({ commit }, routerName) {
+      commit("DEL_ROUTER", routerName);
     }
   },
   modules: {
-  }
+  },
+  plugins: [createPersistedState({
+    storage: window.sessionStorage,
+  })],
 })

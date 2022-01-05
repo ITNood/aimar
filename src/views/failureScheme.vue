@@ -290,39 +290,43 @@ export default {
   created() {
     this.getCacheData();
     this.getdata();
-    this.$nextTick(() => {
-      const nodes = solution.case2151AirbusGraph.nodes;
-      const name = solution.case2151AirbusGraph.categories.map((a) => {
-        return a.name;
-      });
-      const links = solution.case2151AirbusGraph.links;
-      const categories = solution.case2151AirbusGraph.categories;
-      this.getEcharts(nodes, name, links, categories);
-    });
+    // this.$nextTick(() => {
+    //
+    // });
   },
   mounted() {
     // this.getEcharts();
+    const number = "2151";
+    const nodes = solution[number].nodes;
+    const name = solution[number].categories.map((a) => {
+      return a.name;
+    });
+    const links = solution[number].links;
+    const categories = solution[number].categories;
+    this.getEcharts(nodes, name, links, categories);
   },
   methods: {
     //获取缓存
     getCacheData() {
-      const data = JSON.parse(localStorage.getItem("listData"));
-      console.log(data);
-      this.items = data;
+      this.items = JSON.parse(localStorage.getItem("listData"));
     },
     getdata() {
-      console.log(this.items);
-      const data = this.items.filter((item) => {
-        return item.chapters;
-      });
-      this.chatnumber = data[0].chapters + data[0].sections;
-      var airplaneTypes = this.items.filter((item) => {
-        return item.airplaneTypes;
-      });
-      if (airplaneTypes.length > 0) {
-        var ariNumber = airplaneTypes[0].airplaneTypes;
-      } else {
-        var ariNumber = 737;
+      if (this.items) {
+        const data = this.items.filter((item) => {
+          return item.chapters;
+        });
+        console.log(data);
+        if (data.length > 0) {
+          this.chatnumber = data[0].chapters + data[0].sections;
+        }
+        var airplaneTypes = this.items.filter((item) => {
+          return item.airplaneTypes;
+        });
+        if (airplaneTypes.length > 0) {
+          var ariNumber = airplaneTypes[0].airplaneTypes;
+        } else {
+          var ariNumber = 737;
+        }
       }
       api
         .get(
@@ -351,15 +355,17 @@ export default {
             }
             this.lists = data.SolutionBody;
           }
+
           const number = this.chatnumber;
-          console.log("duqu ", solution[number]);
-          const nodes = solution[number].nodes;
-          const name = solution[number].categories.map((a) => {
-            return a.name;
-          });
-          const links = solution[number].links;
-          const categories = solution[number].categories;
-          this.getEcharts(nodes, name, links, categories);
+          if (number) {
+            const nodes = solution[number].nodes;
+            const name = solution[number].categories.map((a) => {
+              return a.name;
+            });
+            const links = solution[number].links;
+            const categories = solution[number].categories;
+            this.getEcharts(nodes, name, links, categories);
+          }
         })
         .catch((err) => {
           console.log(err);

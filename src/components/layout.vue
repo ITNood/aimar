@@ -18,6 +18,7 @@
           </div>
           <!--路由组件-->
           <side-Meuns :routes="getRoutes"></side-Meuns>
+          <!-- ?????? -->
         </el-menu>
       </el-aside>
       <!-- 右侧内容区域 -->
@@ -66,11 +67,12 @@
 
           <div class="tabs">
             <el-tag
-              v-for="tag in tags"
+              v-for="tag in getrouterList"
               :key="tag.path"
               :closable="tag.clearclose"
               @close="handleCloseTag(tag)"
               @click="tabs(tag.path)"
+              :class="tag.current == true ? 'current' : ''"
             >
               {{ tag.title }}
             </el-tag>
@@ -102,12 +104,8 @@
 // 左侧菜单组件
 import sideMeuns from "@/components/sideMeuns";
 import { permissionRouter } from "@/router";
+import { mapActions, mapGetters } from "vuex";
 export default {
-  computed: {
-    getRoutes() {
-      return global.antRouter;
-    },
-  },
   components: {
     sideMeuns,
   },
@@ -130,9 +128,19 @@ export default {
     this.title = this.$route.meta.title;
     if (
       this.$route.path !== "/searchResult" &&
-      this.$route.path !== "/integrated"
+      this.$route.path !== "/integrated" &&
+      this.$route.path !== "/failureScheme"
     ) {
       localStorage.removeItem("listData");
+    }
+    if (this.getrouterList.indexOf(this.$route.path)) {
+      this.getrouterList.forEach((item) => {
+        if (item.path == this.$route.path) {
+          item.current = true;
+        } else {
+          item.current = false;
+        }
+      });
     }
   },
   watch: {
@@ -144,37 +152,52 @@ export default {
   mounted() {
     this.setTags(this.$route);
   },
+  computed: {
+    ...mapGetters(["getrouterList"]),
+    getRoutes() {
+      return global.antRouter;
+    },
+  },
   methods: {
+    ...mapActions(["addRouter", "deleteRouter"]),
     tabs(path) {
       this.$router.push(path);
     },
     handleCloseTag(tag) {
-      this.tags.splice(this.tags.indexOf(tag), 1);
-
-      if (this.tags.length > 0) {
-        this.$router.push(this.tags[this.tags.length - 1].path);
+      //关闭标签
+      if (this.getrouterList.length > 0) {
+        const index = this.getrouterList.findIndex(
+          (item) => item.title === tag.title
+        );
+        if (index === -1) {
+          this.$router.push({ title: "总控制台" });
+        } else if (this.$route.path === tag.path) {
+          if (index === this.getrouterList.length - 1) {
+            // 最后一个 往前一个挪
+            console.log(this.getrouterList[index - 1]);
+            this.$router.push(this.getrouterList[index - 1].path);
+          } else {
+            // 往后面挪
+            console.log(this.getrouterList[index + 1]);
+            this.$router.push(this.getrouterList[index + 1].path);
+          }
+        }
       } else {
         this.$router.push({ title: "总控制台" });
       }
+      this.deleteRouter(tag.title);
     },
     setTags(route) {
       const isExsit = this.tags.some((item) => {
         return item.path === route.fullPath;
       });
       if (isExsit == false) {
-        if (route.meta.title == "总控制台") {
-          this.tags.push({
-            title: route.meta.title, //标签名
-            path: route.fullPath, //路由
-            clearclose: false,
-          });
-        } else {
-          this.tags.push({
-            title: route.meta.title, //标签名
-            path: route.fullPath, //路由
-            clearclose: true,
-          });
-        }
+        this.addRouter({
+          title: route.meta.title, //标签名
+          path: route.fullPath, //路由
+          current: false,
+          clearclose: !(route.meta.title == "总控制台"),
+        });
       }
     },
     //退出系统
@@ -191,8 +214,6 @@ export default {
         .catch(() => {
           console.log("没有退出登录状态！！！");
         });
-
-      // window.location.href = window.location.origin + window.location.pathname
     },
     onReload() {
       this.$router.push("/main");

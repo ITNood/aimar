@@ -84,9 +84,13 @@
               <el-radio label="1"> 按描述相似度排序</el-radio>
               <el-radio label="2"> 按时间排序</el-radio>
             </el-radio-group>
-            <!-- <el-checkbox v-model="checked" class="selectcheckbox">
-              仅查看相关ATA</el-checkbox
-            > -->
+            <el-checkbox
+              v-model="checked"
+              class="selectcheckbox"
+              @change="isChange"
+            >
+              是否开启全局检索</el-checkbox
+            >
           </div>
           <el-table
             :data="tableData"
@@ -162,7 +166,7 @@
             </el-table-column>
           </el-table>
           <pagination
-            :total="totalPage"
+            :total="total"
             :pageSize="pageSize"
             :currentPage="currentPage"
             @handleSizeChange="handleSizeChange"
@@ -224,7 +228,6 @@ export default {
       radio: "0",
       checked: false,
       tableData: [],
-      totalPage: 100,
       pageSize: 10,
       currentPage: 1,
       show: false,
@@ -265,13 +268,18 @@ export default {
   mounted() {},
   methods: {
     handleSelectionChange(val) {
-      console.log(val);
       this.checkedNumber = val.length;
       this.multipleSelection = val;
     },
     //推荐
     recommend() {
       this.$router.push("/failureScheme");
+    },
+    //开启全局检索
+    isChange() {
+      if (this.checked == true) {
+        this.gettabledata();
+      }
     },
     gettabledata() {
       if (this.items) {
@@ -329,6 +337,7 @@ export default {
         pageNum: this.currentPage,
         pageSize: this.pageSize,
         sort: this.radio,
+        isEnable: this.checked,
       };
       api
         .post("/elasticSearch/deRecord/page", data)
