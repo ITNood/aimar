@@ -407,7 +407,7 @@ export default {
           },
         ],
       });
-      myChart.setOption(option);
+      // myChart.setOption(option);
       option && myChart.setOption(option, true);
       window.onresize = function () {
         myChart.resize();
