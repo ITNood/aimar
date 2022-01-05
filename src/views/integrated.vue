@@ -407,49 +407,51 @@ export default {
 
   created() {
     this.getdata();
-    const data = JSON.parse(localStorage.getItem("listData"));
-    this.lists = data;
-    console.log(this.lists);
-    this.lists.forEach((item) => {
-      if (item.id == 0) {
-        this.text = item.text;
-      }
-      if (item.id == 1) {
-        if (this.keywords) {
-          this.keywords = item.keyword.toString().split(",");
-        } else {
-          this.keywords = [];
+    this.lists = JSON.parse(localStorage.getItem("listData"));
+    console.log(Array.isArray(this.lists));
+    if (this.lists) {
+      console.log(111);
+      this.lists.forEach((item) => {
+        if (item.id == 0) {
+          this.text = item.text;
         }
-      }
-      if (item.id == 2) {
-        if (item.text) {
-          this.codes = item.text.toString().split(",");
-        } else {
-          this.codes = [];
+        if (item.id == 1) {
+          if (this.keywords) {
+            this.keywords = item.keyword.toString().split(",");
+          } else {
+            this.keywords = [];
+          }
         }
-      }
-      if (item.id == 3) {
-        this.value1 = item.value1;
-      }
-      if (item.id == 4) {
-        this.airplane = item.airplanes;
-      }
-      if (item.id == 5) {
-        if (item.airplaneTypes) {
-          this.planes = item.airplaneTypes.toString().split(",");
-        } else {
-          this.planes = [];
+        if (item.id == 2) {
+          if (item.text) {
+            this.codes = item.text.toString().split(",");
+          } else {
+            this.codes = [];
+          }
         }
-      }
-      if (item.id == 6) {
-        this.start = item.chapters;
-        this.end = item.sections;
-      }
-      if (item.id == 7) {
-        this.startDate = item.startDate;
-        this.endDate = item.endDate;
-      }
-    });
+        if (item.id == 3) {
+          this.value1 = item.value1;
+        }
+        if (item.id == 4) {
+          this.airplane = item.airplanes;
+        }
+        if (item.id == 5) {
+          if (item.airplaneTypes) {
+            this.planes = item.airplaneTypes.toString().split(",");
+          } else {
+            this.planes = [];
+          }
+        }
+        if (item.id == 6) {
+          this.start = item.chapters;
+          this.end = item.sections;
+        }
+        if (item.id == 7) {
+          this.startDate = item.startDate;
+          this.endDate = item.endDate;
+        }
+      });
+    }
   },
   mounted() {
     this.restaurants = this.loadAll();

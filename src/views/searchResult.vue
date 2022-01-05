@@ -67,9 +67,9 @@
             </li>
             <li>
               <h3>ATA次章节：</h3>
-              <p>-{{ startChapter2 }}</p>
-              <p v-if="show2">-{{ endChapter2 }}</p>
-              <p v-if="show3">-{{ listChapter }}</p>
+              <p v-if="show2">-{{ startChapter2 }}</p>
+              <p v-if="show3">-{{ endChapter2 }}</p>
+              <p v-if="show4">-{{ listChapter }}</p>
             </li>
           </ul>
         </el-col>
@@ -208,6 +208,7 @@ import api from "../API/index";
 import Condition from "../components/condition.vue";
 import DeDetails from "../components/deDetails.vue";
 import pagination from "../components/pagination.vue";
+import testVue from "./test.vue";
 export default {
   components: { pagination, DeDetails, Condition },
   data() {
@@ -251,9 +252,10 @@ export default {
       endDate: "",
       arr: [],
       multipleSelection: [],
-      show1: true,
-      show2: true,
-      show3: true,
+      show1: false,
+      show2: false,
+      show3: false,
+      show4: false,
     };
   },
   created() {
@@ -272,43 +274,46 @@ export default {
       this.$router.push("/failureScheme");
     },
     gettabledata() {
-      this.items.forEach((item) => {
-        if (item.id == 1) {
-          if (this.keywords) {
-            this.keywords = item.keyword.toString().split(",");
-          } else {
-            this.keywords = [];
+      if (this.items) {
+        this.items.forEach((item) => {
+          if (item.id == 1) {
+            if (this.keywords) {
+              this.keywords = item.keyword.toString().split(",");
+            } else {
+              this.keywords = [];
+            }
           }
-        }
-        if (item.id == 2) {
-          if (item.text) {
-            this.codes = item.text.toString().split(",");
-          } else {
-            this.codes = [];
+          if (item.id == 2) {
+            if (item.text) {
+              this.codes = item.text.toString().split(",");
+            } else {
+              this.codes = [];
+            }
           }
-        }
-        if (item.id == 3) {
-          this.value1 = item.value1;
-        }
-        if (item.id == 4) {
-          this.airplane = item.airplanes;
-        }
-        if (item.id == 5) {
-          if (item.airplaneTypes) {
-            this.planes = item.airplaneTypes.toString().split(",");
-          } else {
-            this.planes = [];
+          if (item.id == 3) {
+            this.value1 = item.value1;
           }
-        }
-        if (item.id == 6) {
-          this.start = item.chapters;
-          this.end = item.sections;
-        }
-        if (item.id == 7) {
-          this.startDate = item.startDate;
-          this.endDate = item.endDate;
-        }
-      });
+          if (item.id == 4) {
+            this.airplane = item.airplanes;
+          }
+          if (item.id == 5) {
+            if (item.airplaneTypes) {
+              this.planes = item.airplaneTypes.toString().split(",");
+            } else {
+              this.planes = [];
+            }
+          }
+          if (item.id == 6) {
+            this.start = item.chapters;
+            this.end = item.sections;
+          }
+          if (item.id == 7) {
+            this.startDate = item.startDate;
+            this.endDate = item.endDate;
+          }
+        });
+      }
+
       const data = {
         startDate: this.startDate,
         endDate: this.endDate,
@@ -339,7 +344,6 @@ export default {
             //table
             this.arr = res.data.list;
             this.total = res.data.total;
-            let data = [...res.data.list].slice(0, 10);
             const tableData = [...res.data.list].map((item) => {
               return {
                 ...item,
@@ -357,15 +361,26 @@ export default {
             if (res.data.aAtaChapterSen) {
               this.show1 = true;
               this.endChapter1 = res.data.aAtaChapterSen;
+            } else {
+              this.show1 = false;
             }
             if (res.data.taSectionFirst) {
+              this.show2 = true;
               this.startChapter2 = res.data.taSectionFirst;
+            } else {
+              this.show2 = false;
             }
             if (res.data.taSectionSen) {
+              this.show3 = true;
               this.endChapter2 = res.data.taSectionSen;
+            } else {
+              this.show3 = false;
             }
             if (res.data.taSectionThr) {
+              this.show4 = true;
               this.listChapter = res.data.taSectionThr;
+            } else {
+              this.show4 = false;
             }
           }
         })
@@ -409,7 +424,9 @@ export default {
     getdata() {
       //条件
       const list = JSON.parse(localStorage.getItem("listData"));
-      this.items = list;
+      if (list) {
+        this.items = list;
+      }
     },
     handleSizeChange(val) {
       this.pageSize = val;

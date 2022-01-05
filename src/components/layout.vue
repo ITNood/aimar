@@ -128,6 +128,12 @@ export default {
   },
   updated() {
     this.title = this.$route.meta.title;
+    if (
+      this.$route.path !== "/searchResult" &&
+      this.$route.path !== "/integrated"
+    ) {
+      localStorage.removeItem("listData");
+    }
   },
   watch: {
     //路由变化,设置标签

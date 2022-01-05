@@ -13,11 +13,25 @@
               <h4>故障描述</h4>
               <div class="conditionTableContent clear">
                 <el-input
-                  type="textarea"
                   v-model="text"
+                  class="blurtext"
                   clearable
+                  @focus="clickhere($event)"
                   placeholder="输入故障描述"
                 ></el-input>
+                <ul
+                  class="listtext"
+                  v-show="ishide"
+                  style="top: 105px; left: 35px"
+                >
+                  <li
+                    v-for="(item, index) in texts"
+                    :key="index"
+                    @click="selecttext(item)"
+                  >
+                    {{ item }}
+                  </li>
+                </ul>
                 <el-button size="mini" class="faultSubmit" @click="faultSubmit"
                   >确定</el-button
                 >
@@ -302,6 +316,14 @@ export default {
       restCode: [],
       showAri: true,
       lists: [],
+
+      //
+      ishide: false,
+      texts: [
+        "机组反应空中出现TCAS FAIL,复位后正常",
+        "航后机组反应ATC1空中失效",
+        "过站机组反应APU引气压力低，复位引气电门后正常",
+      ],
     };
   },
   created() {
@@ -341,6 +363,7 @@ export default {
     const data = JSON.parse(localStorage.getItem("ari"));
     const arr = [];
     if (this.airplane.length > 0) {
+      this.showAri = false;
       this.airplane.forEach((item) => {
         const newdata = data.filter((e) => {
           if (e.value == item) {
@@ -360,6 +383,7 @@ export default {
       }, []); //设置cur默认类型为数组，并且初始值为空的数组
       this.restPlane = peon;
     } else {
+      this.showAri = true;
       const planeType = data.map((item) => {
         return { value: item.acType };
       });
@@ -371,13 +395,23 @@ export default {
       this.restPlane = peon;
     }
     //是否选择飞机，已选择就隐藏输入框
-    if (this.airplane.length > 0) {
-      this.showAri = false;
-    } else {
-      this.showAri = true;
-    }
+    // if (this.airplane.length > 0) {
+    // } else {
+    // }
   },
   methods: {
+    clickhere(e) {
+      if (!this.text) {
+        this.ishide = true;
+      } else {
+        this.ishide = false;
+      }
+    },
+    selecttext(item) {
+      this.text = item;
+      this.ishide = false;
+    },
+
     close() {
       this.dialogVisible = !this.dialogVisible;
     },
