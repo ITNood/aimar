@@ -3,7 +3,7 @@ import useHttpApi from './useHttpApi'
 
 const getBaseUrl = (url) => {
   if (process.env.NODE_ENV === 'production') {
-    return 'http://10.17.10.133:8082'
+    return 'http://10.17.10.192:8082'
   }
   if (useHttpApi.includes(url)) {
     return '/http'

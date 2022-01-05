@@ -122,11 +122,10 @@ export default {
   mounted() {},
   methods: {
     getdata() {
-      console.log(monitorjs);
       this.items = monitorjs.map((item) => {
         return { name: item.name, date: item.date };
       });
-      this.lists = this.items.reverse();
+      this.lists = this.items;
     },
     openData(name) {
       this.$refs.task.close();
@@ -146,7 +145,7 @@ export default {
           this.cardDate = res.data.dateAction;
           this.station = res.data.station;
           this.describe = res.data.description;
-          this.plans=res.data.plannedAction
+          this.plans = res.data.plannedAction;
           this.programmes = res.data.action;
         })
         .catch((err) => {
@@ -158,7 +157,6 @@ export default {
         api
           .get(`/DeRecord/by/id/${item}`)
           .then((res) => {
-            console.log(res.data);
             this.newArray.push(res.data);
             const arr = Object.assign(res.data, { de: item });
             this.newArray.push(arr);
@@ -179,7 +177,6 @@ export default {
       return arr.filter((arr) => !res.has(arr.de) && res.set(arr.de, 1));
     },
     opendialog(row) {
-      console.log(row);
       this.closedDialog();
       this.de = row.de;
       this.date = row.dateAction;
@@ -189,7 +186,7 @@ export default {
       this.number = row.acId;
       this.model = row.acType;
       this.faults = row.description;
-      this.plan=row.plannedAction
+      this.plan = row.plannedAction;
       this.programme = row.action;
     },
     closedDialog() {

@@ -214,7 +214,7 @@
                       <el-table-column
                         label="更换时间"
                         prop="changeOnDateTime,changeOffDateTime"
-                        min-width="160"
+                        min-width="140"
                       >
                         <template slot-scope="scope">
                           <p class="fonthide">
@@ -233,10 +233,12 @@
                       <el-table-column
                         label="拆下"
                         prop="acOff"
+                        width="70"
                       ></el-table-column>
                       <el-table-column
                         label="装上"
                         prop="acOn"
+                        width="70"
                       ></el-table-column>
                       <el-table-column label="CC/MR记录">
                         <template slot-scope="scope">
