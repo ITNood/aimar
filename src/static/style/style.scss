@@ -1173,7 +1173,7 @@ img {
     position     : relative;
     padding-left : 80px !important;
 
-    span {
+    font {
       font-weight: 600;
       display    : block;
       position   : absolute;
@@ -1345,3 +1345,9 @@ img {
   line-height: 180%;
   margin     : 15px 0
 }
+
+// .colorfont {
+//   span {
+//     color: $orange;
+//   }
+// }

@@ -15,7 +15,7 @@
           <h5>
             {{ item.name }}
             <i class="el-icon-close" @click="del(index)"></i
-            ><i class="el-icon-edit"></i>
+            ><i class="el-icon-edit" @click="edit"></i>
           </h5>
           <p v-if="item.airplaneTypes">{{ item.airplaneTypes }}</p>
           <p v-if="item.airplanes">{{ item.airplanes }}</p>
@@ -111,17 +111,17 @@
             <el-table-column prop="dateAction" label="日期"></el-table-column>
             <el-table-column prop="description" label="故障描述">
               <template slot-scope="scope">
-                <div v-html="scope.row.description"></div>
+                <div class="colorfont" v-html="scope.row.description"></div>
               </template>
             </el-table-column>
             <el-table-column prop="plannedAction" label="计划措施">
               <template slot-scope="scope">
-                <div>{{ scope.row.plannedAction }}</div>
+                <div class="colorfont">{{ scope.row.plannedAction }}</div>
               </template>
             </el-table-column>
             <el-table-column prop="action" label="排故措施">
               <template slot-scope="scope">
-                <div v-html="scope.row.action"></div>
+                <div class="colorfont" v-html="scope.row.action"></div>
               </template>
             </el-table-column>
             <el-table-column label="查看 DE 详情">
@@ -203,6 +203,7 @@
       :data="items"
       :synonym="synonym"
       @addData="addData"
+      @synonsm="synonsmdata"
     />
   </div>
 </template>
@@ -259,6 +260,7 @@ export default {
       show2: false,
       show3: false,
       show4: false,
+      textArr: [],
     };
   },
   created() {
@@ -267,6 +269,10 @@ export default {
   },
   mounted() {},
   methods: {
+    //同义词
+    synonsmdata(data) {
+      this.synonym = data;
+    },
     handleSelectionChange(val) {
       this.checkedNumber = val.length;
       this.multipleSelection = val;
@@ -277,9 +283,7 @@ export default {
     },
     //开启全局检索
     isChange() {
-      if (this.checked == true) {
-        this.gettabledata();
-      }
+      this.gettabledata();
     },
     gettabledata() {
       if (this.items) {
@@ -344,24 +348,19 @@ export default {
         .then((res) => {
           if (res.code == 200) {
             //关键词组
-            var keyword = this.items
-              .filter((item) => {
-                return item.keyword;
-              })
-              .map((item) => JSON.stringify(item.keyword).split(","))
-              .flat();
+            this.keywordAndsynom();
             //table
             this.arr = res.data.list;
             this.total = res.data.total;
-            const tableData = [...res.data.list].map((item) => {
+            const tableData = [...res.data.list].map((item, index) => {
               return {
                 ...item,
                 dateAction: this.formateDate(item.dateAction),
-                description: this.replaces(keyword, item.description),
+                description: this.replacesColor(this.textArr, item.description),
                 action: this.getSubStr(item.action),
-                if(plannedAction) {
-                  plannedAction: this.getSubStr(item.plannedAction);
-                },
+                // if(plannedAction) {
+                //   plannedAction: this.getSubStr(item.plannedAction);
+                // },
               };
             });
             this.tableData = tableData;
@@ -398,6 +397,40 @@ export default {
         })
         .finally(() => {});
     },
+    //处理关键词和同义词
+    keywordAndsynom() {
+      var keyword = this.items
+        .filter((item) => {
+          return item.keyword;
+        })
+        .map((item) => item.keyword.split(","))
+        .flat();
+      keyword.map((item) => {
+        return this.textArr.push({ text: item, color: "#F59A23" });
+      });
+      this.synonym.map((item) => {
+        return this.textArr.push({ text: item, color: "#409EFF" });
+      });
+      this.unique(this.textArr);
+      console.log(this.textArr);
+    },
+    //替换文字显示高亮
+    // replaces(data, textfont, color) {
+    //   const regexp = new RegExp(`(${data.join("|")})`, "ig");
+    //   return textfont.replace(regexp, `<span style="color:${color}">$1</span>`);
+    // },
+    //替换多种颜色
+    replacesColor(data, textfont) {
+      let result = textfont;
+      data.forEach((item) => {
+        result = result.replace(
+          new RegExp(item.text, "g"),
+          `<span style="color:${item.color || null}">${item.text}</span>`
+        );
+      });
+      console.log(result);
+      return result;
+    },
     addData(data) {
       console.log(data);
       this.items = data;
@@ -416,11 +449,6 @@ export default {
         "/" +
         addDateZero(d.getDate());
       return formatdatetime;
-    },
-    //替换文字显示高亮
-    replaces(data, textfont) {
-      const regexp = new RegExp(`(${data.join("|")})`, "ig");
-      return textfont.replace(regexp, `<span style="color:#F59A23">$1</span>`);
     },
 
     //文字中间显示省略号
@@ -454,6 +482,10 @@ export default {
       localStorage.setItem("listData", JSON.stringify(this.items));
       console.log(this.items);
     },
+    //编辑
+    edit() {
+      this.addCondition();
+    },
     //收藏
     collection(row) {
       console.log(row);
@@ -481,9 +513,9 @@ export default {
       const data = row;
       var id = row.de;
       const newdata = this.arr.filter((item) => {
-        console.log(item.de);
         return item.de == id;
       });
+      this.keywordAndsynom();
       this.closedDialog();
       this.de = newdata[0].de.toString();
       this.date = this.formateDate(newdata[0].dateAction);
@@ -492,11 +524,15 @@ export default {
       this.terminal = newdata[0].station;
       this.number = newdata[0].acId;
       this.model = newdata[0].acType;
-      this.faults = newdata[0].description;
+      this.faults = this.replacesColor(this.textArr, newdata[0].description);
       if (newdata[0].plannedAction) {
-        this.plan = newdata[0].plannedAction;
+        this.plan = this.replacesColor(this.textArr, newdata[0].plannedAction);
       }
-      this.programme = newdata[0].action;
+      this.programme = this.replacesColor(this.textArr, newdata[0].action);
+    },
+    unique(arr) {
+      const res = new Map();
+      return arr.filter((arr) => !res.has(arr.text) && res.set(arr.text, 1));
     },
   },
 };

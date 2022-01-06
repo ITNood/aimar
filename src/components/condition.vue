@@ -455,21 +455,24 @@ export default {
             //同义词
             const data = [];
             arr
-              .filter((item) => item.synonymWords && item.synonymWords.length)
+              .filter(
+                (item) => item.synonymWords && item.synonymWords.length > 0
+              )
               .map((item) => item.synonymWords)
               .forEach((item) => {
                 item.forEach((obj) => {
                   data.push(obj.word);
                 });
               });
+            console.log("同义词", data);
             //判断同义词是否打开，赋值
-            if (data) {
+            if (data && data.length > 0) {
               localStorage.setItem("synonsm", JSON.stringify(data));
             } else {
               localStorage.removeItem("synonsm");
             }
             if (this.value2 == true) {
-              this.synonym = data;
+              this.$emit("synonsm", data);
             }
           })
           .catch((err) => {
@@ -485,9 +488,7 @@ export default {
     synonsm(val) {
       const data = JSON.parse(localStorage.getItem("synonsm"));
       if (val == true) {
-        this.synonym = data;
-      } else {
-        this.synonym = [];
+        this.$emit("synonsm", data);
       }
     },
     //模糊开关

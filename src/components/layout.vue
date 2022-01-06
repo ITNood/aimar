@@ -103,7 +103,6 @@
 <script>
 // 左侧菜单组件
 import sideMeuns from "@/components/sideMeuns";
-import { permissionRouter } from "@/router";
 import { mapActions, mapGetters } from "vuex";
 export default {
   components: {
@@ -133,6 +132,7 @@ export default {
     ) {
       localStorage.removeItem("listData");
     }
+
     if (this.getrouterList.indexOf(this.$route.path)) {
       this.getrouterList.forEach((item) => {
         if (item.path == this.$route.path) {
@@ -163,6 +163,7 @@ export default {
     tabs(path) {
       this.$router.push(path);
     },
+
     handleCloseTag(tag) {
       //关闭标签
       if (this.getrouterList.length > 0) {
@@ -174,11 +175,9 @@ export default {
         } else if (this.$route.path === tag.path) {
           if (index === this.getrouterList.length - 1) {
             // 最后一个 往前一个挪
-            console.log(this.getrouterList[index - 1]);
             this.$router.push(this.getrouterList[index - 1].path);
           } else {
             // 往后面挪
-            console.log(this.getrouterList[index + 1]);
             this.$router.push(this.getrouterList[index + 1].path);
           }
         }

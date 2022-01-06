@@ -7,31 +7,43 @@
       width="40%"
     >
       <el-row :gutter="30" class="dialog-de">
-        <el-col :span="12"><span>日期：</span>{{ date }} </el-col>
+        <el-col :span="12"><font>日期：</font>{{ date }} </el-col>
         <el-col :span="12">
           <el-row :gutter="20">
-            <el-col :span="12"><span>开单ATA：</span>{{ open }}</el-col>
-            <el-col :span="12"><span>关单ATA：</span>{{ close }}</el-col>
+            <el-col :span="12"><font>开单ATA：</font>{{ open }}</el-col>
+            <el-col :span="12"><font>关单ATA：</font>{{ close }}</el-col>
           </el-row>
         </el-col>
-        <el-col :span="12"><span>航站：</span>{{ terminal }}</el-col>
+        <el-col :span="12"><font>航站：</font>{{ terminal }}</el-col>
         <el-col :span="12">
           <el-row :gutter="20">
-            <el-col :span="12"><span>飞机编号：</span>{{ number }}</el-col>
-            <el-col :span="12"><span>机型：</span>{{ model }}</el-col>
+            <el-col :span="12"><font>飞机编号：</font>{{ number }}</el-col>
+            <el-col :span="12"><font>机型：</font>{{ model }}</el-col>
           </el-row>
         </el-col>
         <el-col :span="24">
-          <span>故障描述：</span>
-          <div style="display: inline-block">{{ fault }}</div>
+          <font>故障描述：</font>
+          <div
+            style="display: inline-block"
+            class="colorfont"
+            v-html="fault"
+          ></div>
         </el-col>
         <el-col :span="24">
-          <span>计划措施：</span>
-          <div style="display: inline-block">{{ plan }}</div>
+          <font>计划措施：</font>
+          <div
+            style="display: inline-block"
+            class="colorfont"
+            v-html="plan"
+          ></div>
         </el-col>
         <el-col :span="24">
-          <span>排故方案：</span>
-          <div style="display: inline-block">{{ programme }}</div>
+          <font>排故方案：</font>
+          <div
+            style="display: inline-block"
+            class="colorfont"
+            v-html="programme"
+          ></div>
         </el-col>
       </el-row>
     </el-dialog>

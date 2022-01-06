@@ -125,7 +125,10 @@ export default {
       this.items = monitorjs.map((item) => {
         return { name: item.name, date: item.date };
       });
-      this.lists = this.items;
+      this.$nextTick(() => {
+        this.lists = this.items;
+        console.log(this.lists);
+      });
     },
     openData(name) {
       this.$refs.task.close();
