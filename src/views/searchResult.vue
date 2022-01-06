@@ -412,7 +412,6 @@ export default {
         return this.textArr.push({ text: item, color: "#409EFF" });
       });
       this.unique(this.textArr);
-      console.log(this.textArr);
     },
     //替换文字显示高亮
     // replaces(data, textfont, color) {
@@ -428,7 +427,6 @@ export default {
           `<span style="color:${item.color || null}">${item.text}</span>`
         );
       });
-      console.log(result);
       return result;
     },
     addData(data) {

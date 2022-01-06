@@ -155,7 +155,6 @@ export default {
           console.log(err);
         })
         .finally(() => {});
-      console.log(this.deArray);
       this.deArray.map((item) => {
         api
           .get(`/DeRecord/by/id/${item}`)
@@ -163,9 +162,7 @@ export default {
             this.newArray.push(res.data);
             const arr = Object.assign(res.data, { de: item });
             this.newArray.push(arr);
-
             this.newArray = this.unique(this.newArray);
-            console.log("222", this.newArray);
             this.repairData = this.newArray;
             this.data = this.newArray;
           })

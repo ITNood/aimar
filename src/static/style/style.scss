@@ -1202,6 +1202,11 @@ img {
     }
   }
 
+  .el-dialog__body {
+    max-height: 700px !important;
+    overflow-y: auto;
+  }
+
 }
 
 .de-title {
@@ -1345,9 +1350,3 @@ img {
   line-height: 180%;
   margin     : 15px 0
 }
-
-// .colorfont {
-//   span {
-//     color: $orange;
-//   }
-// }

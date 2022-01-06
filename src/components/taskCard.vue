@@ -75,7 +75,7 @@
             </el-table-column>
             <el-table-column label="计划措施" prop="plan">
               <template slot-scope="scope"
-                ><div class="fonthide" v-html="scope.row.plan"></div
+                ><div class="fonthide" v-html="scope.row.plannedAction"></div
               ></template>
             </el-table-column>
             <el-table-column label="排故方案" prop="action">
@@ -107,7 +107,7 @@
             </el-table-column>
             <el-table-column label="计划措施" prop="plan">
               <template slot-scope="scope"
-                ><div class="fonthide" v-html="scope.row.plan"></div
+                ><div class="fonthide" v-html="scope.row.plannedAction"></div
               ></template>
             </el-table-column>
             <el-table-column label="排故方案" prop="action">

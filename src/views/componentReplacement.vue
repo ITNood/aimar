@@ -416,7 +416,9 @@ export default {
       const list = [...this.items];
       list.splice(index, 1);
       this.items = [...list];
-      // this.$refs.multipleTable.toggleRowSelection(this.items, true);
+      if (this.items.length < 1) {
+        this.$refs.multipleTable.clearSelection();
+      }
     },
     changePn(val) {
       const data = this.result[val];
@@ -519,6 +521,7 @@ export default {
       let inputValue = this.inputValue2;
       if (inputValue) {
         this.dynamicTags.push(inputValue);
+        this.dynamicTags = [...new Set(this.dynamicTags)];
       }
       this.inputValue2 = "";
     },

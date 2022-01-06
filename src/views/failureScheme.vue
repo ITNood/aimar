@@ -290,12 +290,8 @@ export default {
   created() {
     this.getCacheData();
     this.getdata();
-    // this.$nextTick(() => {
-    //
-    // });
   },
   mounted() {
-    // this.getEcharts();
     const number = "2151";
     const nodes = solution[number].nodes;
     const name = solution[number].categories.map((a) => {
@@ -315,7 +311,6 @@ export default {
         const data = this.items.filter((item) => {
           return item.chapters;
         });
-        console.log(data);
         if (data.length > 0) {
           this.chatnumber = data[0].chapters + data[0].sections;
         }
@@ -452,13 +447,6 @@ export default {
       this.$refs.child.closeDialog();
     },
     getEcharts(nodes, name, links, categories) {
-      // const nodes = solution.case2151AirbusGraph.nodes;
-      // const name = solution.case2151AirbusGraph.categories.map((a) => {
-      //   return a.name;
-      // });
-      // const links = solution.case2151AirbusGraph.links;
-      // const categories = solution.case2151AirbusGraph.categories;
-
       var chartDom = document.getElementById("main");
       var myChart = echarts.init(chartDom);
       var option;
@@ -481,9 +469,6 @@ export default {
         tooltip: {},
         legend: [
           {
-            // data: solution.case2151AirbusGraph.categories.map((a) => {
-            //   return a.name;
-            // }),
             data: name,
           },
         ],
