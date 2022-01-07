@@ -599,12 +599,6 @@ export default {
           endDate: this.date[1],
           id: 7,
         });
-      } else {
-        this.addCondition.push({
-          name: "日期范围",
-          date: this.radio,
-          id: 7,
-        });
       }
       this.lists = this.addCondition;
       localStorage.setItem("listData", JSON.stringify(this.lists));

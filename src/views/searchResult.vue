@@ -286,14 +286,20 @@ export default {
       this.gettabledata();
     },
     gettabledata() {
-      const synonym = JSON.parse(localStorage.getItem("synonsm"));
-      if (synonym.length > 0) {
-        this.synonym = synonym;
-      }
-      if (this.items) {
+      if (this.items.length > 0) {
         this.items.forEach((item) => {
+          if (item.id == 0) {
+            if (item.text) {
+              const synonym = JSON.parse(localStorage.getItem("synonsm"));
+              if (synonym.length > 0) {
+                this.synonym = synonym;
+              }
+            } else {
+              localStorage.removeItem("synonsm");
+            }
+          }
           if (item.id == 1) {
-            if (this.keywords) {
+            if (item.keywords) {
               this.keywords = item.keyword.toString().split(",");
             } else {
               this.keywords = [];

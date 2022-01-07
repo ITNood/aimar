@@ -408,15 +408,13 @@ export default {
   created() {
     this.getdata();
     this.lists = JSON.parse(localStorage.getItem("listData"));
-    console.log(Array.isArray(this.lists));
-    if (this.lists) {
-      console.log(111);
+    if (this.lists.length > 0) {
       this.lists.forEach((item) => {
         if (item.id == 0) {
           this.text = item.text;
         }
         if (item.id == 1) {
-          if (this.keywords) {
+          if (item.keywords) {
             this.keywords = item.keyword.toString().split(",");
           } else {
             this.keywords = [];
@@ -714,12 +712,6 @@ export default {
             date: this.radio,
             startDate: this.date[0],
             endDate: this.date[1],
-            id: 7,
-          });
-        } else {
-          this.addCondition.push({
-            name: "日期范围",
-            date: this.radio,
             id: 7,
           });
         }
