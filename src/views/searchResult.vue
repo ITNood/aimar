@@ -286,6 +286,10 @@ export default {
       this.gettabledata();
     },
     gettabledata() {
+      const synonym = JSON.parse(localStorage.getItem("synonsm"));
+      if (synonym.length > 0) {
+        this.synonym = synonym;
+      }
       if (this.items) {
         this.items.forEach((item) => {
           if (item.id == 1) {
