@@ -200,7 +200,7 @@
                     </p>
                   </div>
 
-                  <div class="other" v-if="val.SolutionMEL.length > 0">
+                  <div class="other" v-if="val.SolutionMEL">
                     <h5>-若故障仍未解除：</h5>
                     <p>
                       依据 <span>{{ item.SolutionMEL.Reference }}</span> ；
@@ -343,7 +343,7 @@ export default {
             this.probability = data.SolutionHeader.Probability;
             this.des = data.SolutionHeader.DE;
             this.solutionProbability = data.SolutionProbability;
-            if (data.SolutionMEL.length) {
+            if (data.SolutionMEL) {
               this.SolutionMEL = true;
             } else {
               this.SolutionMEL = false;
@@ -377,7 +377,7 @@ export default {
       this.probability = data.SolutionHeader.Probability;
       this.de = data.SolutionHeader.DE.join();
       this.solutionProbability = data.SolutionProbability;
-      if (data.SolutionMEL.length) {
+      if (data.SolutionMEL) {
         this.SolutionMEL = true;
       } else {
         this.SolutionMEL = false;

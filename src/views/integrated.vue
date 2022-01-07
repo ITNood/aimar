@@ -408,7 +408,7 @@ export default {
   created() {
     this.getdata();
     this.lists = JSON.parse(localStorage.getItem("listData"));
-    if (this.lists.length > 0) {
+    if (this.lists) {
       this.lists.forEach((item) => {
         if (item.id == 0) {
           this.text = item.text;

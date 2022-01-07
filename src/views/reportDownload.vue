@@ -217,8 +217,9 @@
       :visible.sync="dialogVisible"
       width="40%"
       :close-on-click-modal="false"
+      id="pdf"
     >
-      <div style="height: calc(100vh - 300px); overflow-y: auto">
+      <div>
         <img
           v-for="(item, index) in imgs"
           :src="item"

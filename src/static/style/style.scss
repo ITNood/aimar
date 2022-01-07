@@ -1350,3 +1350,10 @@ img {
   line-height: 180%;
   margin     : 15px 0
 }
+
+#pdf {
+  .el-dialog__body {
+    max-height: 700px;
+    overflow-y: auto;
+  }
+}

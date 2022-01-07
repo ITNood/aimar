@@ -132,16 +132,6 @@ export default {
     ) {
       localStorage.removeItem("listData");
     }
-
-    if (this.getrouterList.indexOf(this.$route.path)) {
-      this.getrouterList.forEach((item) => {
-        if (item.path == this.$route.path) {
-          item.current = true;
-        } else {
-          item.current = false;
-        }
-      });
-    }
   },
   watch: {
     //路由变化,设置标签
@@ -198,6 +188,14 @@ export default {
           clearclose: !(route.meta.title == "总控制台"),
         });
       }
+      //tag标签对应当前路由背景色
+      this.getrouterList.map((item) => {
+        if (item.path === route.fullPath) {
+          item.current = true;
+        } else {
+          item.current = false;
+        }
+      });
     },
     //退出系统
     outSystem() {
@@ -214,9 +212,9 @@ export default {
           console.log("没有退出登录状态！！！");
         });
     },
-    onReload() {
-      this.$router.push("/main");
-    },
+    // onReload() {
+    //   this.$router.push("/main");
+    // },
   },
 };
 </script>
