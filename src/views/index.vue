@@ -127,7 +127,6 @@ export default {
       });
       this.$nextTick(() => {
         this.lists = this.items;
-        console.log(this.lists);
       });
     },
     openData(name) {
