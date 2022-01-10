@@ -111,57 +111,55 @@
             <el-table-column prop="dateAction" label="日期"></el-table-column>
             <el-table-column prop="description" label="故障描述">
               <template slot-scope="scope">
-                <div class="colorfont" v-html="scope.row.description"></div>
+                <div
+                  class="colorfont tablefont"
+                  v-html="scope.row.description"
+                ></div>
               </template>
             </el-table-column>
             <el-table-column prop="plannedAction" label="计划措施">
               <template slot-scope="scope">
-                <div class="colorfont">{{ scope.row.plannedAction }}</div>
+                <div class="colorfont tablefont">
+                  {{ scope.row.plannedAction }}
+                </div>
               </template>
             </el-table-column>
             <el-table-column prop="action" label="排故措施">
               <template slot-scope="scope">
-                <div class="colorfont" v-html="scope.row.action"></div>
+                <div
+                  class="colorfont tablefont"
+                  v-html="scope.row.action"
+                ></div>
               </template>
             </el-table-column>
-            <el-table-column label="查看 DE 详情">
+            <el-table-column label="操作" width="330">
               <template slot-scope="scope">
-                <el-button
-                  size="mini"
-                  @click="lookDe(scope.row)"
-                  class="btnfont"
-                  >查看DE</el-button
-                >
-              </template>
-            </el-table-column>
-            <el-table-column label="查看相关 CC 单">
-              <template slot-scope="scope">
-                <el-button
-                  size="mini"
-                  @click="lookDe(scope.row)"
-                  class="btnfont"
-                  >查看CC</el-button
-                >
-              </template>
-            </el-table-column>
-            <el-table-column label="查看相关 MR 单">
-              <template slot-scope="scope">
-                <el-button
-                  size="mini"
-                  @click="lookDe(scope.row)"
-                  class="btnfont"
-                  >查看MR</el-button
-                >
-              </template>
-            </el-table-column>
-            <el-table-column label="收藏">
-              <template slot-scope="scope">
-                <el-button
-                  size="mini"
-                  @click="collection(scope.row)"
-                  class="btnfont"
-                  >收藏</el-button
-                >
+                <div class="table-btn">
+                  <el-button
+                    size="mini"
+                    @click="lookDe(scope.row)"
+                    class="btnfont"
+                    >查看DE</el-button
+                  >
+                  <el-button
+                    size="mini"
+                    @click="lookDe(scope.row)"
+                    class="btnfont"
+                    >查看CC</el-button
+                  >
+                  <el-button
+                    size="mini"
+                    @click="lookDe(scope.row)"
+                    class="btnfont"
+                    >查看MR</el-button
+                  >
+                  <el-button
+                    size="mini"
+                    @click="collection(scope.row)"
+                    class="btnfont"
+                    >收藏</el-button
+                  >
+                </div>
               </template>
             </el-table-column>
           </el-table>
@@ -299,7 +297,7 @@ export default {
             }
           }
           if (item.id == 1) {
-            if (item.keywords) {
+            if (item.keyword.length > 0) {
               this.keywords = item.keyword.toString().split(",");
             } else {
               this.keywords = [];

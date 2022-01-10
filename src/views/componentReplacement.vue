@@ -379,7 +379,6 @@ export default {
     },
     //DE记录
     DErecord(row) {
-      console.log(row);
       this.closedDialog();
       const de = row.de[0];
       api
@@ -464,12 +463,6 @@ export default {
           this.onlineDate = data.onlineDayTotal;
           this.averageDate = data.averageOnlineDays;
           this.percent = data.oyfp;
-          // if (data.oyfp) {
-          //   this.percent = data.oyfp;
-          // } else {
-          //   this.percent = NAN;
-          // }
-
           if (data.pnNames) {
             this.pnName = data.pnNames.join();
           }
@@ -479,7 +472,6 @@ export default {
             this.replacePn = "";
           }
           if (data.pnOnline == true) {
-            console.log(111);
             this.isonline = "是";
           } else {
             this.isonline = "否";

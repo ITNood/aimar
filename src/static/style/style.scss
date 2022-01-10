@@ -89,14 +89,14 @@ img {
 
 
 
-.table {
-  .cell {
-    div {
-      @extend %fontEllipsis
-    }
+// .table {
+//   .cell {
+//     div {
+//       @extend %fontEllipsis
+//     }
 
-  }
-}
+//   }
+// }
 
 .center {
   text-align: center;
@@ -1356,4 +1356,21 @@ img {
     max-height: 700px;
     overflow-y: auto;
   }
+}
+
+.table-btn {
+  .el-button {
+    margin-bottom: 5px;
+    width        : 72px;
+    margin-left  : 0;
+    margin-right : 5px;
+
+    // &:nth-child(3) {
+    //   margin-left: 0;
+    // }
+  }
+}
+
+.tablefont {
+  @extend %fontEllipsis
 }
