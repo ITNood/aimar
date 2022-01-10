@@ -95,6 +95,7 @@
           <el-table
             :data="tableData"
             border
+            v-loading="loading"
             @selection-change="handleSelectionChange"
             :header-cell-style="{
               background: '#012A4A',
@@ -259,6 +260,7 @@ export default {
       show3: false,
       show4: false,
       textArr: [],
+      loading: true,
     };
   },
   created() {
@@ -405,7 +407,9 @@ export default {
         .catch((err) => {
           console.log(err);
         })
-        .finally(() => {});
+        .finally(() => {
+          this.loading = false;
+        });
     },
     //处理关键词和同义词
     keywordAndsynom() {

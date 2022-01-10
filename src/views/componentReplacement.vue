@@ -404,7 +404,6 @@ export default {
       this.$refs.child.closeDialog();
     },
     handleSelectionChange(val) {
-      console.log(val);
       this.multipleSelection = val;
       const arr = this.multipleSelection.map((item) => {
         return { pn: this.pn, sn: item.sn };
@@ -487,7 +486,6 @@ export default {
     },
 
     lookUp(row) {
-      console.log(row.row);
       this.data = row.row.snChangeDetail;
       this.sn = row.row.sn;
     },

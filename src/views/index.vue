@@ -132,7 +132,6 @@ export default {
     },
     openData(name) {
       this.$refs.task.close();
-      console.log(name);
       const data = monitorjs.filter((item) => {
         if (item.name == name) {
           return item;
@@ -162,7 +161,7 @@ export default {
             this.newArray.push(res.data);
             const arr = Object.assign(res.data, { de: item });
             this.newArray.push(arr);
-            this.newArray = this.unique(this.newArray);
+            this.newArray = this.unique(this.newArray, "de");
             this.repairData = this.newArray;
             this.data = this.newArray;
           })
@@ -172,9 +171,9 @@ export default {
           .finally(() => {});
       });
     },
-    unique(arr) {
+    unique(arr, key) {
       const res = new Map();
-      return arr.filter((arr) => !res.has(arr.de) && res.set(arr.de, 1));
+      return arr.filter((arr) => !res.has(arr.key) && res.set(arr.key, 1));
     },
     opendialog(row) {
       this.closedDialog();

@@ -411,7 +411,6 @@ export default {
 
     //查看报告
     lookReport(index) {
-      console.log(index);
       this.dialogVisible = true;
       if (index == 0) {
         this.imgs = this.img;
