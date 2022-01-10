@@ -269,7 +269,11 @@ export default {
   methods: {
     //同义词
     synonsmdata(data) {
-      this.synonym = data;
+      if (data) {
+        this.synonym = data;
+      } else {
+        this.synonym = [];
+      }
     },
     handleSelectionChange(val) {
       this.checkedNumber = val.length;
@@ -417,6 +421,7 @@ export default {
       this.synonym.map((item) => {
         return this.textArr.push({ text: item, color: "#409EFF" });
       });
+      //去重
       this.unique(this.textArr, "text");
     },
     //替换文字显示高亮
@@ -436,7 +441,6 @@ export default {
       return result;
     },
     addData(data) {
-      console.log(data);
       this.items = data;
     },
 
@@ -486,7 +490,6 @@ export default {
       list.splice(index, 1);
       this.items = [...list];
       localStorage.setItem("listData", JSON.stringify(this.items));
-      console.log(this.items);
     },
     //编辑
     edit() {

@@ -84,7 +84,6 @@ export default {
   mounted() {},
   methods: {
     getdata() {
-      console.log(message);
       this.message = message.message;
       this.tips = message.monitor;
       this.news = message.notification;

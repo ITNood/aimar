@@ -394,10 +394,6 @@ export default {
       }, []);
       this.restPlane = peon;
     }
-    //是否选择飞机，已选择就隐藏输入框
-    // if (this.airplane.length > 0) {
-    // } else {
-    // }
   },
   methods: {
     clickhere(e) {
@@ -464,7 +460,6 @@ export default {
                   data.push(obj.word);
                 });
               });
-            console.log("同义词", data);
             //判断同义词是否打开，赋值
             if (data && data.length > 0) {
               localStorage.setItem("synonsm", JSON.stringify(data));
@@ -489,6 +484,8 @@ export default {
       const data = JSON.parse(localStorage.getItem("synonsm"));
       if (val == true) {
         this.$emit("synonsm", data);
+      } else {
+        this.$emit("synonsm", "");
       }
     },
     //模糊开关

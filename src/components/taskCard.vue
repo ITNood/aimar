@@ -156,7 +156,6 @@ export default {
   mounted() {},
   methods: {
     opendialog(row) {
-      console.log(row);
       this.$emit("opendialog", row);
     },
     opendialogs(row) {},

@@ -38,11 +38,11 @@
                     ></el-input>
                     <ul class="listtext" v-show="ishide">
                       <li
-                        v-for="(item, index) in texts"
-                        :key="index"
-                        @click="selecttext(item)"
+                        v-for="(item1, index1) in texts"
+                        :key="index1"
+                        @click="selecttext(item1)"
                       >
-                        {{ item }}
+                        {{ item1 }}
                       </li>
                     </ul>
                     <el-button
@@ -90,13 +90,13 @@
                   <div class="conditionTableContent">
                     <div class="tagBorder">
                       <el-tag
-                        :key="tag"
-                        v-for="tag in keywords"
+                        :key="tag1"
+                        v-for="tag1 in keywords"
                         closable
                         :disable-transitions="false"
-                        @close="closeKeyword(tag)"
+                        @close="closeKeyword(tag1)"
                       >
-                        {{ tag }}
+                        {{ tag1 }}
                       </el-tag>
                       <el-input
                         class="input-new-tag"
@@ -128,13 +128,13 @@
                   <div class="conditionTableContent">
                     <div class="tagBorder">
                       <el-tag
-                        :key="tag"
-                        v-for="tag in planes"
+                        :key="tag2"
+                        v-for="tag2 in planes"
                         closable
                         :disable-transitions="false"
-                        @close="closePlan(tag)"
+                        @close="closePlan(tag2)"
                       >
-                        {{ tag }}
+                        {{ tag2 }}
                       </el-tag>
                       <el-autocomplete
                         class="input-new-tag"
@@ -157,13 +157,13 @@
                   <div class="conditionTableContent">
                     <div class="tagBorder">
                       <el-tag
-                        :key="tag"
-                        v-for="tag in codes"
+                        :key="tag3"
+                        v-for="tag3 in codes"
                         closable
                         :disable-transitions="false"
-                        @close="closeCode(tag)"
+                        @close="closeCode(tag3)"
                       >
-                        {{ tag }}
+                        {{ tag3 }}
                       </el-tag>
                       <el-autocomplete
                         class="input-new-tag"
@@ -294,10 +294,10 @@
           <div class="selectedsList">
             <div class="selectedsContentList">
               <ul>
-                <li v-for="(list, index) in lists" :key="index">
+                <li v-for="(list, index2) in lists" :key="index2">
                   <div class="name">
                     {{ list.name }}
-                    <i class="el-icon-close" @click="close(index)"></i
+                    <i class="el-icon-close" @click="close(index2)"></i
                     ><i class="el-icon-edit" @click="edit(list.id)"></i>
                   </div>
                   <p v-if="list.airplaneTypes">{{ list.airplaneTypes }}</p>
@@ -736,7 +736,7 @@ export default {
 
     //确认
     submit() {
-      if (this.keyword || (this.lists.length && this.lists)) {
+      if (this.keyword || (this.lists && this.lists.length)) {
         //存储已选条件
         localStorage.setItem("listData", JSON.stringify(this.lists));
         this.$router.push("/searchResult");
