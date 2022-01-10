@@ -366,9 +366,7 @@ export default {
                 dateAction: this.formateDate(item.dateAction),
                 description: this.replacesColor(this.textArr, item.description),
                 action: this.getSubStr(item.action),
-                // if(plannedAction) {
-                //   plannedAction: this.getSubStr(item.plannedAction);
-                // },
+                plannedAction: this.getSubStr(item.plannedAction),
               };
             });
             this.tableData = tableData;
@@ -419,7 +417,7 @@ export default {
       this.synonym.map((item) => {
         return this.textArr.push({ text: item, color: "#409EFF" });
       });
-      this.unique(this.textArr);
+      this.unique(this.textArr, "text");
     },
     //替换文字显示高亮
     // replaces(data, textfont, color) {
@@ -459,10 +457,12 @@ export default {
 
     //文字中间显示省略号
     getSubStr(str) {
-      var subStr1 = str.substr(0, 4);
-      var subStr2 = str.substr(str.length - 5, 4);
-      var subStr = subStr1 + "..." + subStr2;
-      return subStr;
+      if (str) {
+        var subStr1 = str.substr(0, 4);
+        var subStr2 = str.substr(str.length - 5, 4);
+        var subStr = subStr1 + "..." + subStr2;
+        return subStr;
+      }
     },
     getdata() {
       //条件
@@ -515,7 +515,6 @@ export default {
       this.$refs.child.closeDialog();
     },
     lookDe(row) {
-      console.log(row);
       const data = row;
       var id = row.de;
       const newdata = this.arr.filter((item) => {
@@ -536,9 +535,9 @@ export default {
       }
       this.programme = this.replacesColor(this.textArr, newdata[0].action);
     },
-    unique(arr) {
+    unique(arr, key) {
       const res = new Map();
-      return arr.filter((arr) => !res.has(arr.text) && res.set(arr.text, 1));
+      return arr.filter((arr) => !res.has(arr.key) && res.set(arr.key, 1));
     },
   },
 };

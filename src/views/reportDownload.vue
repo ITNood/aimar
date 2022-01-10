@@ -349,9 +349,6 @@ export default {
   computed: {
     renderSelectable: function () {
       return (row, index) => {
-        if (row.disabled) {
-          console.log("-------", row);
-        }
         return !row.disabled;
       };
     },
@@ -372,9 +369,6 @@ export default {
       if (this.lists.length <= 0) {
         this.remove();
       }
-      // this.lists.forEach((row) => {
-      //   this.$refs.multipleTable.toggleRowSelection(row);
-      // });
     },
     // 数组对象去重
     deWeightFour(arr, key) {
@@ -389,18 +383,13 @@ export default {
     handleSelectionChange(val) {
       this.dataselection = [...val];
       this.lists = this.deWeightFour([...this.listselection, ...val], "id");
-
       const ids = val.map((item) => item.id);
-      console.log(1, ids, this.lists);
-      // this.renderData("reportData", ids);
     },
     //表二勾选
     handleSelectionChange1(val) {
       this.listselection = [...val];
       this.lists = this.deWeightFour([...this.dataselection, ...val], "id");
       const ids = val.map((item) => item.id);
-      console.log(2, ids, this.lists);
-      // this.renderData("reportRecord", ids);
     },
 
     renderData(name, ids) {
@@ -409,7 +398,6 @@ export default {
         disabled: ids.includes(item.id),
       }));
       this.$set(this, name, list);
-      // this[name] = [...list];
     },
     download() {
       this.lists.forEach((item, index) => {

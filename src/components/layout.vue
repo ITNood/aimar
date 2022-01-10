@@ -123,20 +123,19 @@ export default {
   created() {
     this.title = this.$route.meta.title;
   },
-  updated() {
-    this.title = this.$route.meta.title;
-    if (
-      this.$route.path !== "/searchResult" &&
-      this.$route.path !== "/integrated" &&
-      this.$route.path !== "/failureScheme"
-    ) {
-      localStorage.removeItem("listData");
-    }
-  },
   watch: {
     //路由变化,设置标签
     $route(newValue, oldValue) {
       this.setTags(newValue);
+
+      this.title = newValue.meta.title;
+      if (
+        newValue.fullPath !== "/searchResult" &&
+        newValue.fullPath !== "/integrated" &&
+        newValue.fullPath !== "/failureScheme"
+      ) {
+        localStorage.removeItem("listData");
+      }
     },
   },
   mounted() {
