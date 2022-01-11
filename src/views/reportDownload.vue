@@ -408,7 +408,6 @@ export default {
         }
       });
     },
-
     //查看报告
     lookReport(index) {
       this.dialogVisible = true;
