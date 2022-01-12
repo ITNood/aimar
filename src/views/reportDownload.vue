@@ -248,7 +248,6 @@ export default {
         require("../static/pdf/3445_4.png"),
         require("../static/pdf/3445_5.png"),
       ],
-
       img2: [
         require("../static/pdf/3453_1.png"),
         require("../static/pdf/3453_2.png"),

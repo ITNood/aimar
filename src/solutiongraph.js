@@ -779,7 +779,7 @@ const solution = {
       }
     ]
   },
-  "case3611BoeingGraph": {
+  "3611": {
     "nodes": [
       {
         "id": "0",
