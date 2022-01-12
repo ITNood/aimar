@@ -18,7 +18,6 @@
           </div>
           <!--路由组件-->
           <side-Meuns :routes="getRoutes"></side-Meuns>
-          <!-- ?????? -->
         </el-menu>
       </el-aside>
       <!-- 右侧内容区域 -->
@@ -79,9 +78,6 @@
               </el-tag>
             </div>
           </div>
-          <!-- <el-popconfirm title="确定退出登录吗？" @confirm="outSystem" >
-            <el-button slot="reference" type="primary" size="mini">退出</el-button>
-          </el-popconfirm> -->
         </el-header>
         <!-- 内容区域 -->
         <el-main>
@@ -213,9 +209,6 @@ export default {
           console.log("没有退出登录状态！！！");
         });
     },
-    // onReload() {
-    //   this.$router.push("/main");
-    // },
   },
 };
 </script>
