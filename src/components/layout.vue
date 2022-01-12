@@ -65,17 +65,19 @@
             </el-dropdown>
           </div>
 
-          <div class="tabs">
-            <el-tag
-              v-for="tag in getrouterList"
-              :key="tag.path"
-              :closable="tag.clearclose"
-              @close="handleCloseTag(tag)"
-              @click="tabs(tag.path)"
-              :class="tag.current == true ? 'current' : ''"
-            >
-              {{ tag.title }}
-            </el-tag>
+          <div class="tagtitle">
+            <div class="tabs clear">
+              <el-tag
+                v-for="tag in getrouterList"
+                :key="tag.path"
+                :closable="tag.clearclose"
+                @close="handleCloseTag(tag)"
+                @click="tabs(tag.path)"
+                :class="tag.current == true ? 'current' : ''"
+              >
+                {{ tag.title }}
+              </el-tag>
+            </div>
           </div>
           <!-- <el-popconfirm title="确定退出登录吗？" @confirm="outSystem" >
             <el-button slot="reference" type="primary" size="mini">退出</el-button>

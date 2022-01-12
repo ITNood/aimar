@@ -316,7 +316,6 @@ export default {
       restCode: [],
       showAri: true,
       lists: [],
-
       //
       ishide: false,
       texts: [
@@ -498,7 +497,7 @@ export default {
         this.value1 = 0;
       }
     },
-
+    //同义词开关
     vagueNumber(val) {
       this.number = val;
     },
@@ -532,7 +531,6 @@ export default {
           // const chapter = [...res.data.sections].map((item) => {
           //   return { value: item };
           // });
-          // console.log("select", chapter);
         })
         .catch((err) => {
           console.log(err);
@@ -619,7 +617,6 @@ export default {
       let keywordValue = this.keywordValue;
       if (keywordValue) {
         this.keywords.push(keywordValue);
-        console.log(this.keywords);
       }
       this.keywordValue = "";
     },
@@ -632,7 +629,6 @@ export default {
       let inputValue = this.inputValue;
       if (inputValue) {
         this.dynamicTags.push(inputValue);
-        console.log(this.dynamicTags);
       }
       this.inputValue = "";
     },

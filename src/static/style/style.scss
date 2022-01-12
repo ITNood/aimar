@@ -1137,29 +1137,35 @@ img {
   }
 }
 
-.tabs {
+.tagtitle {
   background-color: $titleBgk;
   padding         : 15px;
+  overflow        : auto;
+  width           : calc(100% - 30px);
   overflow-x      : auto;
 
-  .el-tag {
-    margin          : 0 5px;
-    cursor          : pointer;
-    color           : $font333;
-    border-color    : $bordercolor;
-    background-color: $withe;
+  .tabs {
+    .el-tag {
+      margin          : 0 5px;
+      cursor          : pointer;
+      color           : $font333;
+      border-color    : $bordercolor;
+      background-color: $withe;
+      display         : block;
+      float           : left;
 
-    .el-tag__close {
-      color: $font333;
+      .el-tag__close {
+        color: $font333;
+      }
     }
-  }
 
-  .current {
-    background-color: #409eff;
-    color           : $withe;
+    .current {
+      background-color: #409eff;
+      color           : $withe;
 
-    i {
-      color: $withe !important;
+      i {
+        color: $withe !important;
+      }
     }
   }
 }

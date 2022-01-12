@@ -48,7 +48,7 @@
     <div class="resultTable clear">
       <h4>筛选结果汇总</h4>
       <el-row :gutter="40" style="padding: 20px">
-        <el-col :md="8" :lg="6" :xl="4">
+        <el-col :md="6" :lg="4" :xl="3">
           <ul class="dataList">
             <li>
               <h3>
@@ -73,7 +73,7 @@
             </li>
           </ul>
         </el-col>
-        <el-col :md="16" :lg="18" :xl="20">
+        <el-col :md="18" :lg="20" :xl="21">
           <div class="clear">
             <el-radio-group
               v-model="radio"
