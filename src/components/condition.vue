@@ -32,9 +32,9 @@
                     {{ item }}
                   </li>
                 </ul>
-                <el-button size="mini" class="faultSubmit" @click="faultSubmit"
-                  >确定</el-button
-                >
+                <el-button size="mini" class="faultSubmit" @click="faultSubmit">
+                  确定
+                </el-button>
               </div>
             </div>
           </el-col>
@@ -259,9 +259,9 @@
             </div>
           </el-col>
         </el-row>
-        <el-button class="el-icon-plus addcontent" @click="addData"
-          >&nbsp;&nbsp;添加</el-button
-        >
+        <el-button class="el-icon-plus addcontent" @click="addData">
+          &nbsp;&nbsp;添加
+        </el-button>
       </div>
     </el-dialog>
   </div>

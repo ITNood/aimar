@@ -3,9 +3,7 @@ import { Loading, Message } from 'element-ui'
 import Vue from 'vue'
 import Router from 'vue-router'
 Vue.use(Router)
-
 // 创建axios实例
-
 const Axios = axios.create({
   baseURL: '/',
   timeout: 10000,//超时请求
@@ -34,7 +32,6 @@ Axios.interceptors.request.use(
 Axios.interceptors.response.use(
   response => {
     // load.close()
-    //判断登录状态，跳转路由
     if (response.data.code === 500) {//退出登录
       this.$message.info(response.data.msg)
       localStorage.removeItem('token')
@@ -46,7 +43,7 @@ Axios.interceptors.response.use(
       return Promise.resolve(response.data);
     }
   },
-  error => {      // when HTTP_STATUS in [ 300 , 599 ]
+  error => {
     // load.close()
     if (error === 'cancelled locally') {
       return Promise.reject(error);

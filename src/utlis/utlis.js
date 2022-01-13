@@ -1,22 +1,4 @@
-export const Download = function (url, data) {
-  let obj = ''
-  if (data) {
-    try {
-      obj = new URLSearchParams(data)
-    } catch (error) {
-      var tempArr = [];
-      for (var i in data) {
-        var key = encodeURIComponent(i);
-        var value = encodeURIComponent(data[i]);
-        tempArr.push(key + '=' + value);
-      }
-      obj = tempArr.join('&');
-    }
-  } else {
-    obj = ''
-  }
-  window.open(url + obj, '_blank')
-}
+
 
 export const downloadFile = function (name, href) {
   var a = document.createElement("a"), //创建a标签

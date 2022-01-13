@@ -29,14 +29,14 @@ module.exports = {
     },
     proxy: {
       '/api': {
-        target: 'http://10.17.10.133:8082', //后端接口地址
+        target: 'http://10.17.10.192:8082', //后端接口地址
         changeOrigin: true, //是否允许跨越
         pathRewrite: {
           '^/api': '', //重写,
         }
       },
       '/http': {
-        target: 'http://10.17.10.222:9999', //后端接口地址
+        target: 'http://10.17.10.192:9999', //后端接口地址
         changeOrigin: true, //是否允许跨越
         pathRewrite: {
           '^/http': '', //重写,

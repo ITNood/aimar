@@ -9,12 +9,12 @@
       </div>
     </div>
     <div class="mt20 mb20">
-      <el-button class="el-icon-search refreshResult" @click="refresh"
-        >&nbsp;&nbsp;查询检索结果</el-button
-      >
-      <el-button class="el-icon-refresh addCondition" @click="addCondition"
-        >&nbsp;&nbsp;刷新检索结果</el-button
-      >
+      <el-button class="el-icon-search refreshResult" @click="refresh">
+        &nbsp;&nbsp;查询检索结果
+      </el-button>
+      <el-button class="el-icon-refresh addCondition" @click="addCondition">
+        &nbsp;&nbsp;刷新检索结果
+      </el-button>
     </div>
     <div class="resultTable clear">
       <h4>筛选结果汇总</h4>
@@ -52,8 +52,8 @@
               <el-radio :label="9"> 按时间排序</el-radio>
             </el-radio-group>
             <el-checkbox v-model="checked" class="selectcheckbox">
-              仅查看相关ATA</el-checkbox
-            >
+              仅查看相关ATA
+            </el-checkbox>
           </div>
           <el-table
             :data="tableData"
@@ -76,19 +76,19 @@
             <el-table-column prop="plan" label="计划措施"></el-table-column>
             <el-table-column prop="measures" label="排故措施"></el-table-column>
             <el-table-column label="查看 DE 详情" #default="row">
-              <el-button size="mini" @click="lookDe(row)" class="btnfont"
-                >查看DE</el-button
-              >
+              <el-button size="mini" @click="lookDe(row)" class="btnfont">
+                查看DE
+              </el-button>
             </el-table-column>
             <el-table-column label="查看相关 CC 单" #default="row">
-              <el-button size="mini" @click="lookDe(row)" class="btnfont"
-                >查看CC</el-button
-              >
+              <el-button size="mini" @click="lookDe(row)" class="btnfont">
+                查看CC
+              </el-button>
             </el-table-column>
             <el-table-column label="查看相关 MR 单" #default="row">
-              <el-button size="mini" @click="lookDe(row)" class="btnfont"
-                >查看MR</el-button
-              >
+              <el-button size="mini" @click="lookDe(row)" class="btnfont">
+                查看MR
+              </el-button>
             </el-table-column>
           </el-table>
           <pagination
@@ -101,12 +101,12 @@
         </el-col>
       </el-row>
       <div class="mt20 mb20" style="padding-right: 20px; float: right">
-        <el-button class="el-icon-check refreshResult"
-          >&nbsp;&nbsp;推荐排故方案</el-button
-        >
-        <el-button class="el-icon-back addCondition"
-          >&nbsp;&nbsp;返回查询页面</el-button
-        >
+        <el-button class="el-icon-check refreshResult">
+          &nbsp;&nbsp;推荐排故方案
+        </el-button>
+        <el-button class="el-icon-back addCondition">
+          &nbsp;&nbsp;返回查询页面
+        </el-button>
       </div>
     </div>
   </div>

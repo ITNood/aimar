@@ -58,8 +58,9 @@
                           <el-button
                             size="mini"
                             @click="lookReport(scope.$index)"
-                            >查看</el-button
                           >
+                            查看
+                          </el-button>
                         </template>
                       </el-table-column>
                     </el-table>
@@ -162,8 +163,9 @@
                             <el-button
                               size="mini"
                               @click="lookReport(scope.$index)"
-                              >查看</el-button
                             >
+                              查看
+                            </el-button>
                           </template>
                         </el-table-column>
                       </el-table>
@@ -172,9 +174,9 @@
                 </div>
               </el-col>
             </el-row>
-            <el-button class="el-icon-plus addcontent"
-              >&nbsp;&nbsp;添加</el-button
-            >
+            <el-button class="el-icon-plus addcontent">
+              &nbsp;&nbsp;添加
+            </el-button>
           </div>
         </div>
       </el-col>
@@ -195,16 +197,17 @@
               </ul>
               <el-row :gutter="20">
                 <el-col :span="12">
-                  <el-button class="el-icon-delete btn empty" @click="remove"
-                    >&nbsp;&nbsp;清空</el-button
-                  >
+                  <el-button class="el-icon-delete btn empty" @click="remove">
+                    &nbsp;&nbsp;清空
+                  </el-button>
                 </el-col>
                 <el-col :span="12">
                   <el-button
                     class="icon iconfont icon-download btn submit"
                     @click="download"
-                    >&nbsp;&nbsp;下载</el-button
                   >
+                    &nbsp;&nbsp;下载
+                  </el-button>
                 </el-col>
               </el-row>
             </div>

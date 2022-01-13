@@ -38,12 +38,12 @@
       </el-row>
     </div>
     <div class="mt20 mb20">
-      <el-button class="el-icon-refresh refreshResult" @click="refresh"
-        >&nbsp;&nbsp;刷新检索结果</el-button
-      >
-      <el-button class="el-icon-plus addCondition" @click="addCondition"
-        >&nbsp;&nbsp;添加筛选条件</el-button
-      >
+      <el-button class="el-icon-refresh refreshResult" @click="refresh">
+        &nbsp;&nbsp;刷新检索结果
+      </el-button>
+      <el-button class="el-icon-plus addCondition" @click="addCondition">
+        &nbsp;&nbsp;添加筛选条件
+      </el-button>
     </div>
     <div class="resultTable clear">
       <h4>筛选结果汇总</h4>
@@ -89,8 +89,8 @@
               class="selectcheckbox"
               @change="isChange"
             >
-              是否开启全局检索</el-checkbox
-            >
+              是否开启全局检索
+            </el-checkbox>
           </div>
           <el-table
             :data="tableData"
@@ -140,26 +140,29 @@
                     size="mini"
                     @click="lookDe(scope.row)"
                     class="btnfont"
-                    >查看DE</el-button
                   >
+                    查看DE
+                  </el-button>
                   <el-button
                     size="mini"
                     @click="lookDe(scope.row)"
                     class="btnfont"
-                    >查看CC</el-button
                   >
+                    查看CC
+                  </el-button>
                   <el-button
                     size="mini"
                     @click="lookDe(scope.row)"
                     class="btnfont"
-                    >查看MR</el-button
-                  >
+                    >查看MR
+                  </el-button>
                   <el-button
                     size="mini"
                     @click="collection(scope.row)"
                     class="btnfont"
-                    >收藏</el-button
                   >
+                    收藏
+                  </el-button>
                 </div>
               </template>
             </el-table-column>
@@ -174,12 +177,12 @@
         </el-col>
       </el-row>
       <div class="mt20 mb20" style="padding-right: 20px; float: right">
-        <el-button class="el-icon-check refreshResult" @click="recommend"
-          >&nbsp;&nbsp;推荐排故方案</el-button
-        >
-        <el-button class="el-icon-back addCondition" @click="goback"
-          >&nbsp;&nbsp;返回查询页面</el-button
-        >
+        <el-button class="el-icon-check refreshResult" @click="recommend">
+          &nbsp;&nbsp;推荐排故方案
+        </el-button>
+        <el-button class="el-icon-back addCondition" @click="goback">
+          &nbsp;&nbsp;返回查询页面
+        </el-button>
       </div>
     </div>
     <!---->

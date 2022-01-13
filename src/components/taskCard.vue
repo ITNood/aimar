@@ -53,9 +53,9 @@
             <el-table-column label="状态" prop="status"></el-table-column>
             <el-table-column label="相关维修记录">
               <template #default="row">
-                <el-button @click="opendialogs(row.row)" size="mini"
-                  >查看</el-button
-                >
+                <el-button @click="opendialogs(row.row)" size="mini">
+                  查看
+                </el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -85,9 +85,9 @@
             </el-table-column>
             <el-table-column label="查看详情">
               <template #default="row">
-                <el-button size="mini" @click="opendialog(row.row)"
-                  >查看</el-button
-                >
+                <el-button size="mini" @click="opendialog(row.row)">
+                  查看
+                </el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -101,25 +101,25 @@
             <el-table-column label="日期" prop="dateAction"></el-table-column>
             <el-table-column label="航站" prop="station"></el-table-column>
             <el-table-column label="故障描述" prop="description">
-              <template slot-scope="scope"
-                ><div class="fonthide" v-html="scope.row.description"></div
-              ></template>
+              <template slot-scope="scope">
+                <div class="fonthide" v-html="scope.row.description"></div>
+              </template>
             </el-table-column>
             <el-table-column label="计划措施" prop="plan">
-              <template slot-scope="scope"
-                ><div class="fonthide" v-html="scope.row.plannedAction"></div
-              ></template>
+              <template slot-scope="scope">
+                <div class="fonthide" v-html="scope.row.plannedAction"></div>
+              </template>
             </el-table-column>
             <el-table-column label="排故方案" prop="action">
-              <template slot-scope="scope"
-                ><div class="fonthide" v-html="scope.row.action"></div
-              ></template>
+              <template slot-scope="scope">
+                <div class="fonthide" v-html="scope.row.action"></div>
+              </template>
             </el-table-column>
             <el-table-column label="查看详情">
               <template #default="row">
-                <el-button size="mini" @click="opendialog(row.row)"
-                  >查看</el-button
-                >
+                <el-button size="mini" @click="opendialog(row.row)">
+                  查看
+                </el-button>
               </template>
             </el-table-column>
           </el-table>

@@ -101,18 +101,18 @@
               </li>
               <li>
                 <el-checkbox v-model="checkbox1" class="componentbox">
-                  仅查询当前在机部件</el-checkbox
-                >
+                  仅查询当前在机部件
+                </el-checkbox>
               </li>
               <li>
                 <el-checkbox v-model="checkbox2" class="componentbox">
-                  仅查询主件</el-checkbox
-                >
+                  仅查询主件
+                </el-checkbox>
               </li>
             </ul>
-            <el-button class="el-icon-search searchbtn mt20" @click="screen"
-              >&nbsp;&nbsp;筛选</el-button
-            >
+            <el-button class="el-icon-search searchbtn mt20" @click="screen">
+              &nbsp;&nbsp;筛选
+            </el-button>
           </div>
         </div>
       </el-col>
@@ -192,9 +192,9 @@
                     </el-table-column>
                     <el-table-column label="流转信息">
                       <template #default="row">
-                        <el-button size="mini" @click="lookUp(row)"
-                          >查看</el-button
-                        >
+                        <el-button size="mini" @click="lookUp(row)">
+                          查看
+                        </el-button>
                       </template>
                     </el-table-column>
                   </el-table>
@@ -242,16 +242,16 @@
                       ></el-table-column>
                       <el-table-column label="CC/MR记录">
                         <template slot-scope="scope">
-                          <el-button size="mini" @click="record(scope.row)"
-                            >查看</el-button
-                          >
+                          <el-button size="mini" @click="record(scope.row)">
+                            查看
+                          </el-button>
                         </template>
                       </el-table-column>
                       <el-table-column label="DE记录">
                         <template slot-scope="scope">
-                          <el-button size="mini" @click="DErecord(scope.row)"
-                            >查看</el-button
-                          >
+                          <el-button size="mini" @click="DErecord(scope.row)">
+                            查看
+                          </el-button>
                         </template>
                       </el-table-column>
                     </el-table>
@@ -277,23 +277,23 @@
               </li>
             </ul>
             <el-checkbox v-model="checked1" class="check mt20">
-              自动补充辅助件</el-checkbox
-            >
+              自动补充辅助件
+            </el-checkbox>
             <el-checkbox v-model="checked2" class="check">
-              自动填写部件数量</el-checkbox
-            >
+              自动填写部件数量
+            </el-checkbox>
             <el-checkbox v-model="checked3" class="check">
-              同时建议可替换件</el-checkbox
-            >
-            <el-button class="icon iconfont icon-download download"
-              >&nbsp;&nbsp;自动生成CC单</el-button
-            >
-            <el-button class="icon iconfont icon-download download"
-              >&nbsp;&nbsp;自动生成MR单</el-button
-            >
-            <el-button class="icon iconfont icon-download download"
-              >&nbsp;&nbsp;领料报告下载</el-button
-            >
+              同时建议可替换件
+            </el-checkbox>
+            <el-button class="icon iconfont icon-download download">
+              &nbsp;&nbsp;自动生成CC单
+            </el-button>
+            <el-button class="icon iconfont icon-download download">
+              &nbsp;&nbsp;自动生成MR单
+            </el-button>
+            <el-button class="icon iconfont icon-download download">
+              &nbsp;&nbsp;领料报告下载
+            </el-button>
           </div>
         </div>
       </el-col>

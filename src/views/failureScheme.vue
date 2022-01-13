@@ -257,7 +257,6 @@ export default {
   data() {
     return {
       items: [],
-
       radio: "0",
       reference: "",
       target: "",
@@ -350,7 +349,6 @@ export default {
             }
             this.lists = data.SolutionBody;
           }
-
           const number = this.chatnumber;
           if (number) {
             const nodes = solution[number].nodes;
@@ -397,6 +395,7 @@ export default {
           key: val,
         });
       }
+      console.log(arrs);
     },
     //关闭
     close(index) {
@@ -504,7 +503,6 @@ export default {
         ],
       };
       myChart.setOption(option);
-
       option && myChart.setOption(option, true);
       window.onresize = function () {
         myChart.resize();

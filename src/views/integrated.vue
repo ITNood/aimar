@@ -49,8 +49,9 @@
                       size="mini"
                       class="faultSubmit"
                       @click="faultSubmit"
-                      >确定</el-button
                     >
+                      确定
+                    </el-button>
                   </div>
                 </div>
               </el-col>
@@ -283,8 +284,9 @@
               class="el-icon-plus addcontent"
               v-if="show"
               @click="addData"
-              >&nbsp;&nbsp;添加</el-button
             >
+              &nbsp;&nbsp;添加
+            </el-button>
           </div>
         </div>
       </el-col>
@@ -321,14 +323,14 @@
               </ul>
               <el-row :gutter="20">
                 <el-col :span="12">
-                  <el-button class="el-icon-delete btn empty" @click="empty"
-                    >&nbsp;&nbsp;清空</el-button
-                  >
+                  <el-button class="el-icon-delete btn empty" @click="empty">
+                    &nbsp;&nbsp;清空
+                  </el-button>
                 </el-col>
                 <el-col :span="12">
-                  <el-button class="el-icon-check btn submit" @click="submit"
-                    >&nbsp;&nbsp;确认</el-button
-                  >
+                  <el-button class="el-icon-check btn submit" @click="submit">
+                    &nbsp;&nbsp;确认
+                  </el-button>
                 </el-col>
               </el-row>
             </div>
