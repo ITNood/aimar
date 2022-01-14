@@ -434,17 +434,19 @@ export default {
     },
     //清空
     clean() {
-      this.$confirm("确定要清空已选方案 ?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning",
-      })
-        .then(() => {
-          this.arrs = [];
+      if (this.arrs.length > 0) {
+        this.$confirm("确定要清空已选方案 ?", "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning",
         })
-        .catch(() => {
-          this.$message.info("取消了!!!");
-        });
+          .then(() => {
+            this.arrs = [];
+          })
+          .catch(() => {
+            this.$message.info("取消了!!!");
+          });
+      }
     },
     submit() {},
     openDe(item) {
@@ -487,7 +489,6 @@ export default {
           show: node.symbolSize > 30,
         };
       });
-
       option = {
         title: {
           // text: "Les Miserables",
@@ -501,7 +502,6 @@ export default {
             data: name,
           },
         ],
-
         animationDuration: 1500,
         animationEasingUpdate: "quinticInOut",
         series: [
