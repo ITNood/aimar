@@ -43,7 +43,8 @@
                 :label="index"
                 v-for="(todo, index) in result"
                 :key="index"
-                >方案 #{{ index + 1 }}({{ todo.SolutionProbability }})
+              >
+                方案 #{{ index + 1 }}({{ todo.SolutionProbability }})
               </el-radio-button>
             </el-radio-group>
             <el-row class="border">
@@ -71,8 +72,9 @@
                           :key="index"
                           @click="openDe(item)"
                           class="text-decoration"
-                          >{{ item }};</span
                         >
+                          {{ item }};
+                        </span>
                         ）
                       </p>
                       <div
@@ -98,7 +100,8 @@
                             :key="index"
                             @click="openDe(list)"
                             class="text-decoration"
-                            >{{ list }};</span
+                          >
+                            {{ list }}; </span
                           >）
                         </p>
                       </div>
@@ -115,15 +118,15 @@
                       >】
                     </li>
                     <div class="btncenter">
-                      <el-button class="el-icon-check" @click="confirm"
-                        >&nbsp;&nbsp;确认</el-button
-                      >
-                      <el-button class="el-icon-edit"
-                        >&nbsp;&nbsp;修改</el-button
-                      >
-                      <el-button class="el-icon-delete"
-                        >&nbsp;&nbsp;弃用</el-button
-                      >
+                      <el-button class="el-icon-check" @click="confirm">
+                        &nbsp;&nbsp;确认
+                      </el-button>
+                      <el-button class="el-icon-edit">
+                        &nbsp;&nbsp;修改
+                      </el-button>
+                      <el-button class="el-icon-delete">
+                        &nbsp;&nbsp;弃用
+                      </el-button>
                     </div>
                   </ul>
                 </div>
@@ -173,8 +176,9 @@
                     <span
                       v-for="(item, index) in val.SolutionHeader.DE"
                       :key="index"
-                      >{{ item }};</span
                     >
+                      {{ item }};
+                    </span>
                     ）
                   </p>
 
@@ -220,12 +224,12 @@
             </div>
           </div>
           <div class="mt20 submitBtn center">
-            <el-button class="el-icon-delete btn empty" @click="clean"
-              >&nbsp;&nbsp;清空</el-button
-            >
-            <el-button class="el-icon-check btn submit"
-              >&nbsp;&nbsp;确认</el-button
-            >
+            <el-button class="el-icon-delete btn empty" @click="clean">
+              &nbsp;&nbsp;清空
+            </el-button>
+            <el-button class="el-icon-check btn submit" @click="submit">
+              &nbsp;&nbsp;确认
+            </el-button>
           </div>
         </div>
       </el-col>
@@ -417,6 +421,7 @@ export default {
           this.$message.info("取消了!!!");
         });
     },
+    submit() {},
     openDe(item) {
       api
         .get(`/DeRecord/by/id/${item}`)
@@ -446,9 +451,9 @@ export default {
       this.$refs.child.closeDialog();
     },
     getEcharts(nodes, name, links, categories) {
-      var chartDom = document.getElementById("main");
-      var myChart = echarts.init(chartDom);
-      var option;
+      let chartDom = document.getElementById("main");
+      let myChart = echarts.init(chartDom);
+      let option;
       myChart.showLoading();
       myChart.hideLoading();
 

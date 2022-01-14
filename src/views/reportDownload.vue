@@ -367,7 +367,6 @@ export default {
       const list = [...this.lists];
       list.splice(index, 1);
       this.lists = [...list];
-      console.log("lists", this.lists);
       if (this.lists.length <= 0) {
         this.remove();
       }
