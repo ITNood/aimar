@@ -108,9 +108,23 @@
 
                       <div class="other" v-if="SolutionMEL">
                         <h5>-若故障仍未解除：</h5>
-                        <p>依据 <span>MEL 34-45-02</span> ；</p>
-                        <p>执行 <span>保留、监控</span>；</p>
-                        <p>（参照 DE # <span>987654</span>）</p>
+                        <p>
+                          依据 <span>{{ option1 }}</span> ；
+                        </p>
+                        <p>
+                          执行 <span>{{ option2 }}</span
+                          >；
+                        </p>
+                        <p>
+                          （参照 DE #
+                          <span
+                            v-for="(de, index) in melDe"
+                            :key="index"
+                            @click="openDe(de)"
+                            class="text-decoration"
+                            >{{ de }}</span
+                          >）
+                        </p>
                       </div>
                     </li>
                     <li>
@@ -207,11 +221,14 @@
                   <div class="other" v-if="val.SolutionMEL">
                     <h5>-若故障仍未解除：</h5>
                     <p>
-                      依据 <span>{{ item.SolutionMEL.Reference }}</span> ；
+                      依据 <span>{{ val.SolutionMEL.Reference }}</span> ；
                     </p>
-                    <p>执行 <span>保留、监控</span>；</p>
                     <p>
-                      （参照 DE # <span>{{ item.SolutionMEL.DE.join() }}</span
+                      执行 <span>{{ val.SolutionMEL.Action }}</span
+                      >；
+                    </p>
+                    <p>
+                      （参照 DE # <span>{{ val.SolutionMEL.DE.join() }}</span
                       >）
                     </p>
                   </div>
@@ -288,6 +305,9 @@ export default {
       plan: "",
       programme: "",
       chatnumber: "",
+      melDe: [],
+      option1: "",
+      option2: "",
     };
   },
   created() {
@@ -348,6 +368,9 @@ export default {
             this.solutionProbability = data.SolutionProbability;
             if (data.SolutionMEL) {
               this.SolutionMEL = true;
+              this.option1 = data.SolutionMEL.Reference;
+              this.option2 = data.SolutionMEL.Action;
+              this.melDe = data.SolutionMEL.DE;
             } else {
               this.SolutionMEL = false;
             }
@@ -381,6 +404,9 @@ export default {
       this.solutionProbability = data.SolutionProbability;
       if (data.SolutionMEL) {
         this.SolutionMEL = true;
+        this.option1 = data.SolutionMEL.Reference;
+        this.option2 = data.SolutionMEL.Action;
+        this.melDe = data.SolutionMEL.DE;
       } else {
         this.SolutionMEL = false;
       }
@@ -399,7 +425,6 @@ export default {
           key: val,
         });
       }
-      console.log(arrs);
     },
     //关闭
     close(index) {

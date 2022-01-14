@@ -59,7 +59,6 @@
                     ref="saveTagInput"
                     size="small"
                     @keyup.enter.native="handleAriplane"
-                    @blur="handleAriplane"
                     :fetch-suggestions="searchAri"
                     @select="handleAriplane"
                   >
@@ -88,7 +87,6 @@
                     ref="saveTagInput"
                     size="small"
                     @keyup.enter.native="handlekeyword"
-                    @blur="handlekeyword"
                   >
                   </el-input>
                 </div>
@@ -126,7 +124,6 @@
                     ref="saveTagInput"
                     size="small"
                     @keyup.enter.native="handlePlane"
-                    @blur="handlePlane"
                     :fetch-suggestions="searchPlane"
                     @select="handlePlane"
                   >
@@ -155,7 +152,6 @@
                     ref="saveTagInput"
                     size="small"
                     @keyup.enter.native="handleCode"
-                    @blur="handleCode"
                     :fetch-suggestions="searchCode"
                     @select="handleCode"
                   >
@@ -557,13 +553,16 @@ export default {
           id: 2,
         });
       }
-      this.addCondition.push({
-        name: "模糊匹配",
-        value: this.value,
-        value1: this.value1,
-        value2: this.value2,
-        id: 3,
-      });
+      if (this.value1) {
+        this.addCondition.push({
+          name: "模糊匹配",
+          value: this.value,
+          value1: this.value1,
+          value2: this.value2,
+          id: 3,
+        });
+      }
+
       if (this.airplane.length > 0) {
         this.addCondition.push({
           name: "选定飞机",
@@ -587,6 +586,7 @@ export default {
         });
       }
       if (this.date) {
+        console.log("555", this.date);
         this.addCondition.push({
           name: "日期范围",
           date: this.radio,
@@ -616,7 +616,9 @@ export default {
     handlekeyword() {
       let keywordValue = this.keywordValue;
       if (keywordValue) {
-        this.keywords.push(keywordValue);
+        if (!this.keywords.includes(keywordValue)) {
+          this.keywords.push(keywordValue);
+        }
       }
       this.keywordValue = "";
     },
@@ -674,7 +676,9 @@ export default {
     handlePlane() {
       let planeValue = this.planeValue;
       if (planeValue) {
-        this.planes.push(planeValue);
+        if (!this.planes.includes(planeValue)) {
+          this.planes.push(planeValue);
+        }
       }
       this.planeValue = "";
     },
@@ -729,7 +733,9 @@ export default {
     handleCode() {
       let codeValue = this.codeValue;
       if (codeValue) {
-        this.codes.push(codeValue);
+        if (!this.codes.includes(codeValue)) {
+          this.codes.push(codeValue);
+        }
       }
       this.codeValue = "";
     },

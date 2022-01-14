@@ -76,7 +76,6 @@
                         ref="saveTagInput"
                         size="small"
                         @keyup.enter.native="handleAriplane"
-                        @blur="handleAriplane"
                         :fetch-suggestions="searchAri"
                         @select="handleAriplane"
                       >
@@ -105,7 +104,6 @@
                         ref="saveTagInput"
                         size="small"
                         @keyup.enter.native="handlekeyword"
-                        @blur="handlekeyword"
                       >
                       </el-input>
                     </div>
@@ -143,7 +141,6 @@
                         ref="saveTagInput"
                         size="small"
                         @keyup.enter.native="handlePlane"
-                        @blur="handlePlane"
                         :fetch-suggestions="searchPlane"
                         @select="handlePlane"
                       >
@@ -172,7 +169,6 @@
                         ref="saveTagInput"
                         size="small"
                         @keyup.enter.native="handleCode"
-                        @blur="handleCode"
                         :fetch-suggestions="searchCode"
                         @select="handleCode"
                       >
@@ -762,8 +758,9 @@ export default {
     handlekeyword() {
       let keywordValue = this.keywordValue;
       if (keywordValue) {
-        this.keywords.push(keywordValue);
-        console.log(this.keywords);
+        if (!this.keywords.includes(keywordValue)) {
+          this.keywords.push(keywordValue);
+        }
       }
       this.keywordValue = "";
     },
@@ -776,7 +773,6 @@ export default {
       let inputValue = this.inputValue;
       if (inputValue) {
         this.dynamicTags.push(inputValue);
-        console.log(this.dynamicTags);
       }
       this.inputValue = "";
     },
@@ -822,7 +818,9 @@ export default {
     handlePlane() {
       let planeValue = this.planeValue;
       if (planeValue) {
-        this.planes.push(planeValue);
+        if (!this.planes.includes(planeValue)) {
+          this.planes.push(planeValue);
+        }
       }
       this.planeValue = "";
     },
@@ -877,7 +875,9 @@ export default {
     handleCode() {
       let codeValue = this.codeValue;
       if (codeValue) {
-        this.codes.push(codeValue);
+        if (!this.codes.includes(codeValue)) {
+          this.codes.push(codeValue);
+        }
       }
       this.codeValue = "";
     },

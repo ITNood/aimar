@@ -393,13 +393,13 @@ export default {
       const ids = val.map((item) => item.id);
     },
 
-    renderData(name, ids) {
-      const list = [...this[name]].map((item) => ({
-        ...item,
-        disabled: ids.includes(item.id),
-      }));
-      this.$set(this, name, list);
-    },
+    // renderData(name, ids) {
+    //   const list = [...this[name]].map((item) => ({
+    //     ...item,
+    //     disabled: ids.includes(item.id),
+    //   }));
+    //   this.$set(this, name, list);
+    // },
     download() {
       this.lists.forEach((item, index) => {
         try {
