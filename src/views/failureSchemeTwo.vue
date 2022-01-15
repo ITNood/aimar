@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-row class="scheme">
-      <el-col :md="5" :lg="5" :xl="4">
+      <el-col :md="5" :lg="5" :xl="3">
         <div class="entryFault">
           <h2>已输入故障信息</h2>
           <div class="faultInformation">
@@ -30,7 +30,7 @@
           </div>
         </div>
       </el-col>
-      <el-col :md="14" :lg="14" :xl="15">
+      <el-col :md="19" :lg="19" :xl="21">
         <div class="selectedsProgramme">
           <h2>选择排故方案</h2>
           <div class="programme">
@@ -48,104 +48,106 @@
               </el-radio-button>
             </el-radio-group>
             <el-row class="border">
-              <el-col :span="12">
+              <el-col :span="16">
                 <div class="programmeDetails">
-                  <ul>
-                    <li v-if="show">
-                      依据<span>{{ reference }}</span>
-                    </li>
-                    <li>
-                      针对 <span>{{ target }}</span> 出现
-                      <span>{{ fault }}</span> 故障 ；
-                    </li>
-                    <li>
-                      <p>
-                        执行<span>{{ action }}</span> 操作；
-                      </p>
-                      <p>
-                        【故障排除概率： <span>{{ probability }} </span>】
-                      </p>
-                      <p>
-                        （参照 DE #
-                        <span
-                          v-for="(item, index) in des"
-                          :key="index"
-                          @click="openDe(item)"
-                          class="text-decoration"
-                        >
-                          {{ item }};
-                        </span>
-                        ）
-                      </p>
-                      <div
-                        class="other"
-                        v-for="(item, index) in lists"
+                  <div class="schemeNews">
+                    <h2>B-1234 （A-320） @ SZX @ YYYY-MM-DD HH:MM</h2>
+                    <p>方案 # XXXXXXXX【综合排故概率： XX %】</p>
+                  </div>
+                  <div class="counter">
+                    针对 XXXX 出现 XXXX；XXXXXXXX 故障：
+                  </div>
+                  <div class="suggestionList">
+                    <el-row style="width: 100%">
+                      <el-col
+                        v-for="(item, index) in tablelist"
                         :key="index"
+                        :offset="index"
+                        :span="24 - index"
+                        class="contentBorder"
                       >
-                        <h5>-若故障仍未解除：</h5>
-                        <p>
-                          执行 <span>{{ item.Action }}</span> 操作；
-                        </p>
-                        <p>
-                          依据 <span>{{ item.Reference }}</span>
-                        </p>
-                        <p>
-                          【故障排除概率：<span> {{ item.Probability }} </span
-                          >】
-                        </p>
-                        <p>
-                          （参照 DE #
-                          <span
-                            v-for="(list, index) in item.DE"
-                            :key="index"
-                            @click="openDe(list)"
-                            class="text-decoration"
-                          >
-                            {{ list }}; </span
-                          >）
-                        </p>
-                      </div>
-
-                      <div class="other" v-if="SolutionMEL">
-                        <h5>-若故障仍未解除：</h5>
-                        <p>
-                          依据 <span>{{ option1 }}</span> ；
-                        </p>
-                        <p>
-                          执行 <span>{{ option2 }}</span
-                          >；
-                        </p>
-                        <p>
-                          （参照 DE #
-                          <span
-                            v-for="(de, index) in melDe"
-                            :key="index"
-                            @click="openDe(de)"
-                            class="text-decoration"
-                            >{{ de }}</span
-                          >）
-                        </p>
-                      </div>
-                    </li>
-                    <li>
-                      【综合排故概率： <span>{{ solutionProbability }}</span
-                      >】
-                    </li>
-                    <div class="btncenter">
-                      <el-button class="el-icon-check" @click="confirm">
-                        &nbsp;&nbsp;确认
-                      </el-button>
-                      <el-button class="el-icon-edit">
-                        &nbsp;&nbsp;修改
-                      </el-button>
-                      <el-button class="el-icon-delete">
-                        &nbsp;&nbsp;弃用
-                      </el-button>
-                    </div>
-                  </ul>
+                        <i v-if="tablelist.length > 1">若故障仍未排除：</i>
+                        <el-row :gutter="20">
+                          <el-col :span="8">
+                            <div class="listleft">
+                              <p>
+                                依据 <span @click="basis">{{ item.name }}</span
+                                >；
+                              </p>
+                              <p>执行 {{ item.operation }} 操作；</p>
+                              <p>【故障排除概率： {{ item.percent }} %】</p>
+                              <p>
+                                （参照 DE #<span
+                                  v-for="de in item.de"
+                                  :key="de"
+                                  class="text-decoration"
+                                  @click="openDe(de)"
+                                  >{{ de }}; </span
+                                >）
+                              </p>
+                            </div>
+                          </el-col>
+                          <el-col :span="8">
+                            <div class="listleft">
+                              <p>
+                                维修 Kit #
+                                <span @click="openTable(tool)"
+                                  >XXXXXXXX (1)</span
+                                >
+                                ：
+                              </p>
+                              <p>
+                                工具：<span
+                                  v-for="tool in item.tools"
+                                  :key="tool"
+                                  @click="openTable(tool)"
+                                  >{{ tool }};
+                                </span>
+                              </p>
+                              <p>
+                                主件：<span
+                                  v-for="part in item.parts"
+                                  :key="part"
+                                  @click="openTable(part)"
+                                  >{{ part }};
+                                </span>
+                              </p>
+                              <p>
+                                辅件:<span
+                                  v-for="acce in item.acces"
+                                  :key="acce"
+                                  @click="openTable(acce)"
+                                  >{{ acce }};
+                                </span>
+                              </p>
+                            </div>
+                          </el-col>
+                          <el-col :span="8">
+                            <div class="listright">
+                              <p>施工条件：</p>
+                              <p>{{ item.construction }}</p>
+                              <p>预计工时：</p>
+                              <p>{{ item.date }}</p>
+                            </div>
+                          </el-col>
+                        </el-row>
+                      </el-col>
+                    </el-row>
+                  </div>
+                  <div class="btncenter">
+                    <el-button class="el-icon-download" @click="confirm">
+                      &nbsp;&nbsp;预览/下载
+                    </el-button>
+                    <el-button class="el-icon-edit">
+                      &nbsp;&nbsp;修改
+                    </el-button>
+                    <el-button class="el-icon-delete">
+                      &nbsp;&nbsp;弃用
+                    </el-button>
+                  </div>
                 </div>
               </el-col>
-              <el-col :span="12">
+              <el-col :span="8">
                 <div class="proprammeRight">
                   <div class="programmeImg">
                     <h3>推荐推理逻辑可视化展示 <span>beta</span></h3>
@@ -157,97 +159,6 @@
                 </div>
               </el-col>
             </el-row>
-          </div>
-        </div>
-      </el-col>
-      <el-col :md="5" :lg="5" :xl="5">
-        <div class="selecteds">
-          <h2>已选择排故方案</h2>
-          <div class="programmeDetails" style="border-right: none">
-            <div v-for="(val, index) in arrs" :key="index">
-              <h1 class="clear">
-                方案 # {{ val.key + 1 }}
-                <i class="el-icon-close" @click="close(index)"></i
-                ><i class="el-icon-edit"></i>
-              </h1>
-              <ul>
-                <li>
-                  针对 <span>{{ val.SolutionHeader.Reference }}</span> 出现
-                  <span>{{ val.SolutionHeader.Target }}</span> 故障 ；
-                </li>
-                <li>
-                  <p>
-                    执行 <span>{{ val.SolutionHeader.Fault }}</span> 操作，执行
-                    <span>{{ val.SolutionHeader.Action }}</span> 操作；
-                  </p>
-                  <p>
-                    【故障排除概率：
-                    <span>{{ val.SolutionHeader.Probability }}</span
-                    >】
-                  </p>
-                  <p>
-                    （参照 DE #
-                    <span
-                      v-for="(item, index) in val.SolutionHeader.DE"
-                      :key="index"
-                    >
-                      {{ item }};
-                    </span>
-                    ）
-                  </p>
-
-                  <div
-                    class="other"
-                    v-for="(item, index) in val.SolutionBody"
-                    :key="index"
-                  >
-                    <h5>-若故障仍未解除：</h5>
-                    <p>
-                      执行 <span>{{ item.Action }}</span> 操作；
-                    </p>
-                    <p>
-                      依据 <span>{{ item.Reference }}</span>
-                    </p>
-                    <p>
-                      【故障排除概率：<span> {{ item.Probability }}</span
-                      >】
-                    </p>
-                    <p>
-                      （参照 DE # <span>{{ item.DE.join() }}</span
-                      >）
-                    </p>
-                  </div>
-
-                  <div class="other" v-if="val.SolutionMEL">
-                    <h5>-若故障仍未解除：</h5>
-                    <p>
-                      依据 <span>{{ val.SolutionMEL.Reference }}</span> ；
-                    </p>
-                    <p>
-                      执行 <span>{{ val.SolutionMEL.Action }}</span
-                      >；
-                    </p>
-                    <p>
-                      （参照 DE #
-                      <span>{{ val.SolutionMEL.DE.join() }}</span
-                      >）
-                    </p>
-                  </div>
-                </li>
-                <li>
-                  【综合排故概率： <span>{{ val.SolutionProbability }}</span
-                  >】
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div class="mt20 submitBtn center">
-            <el-button class="el-icon-delete btn empty" @click="clean">
-              &nbsp;&nbsp;清空
-            </el-button>
-            <el-button class="el-icon-check btn submit" @click="submit">
-              &nbsp;&nbsp;确认
-            </el-button>
           </div>
         </div>
       </el-col>
@@ -266,6 +177,22 @@
       @closedDialog="closedDialog"
       ref="child"
     />
+    <opentable :data="tables" :title="title" ref="tables" @click="cloetable" />
+    <basis
+      :headName="headName"
+      :type="type"
+      :updateDate="updateDate"
+      :manual="manual"
+      :chapter="chapter"
+      :keyword="keyword"
+      :part="part"
+      :page="page"
+      :section="section"
+      :notestext="notestext"
+      :data="data"
+      ref="basisChild"
+      @click="openbasis"
+    />
   </div>
 </template>
 
@@ -274,8 +201,10 @@ import solution from "../solutiongraph";
 import * as echarts from "echarts";
 import api from "../API/index";
 import deDetails from "../components/deDetails.vue";
+import Opentable from "../components/opentable.vue";
+import Basis from "../components/basis.vue";
 export default {
-  components: { deDetails },
+  components: { deDetails, Opentable, Basis },
   data() {
     return {
       items: [],
@@ -309,6 +238,80 @@ export default {
       melDe: [],
       option1: "",
       option2: "",
+      tablelist: [
+        {
+          name: "sdfasffasd",
+          operation: "dadsfjioasjfi ",
+          percent: "99.8",
+          de: ["1263912", "1184930"],
+          construction: "dkaodhfiaodhfiopshdfpiosahdfsupah ",
+          date: "32h",
+          tools: ["dad", "dadds", "wew"],
+          parts: ["fgg", "ddgg", "ffddff"],
+          acces: ["hh", "fht", "jjt"],
+        },
+        {
+          name: "sdfasffasd",
+          operation: "dadsfjioasjfi ",
+          percent: "99.8",
+          de: ["1263912", "1184930"],
+          construction: "dkaodhfiaodhfiopshdfpiosahdfsupah ",
+          date: "32h",
+          tools: ["dad", "dadds", "wew"],
+          parts: ["fgg", "ddgg", "ffddff"],
+          acces: ["hh", "fht", "jjt"],
+        },
+        {
+          name: "sdfasffasd",
+          operation: "dadsfjioasjfi ",
+          percent: "99.8",
+          de: ["1263912", "1184930"],
+          construction: "dkaodhfiaodhfiopshdfpiosahdfsupah ",
+          date: "32h",
+          tools: ["dad", "dadds", "wew"],
+          parts: ["fgg", "ddgg", "ffddff"],
+          acces: ["hh", "fht", "jjt"],
+        },
+        {
+          name: "sdfasffasd",
+          operation: "dadsfjioasjfi ",
+          percent: "99.8",
+          de: ["1263912", "1184930"],
+          construction: "dkaodhfiaodhfiopshdfpiosahdfsupah ",
+          date: "32h",
+          tools: ["dad", "dadds", "wew"],
+          parts: ["fgg", "ddgg", "ffddff"],
+          acces: ["hh", "fht", "jjt"],
+        },
+      ],
+      tables: [
+        {
+          type: "工具",
+          name: "和第哦啊和",
+          pieceNumber: "65969",
+          number: 4654,
+          stock: 64564,
+          otherStock: "daskdhoioh ",
+        },
+      ],
+      title: "名称",
+      headName: "xxx",
+      type: "737",
+      updateDate: "2021-12-12",
+      manual: "SDSDA",
+      chapter: "34-45",
+      keyword: "dafa;dadfads;faddfas;",
+      part: "dafasf",
+      page: "AAA",
+      section: "DDD",
+      notestext: "SDADAJKSDOJFOSAFOAHSFOISHAFOSFHSAIFOHSDFOIDSHFODISAFHIOA",
+      data: [
+        { picture_image: require("../static/pdf/3445_1.png") },
+        { picture_image: require("../static/pdf/3445_2.png") },
+        { picture_image: require("../static/pdf/3445_3.png") },
+        { picture_image: require("../static/pdf/3445_4.png") },
+        { picture_image: require("../static/pdf/3445_5.png") },
+      ],
     };
   },
   created() {
@@ -326,6 +329,19 @@ export default {
     this.getEcharts(nodes, name, links, categories);
   },
   methods: {
+    //依据
+    basis(name) {
+      this.openbasis();
+    },
+    openbasis() {
+      this.$refs.basisChild.closeBasis();
+    },
+    cloetable() {
+      this.$refs.tables.closetable();
+    },
+    openTable(name) {
+      this.cloetable();
+    },
     //获取缓存
     getCacheData() {
       this.items = JSON.parse(localStorage.getItem("listData"));

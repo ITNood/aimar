@@ -615,10 +615,8 @@ export default {
     },
     handlekeyword() {
       let keywordValue = this.keywordValue;
-      if (keywordValue) {
-        if (!this.keywords.includes(keywordValue)) {
-          this.keywords.push(keywordValue);
-        }
+      if (keywordValue && !this.keywords.includes(keywordValue)) {
+        this.keywords.push(keywordValue);
       }
       this.keywordValue = "";
     },
@@ -675,10 +673,8 @@ export default {
     //选定机型
     handlePlane() {
       let planeValue = this.planeValue;
-      if (planeValue) {
-        if (!this.planes.includes(planeValue)) {
-          this.planes.push(planeValue);
-        }
+      if (planeValue && !this.planes.includes(planeValue)) {
+        this.planes.push(planeValue);
       }
       this.planeValue = "";
     },
@@ -732,10 +728,8 @@ export default {
     //故障代码
     handleCode() {
       let codeValue = this.codeValue;
-      if (codeValue) {
-        if (!this.codes.includes(codeValue)) {
-          this.codes.push(codeValue);
-        }
+      if (codeValue && !this.codes.includes(codeValue)) {
+        this.codes.push(codeValue);
       }
       this.codeValue = "";
     },

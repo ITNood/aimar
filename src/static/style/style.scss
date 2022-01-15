@@ -26,6 +26,7 @@ img {
 
 .text-decoration {
   text-decoration: underline;
+  cursor         : pointer;
 }
 
 .border {
@@ -55,6 +56,10 @@ img {
 
 .mt40 {
   margin-top: 40px;
+}
+
+.pd20 {
+  padding: 20px;
 }
 
 .text-right {
@@ -1375,4 +1380,120 @@ img {
 
 .tablefont {
   @extend %fontEllipsis
+}
+
+.schemeNews {
+  h2 {
+    font-weight: 600;
+    text-align : left !important;
+    border     : none !important;
+    font-size  : 1rem !important;
+    line-height: 150% !important;
+  }
+}
+
+.counter {
+  margin: 20px 0;
+}
+
+.suggestionList {
+
+  margin-top: 40px;
+
+  .contentBorder {
+    border       : 2px solid #3399FF;
+    padding      : 20px;
+    margin-bottom: 40px;
+    position     : relative;
+
+    &::after {
+      display   : block;
+      content   : '';
+      width     : 51px;
+      height    : 60px;
+      position  : absolute;
+      bottom    : -60px;
+      left      : 5px;
+      background: url('../image/icon.png');
+    }
+
+    i {
+      display    : block;
+      position   : absolute;
+      bottom     : -35px;
+      line-height: 30px;
+      left       : 15px;
+      font-style : normal;
+      font-weight: 600;
+    }
+
+    &:last-child {
+      &::after {
+        background: transparent !important;
+        display   : none !important;
+      }
+
+      i {
+        display: none;
+      }
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    .listleft,
+    .listright {
+      line-height: 30px;
+
+      p {
+        span {
+          color          : #3399FF;
+          text-decoration: underline;
+          cursor         : pointer;
+        }
+      }
+    }
+  }
+
+}
+
+.contenttext {
+  h5 {
+    font-size    : 1.2rem;
+    font-weight  : 600;
+    border-bottom: 1px solid $bordercolor;
+    line-height  : 40px;
+  }
+
+  p {
+    position    : relative;
+    padding-left: 80px;
+    height      : 38px;
+    line-height : 38px;
+    @extend %fontEllipsis;
+
+    span {
+      display    : block;
+      line-height: 38px;
+      position   : absolute;
+      left       : 0;
+      top        : 0;
+      font-weight: 600;
+      text-align : justify;
+    }
+  }
+}
+
+.notes {
+  H6 {
+    color          : #3399FF;
+    text-decoration: underline;
+    line-height    : 38px;
+    cursor         : pointer;
+  }
+
+  P {
+    padding: 0 !important;
+  }
 }
