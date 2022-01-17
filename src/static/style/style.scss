@@ -1444,9 +1444,10 @@ img {
 
       p {
         span {
-          color          : #3399FF;
+          color          : $theme;
           text-decoration: underline;
           cursor         : pointer;
+          font-weight    : 600;
         }
       }
     }

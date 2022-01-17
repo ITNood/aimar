@@ -48,7 +48,7 @@
                     v-for="tag in names"
                     closable
                     :disable-transitions="false"
-                    @close="handleClose(tag)"
+                    @close="handleClose1(tag)"
                   >
                     {{ tag }}
                   </el-tag>
@@ -82,7 +82,7 @@
                     v-for="tag in dynamicTags"
                     closable
                     :disable-transitions="false"
-                    @close="handleClose(tag)"
+                    @close="handleClose2(tag)"
                   >
                     {{ tag }}
                   </el-tag>
@@ -416,7 +416,6 @@ export default {
       list.splice(index, 1);
       this.items = [...list];
       const data = this.tableData.filter((item) => item.sn == sn);
-      console.log(sn, data);
       this.$refs.multipleTable.toggleRowSelection(data[0], false);
     },
     changePn(val) {
@@ -453,32 +452,47 @@ export default {
       api
         .post("/ccDeInfo/merged/de", data)
         .then((res) => {
-          this.result = res.data;
-          this.pns = [...res.data].map((item) => {
-            return item.pn;
-          });
-          let data = res.data[0];
-          this.pn = data.pn;
-          // this.replacePercent = data.oyfp;
-          this.onlineDate = data.onlineDayTotal;
-          this.averageDate = data.averageOnlineDays;
-          this.percent = data.oyfp;
-          if (data.pnNames) {
-            this.pnName = data.pnNames.join();
-          }
-          if (data.replacePn) {
-            this.replacePn = data.replacePn.join();
+          if (res.data && res.data.length > 0) {
+            this.result = res.data;
+            this.pns = [...res.data].map((item) => {
+              return item.pn;
+            });
+            let data = res.data[0];
+            this.pn = data.pn;
+            // this.replacePercent = data.oyfp;
+            this.onlineDate = data.onlineDayTotal;
+            this.averageDate = data.averageOnlineDays;
+            this.percent = data.oyfp;
+            if (data.pnNames) {
+              this.pnName = data.pnNames.join();
+            }
+            if (data.replacePn) {
+              this.replacePn = data.replacePn.join();
+            } else {
+              this.replacePn = "";
+            }
+            if (data.pnOnline == true) {
+              this.isonline = "是";
+            } else {
+              this.isonline = "否";
+            }
+            this.tableData = data.snList;
+            this.data = data.snList[0].snChangeDetail;
+            this.sn = data.snList[0].sn;
           } else {
+            this.result = [];
+            this.pn = "";
+            // this.replacePercent = data.oyfp;
+            this.onlineDate = "";
+            this.averageDate = "";
+            this.percent = "";
+            this.pnName = "";
             this.replacePn = "";
+            this.isonline = "";
+            this.tableData = "";
+            this.data = [];
+            this.sn = "";
           }
-          if (data.pnOnline == true) {
-            this.isonline = "是";
-          } else {
-            this.isonline = "否";
-          }
-          this.tableData = data.snList;
-          this.data = data.snList[0].snChangeDetail;
-          this.sn = data.snList[0].sn;
         })
         .catch((err) => {
           console.log(err);
@@ -491,6 +505,12 @@ export default {
       this.sn = row.row.sn;
     },
     handleClose(tag) {
+      this.ariNumber.splice(this.ariNumber.indexOf(tag), 1);
+    },
+    handleClose1(tag) {
+      this.names.splice(this.names.indexOf(tag), 1);
+    },
+    handleClose2(tag) {
       this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
     },
 
