@@ -411,12 +411,13 @@ export default {
       this.items = arr;
     },
     delData(index) {
+      const sn = this.items[index].sn;
       const list = [...this.items];
       list.splice(index, 1);
       this.items = [...list];
-      if (this.items.length < 1) {
-        this.$refs.multipleTable.clearSelection();
-      }
+      const data = this.tableData.filter((item) => item.sn == sn);
+      console.log(sn, data);
+      this.$refs.multipleTable.toggleRowSelection(data[0], false);
     },
     changePn(val) {
       const data = this.result[val];

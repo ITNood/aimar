@@ -296,18 +296,21 @@ export default {
       },
       reportRecord: [
         {
+          type: 1,
           id: 3445,
           date: "20YY-MM-DD",
           reportType: "推荐方案",
           reportId: "2022-3445",
         },
         {
+          type: 2,
           id: 3453,
           date: "20YY-MM-DD",
           reportType: "推荐方案",
           reportId: "2022-3453",
         },
         {
+          type: 3,
           id: 4951,
           date: "20YY-MM-DD",
           reportType: "推荐方案",
@@ -316,18 +319,21 @@ export default {
       ],
       reportData: [
         {
+          type: 4,
           id: 3445,
           date: "20YY-MM-DD",
           reportType: "推荐方案",
           reportId: "2022-3445",
         },
         {
+          type: 5,
           id: 3453,
           date: "20YY-MM-DD",
           reportType: "推荐方案",
           reportId: "2022-3453",
         },
         {
+          type: 6,
           id: 4951,
           date: "20YY-MM-DD",
           reportType: "推荐方案",
@@ -364,11 +370,24 @@ export default {
     },
     //删除选中
     deltel(index) {
+      let type = this.lists[index].type;
       const list = [...this.lists];
       list.splice(index, 1);
       this.lists = [...list];
-      if (this.lists.length <= 0) {
-        this.remove();
+      if (this.reportData.some((item) => item.type === type)) {
+        const data = this.reportData.filter((item) => {
+          if (type == item.type) {
+            return item;
+          }
+        });
+        this.$refs.listdata.toggleRowSelection(data[0], false);
+      } else {
+        const data = this.reportRecord.filter((item) => {
+          if (type == item.type) {
+            return item;
+          }
+        });
+        this.$refs.multipleTable.toggleRowSelection(data[0], false);
       }
     },
     // 数组对象去重
@@ -383,23 +402,13 @@ export default {
     //表一勾选
     handleSelectionChange(val) {
       this.dataselection = [...val];
-      this.lists = this.deWeightFour([...this.listselection, ...val], "id");
-      const ids = val.map((item) => item.id);
+      this.lists = this.deWeightFour([...this.listselection, ...val], "type");
     },
     //表二勾选
     handleSelectionChange1(val) {
       this.listselection = [...val];
-      this.lists = this.deWeightFour([...this.dataselection, ...val], "id");
-      const ids = val.map((item) => item.id);
+      this.lists = this.deWeightFour([...this.dataselection, ...val], "type");
     },
-
-    // renderData(name, ids) {
-    //   const list = [...this[name]].map((item) => ({
-    //     ...item,
-    //     disabled: ids.includes(item.id),
-    //   }));
-    //   this.$set(this, name, list);
-    // },
     download() {
       this.lists.forEach((item, index) => {
         try {
