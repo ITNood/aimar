@@ -66,7 +66,9 @@
                         :span="24 - index"
                         class="contentBorder"
                       >
-                        <i v-if="tablelist.length > 1">若故障仍未排除：</i>
+                        <i v-if="tablelist.length > 1 && index !== 0"
+                          >若故障仍未排除：</i
+                        >
                         <el-row :gutter="20">
                           <el-col :span="8">
                             <div class="listleft">
@@ -88,8 +90,17 @@
                             </div>
                           </el-col>
                           <el-col :span="8">
-                            <div class="listleft">
+                            <div class="listleft special">
                               <p>
+                                <i
+                                  :class="
+                                    item.color1 == 0
+                                      ? 'classA'
+                                      : item.color1 == 1
+                                      ? 'classB'
+                                      : 'classC'
+                                  "
+                                ></i>
                                 维修 Kit #
                                 <span @click="openTable(tool)"
                                   >XXXXXXXX (1)</span
@@ -97,6 +108,15 @@
                                 ：
                               </p>
                               <p>
+                                <i
+                                  :class="
+                                    item.color2 == 0
+                                      ? 'classA'
+                                      : item.color2 == 1
+                                      ? 'classB'
+                                      : 'classC'
+                                  "
+                                ></i>
                                 工具：<span
                                   v-for="tool in item.tools"
                                   :key="tool"
@@ -105,6 +125,15 @@
                                 </span>
                               </p>
                               <p>
+                                <i
+                                  :class="
+                                    item.color3 == 0
+                                      ? 'classA'
+                                      : item.color3 == 1
+                                      ? 'classB'
+                                      : 'classC'
+                                  "
+                                ></i>
                                 主件：<span
                                   v-for="part in item.parts"
                                   :key="part"
@@ -113,6 +142,15 @@
                                 </span>
                               </p>
                               <p>
+                                <i
+                                  :class="
+                                    item.color4 == 0
+                                      ? 'classA'
+                                      : item.color4 == 1
+                                      ? 'classB'
+                                      : 'classC'
+                                  "
+                                ></i>
                                 辅件:<span
                                   v-for="acce in item.acces"
                                   :key="acce"
@@ -249,6 +287,10 @@ export default {
           tools: ["dad", "dadds", "wew"],
           parts: ["fgg", "ddgg", "ffddff"],
           acces: ["hh", "fht", "jjt"],
+          color1: 0,
+          color2: 2,
+          color3: 1,
+          color4: 1,
         },
         {
           name: "sdfasffasd",
@@ -260,6 +302,10 @@ export default {
           tools: ["dad", "dadds", "wew"],
           parts: ["fgg", "ddgg", "ffddff"],
           acces: ["hh", "fht", "jjt"],
+          color1: 0,
+          color2: 2,
+          color3: 1,
+          color4: 1,
         },
         {
           name: "sdfasffasd",
@@ -271,6 +317,10 @@ export default {
           tools: ["dad", "dadds", "wew"],
           parts: ["fgg", "ddgg", "ffddff"],
           acces: ["hh", "fht", "jjt"],
+          color1: 0,
+          color2: 2,
+          color3: 1,
+          color4: 1,
         },
         {
           name: "sdfasffasd",
@@ -282,6 +332,10 @@ export default {
           tools: ["dad", "dadds", "wew"],
           parts: ["fgg", "ddgg", "ffddff"],
           acces: ["hh", "fht", "jjt"],
+          color1: 0,
+          color2: 2,
+          color3: 1,
+          color4: 1,
         },
       ],
       tables: [
@@ -432,16 +486,16 @@ export default {
 
     //确认
     confirm() {
-      let val = this.radio;
-      if (this.arrs.filter((item) => item.key === val).length > 0) {
-        // 弹提示已添加
-        this.$message.warning("该方案已添加!!!");
-      } else {
-        this.arrs.push({
-          ...this.result[val],
-          key: val,
-        });
-      }
+      // let val = this.radio;
+      // if (this.arrs.filter((item) => item.key === val).length > 0) {
+      //   // 弹提示已添加
+      //   this.$message.warning("该方案已添加!!!");
+      // } else {
+      //   this.arrs.push({
+      //     ...this.result[val],
+      //     key: val,
+      //   });
+      // }
     },
     //关闭
     close(index) {

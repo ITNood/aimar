@@ -1420,9 +1420,9 @@ img {
     i {
       display    : block;
       position   : absolute;
-      bottom     : -35px;
+      top        : -35px;
       line-height: 30px;
-      left       : 15px;
+      left       : -30px;
       font-style : normal;
       font-weight: 600;
     }
@@ -1431,10 +1431,6 @@ img {
       &::after {
         background: transparent !important;
         display   : none !important;
-      }
-
-      i {
-        display: none;
       }
     }
 
@@ -1496,4 +1492,35 @@ img {
   P {
     padding: 0 !important;
   }
+}
+
+.special {
+  p {
+    padding-left: 15px;
+    position    : relative;
+
+    i {
+      display      : block;
+      position     : absolute;
+      width        : 8px;
+      height       : 8px;
+      border-radius: 50%;
+      left         : 0 !important;
+      top          : 11px !important;
+    }
+
+
+  }
+}
+
+.classA {
+  background-color: $red;
+}
+
+.classB {
+  background-color: $orange;
+}
+
+.classC {
+  background-color: $green;
 }
