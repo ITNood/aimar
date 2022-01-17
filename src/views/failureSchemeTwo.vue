@@ -102,9 +102,9 @@
                                   "
                                 ></i>
                                 维修 Kit #
-                                <span @click="openTable(tool)"
-                                  >XXXXXXXX (1)</span
-                                >
+                                <span @click="openTable(item.repair)">{{
+                                  item.repair
+                                }}</span>
                                 ：
                               </p>
                               <p>
@@ -291,6 +291,7 @@ export default {
           color2: 2,
           color3: 1,
           color4: 1,
+          repair: "XXXXXX",
         },
         {
           name: "sdfasffasd",
@@ -306,6 +307,7 @@ export default {
           color2: 2,
           color3: 1,
           color4: 1,
+          repair: "XXXXXX",
         },
         {
           name: "sdfasffasd",
@@ -321,6 +323,7 @@ export default {
           color2: 2,
           color3: 1,
           color4: 1,
+          repair: "XXXXXX",
         },
         {
           name: "sdfasffasd",
@@ -336,6 +339,7 @@ export default {
           color2: 2,
           color3: 1,
           color4: 1,
+          repair: "XXXXXX",
         },
       ],
       tables: [
@@ -394,6 +398,7 @@ export default {
       this.$refs.tables.closetable();
     },
     openTable(name) {
+      console.log(name);
       this.cloetable();
     },
     //获取缓存
