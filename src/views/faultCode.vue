@@ -162,7 +162,6 @@ export default {
       totalPage: 100,
       pageSize: 10,
       currentPage: 1,
-
       dynamicTags: [],
       inputValue: "",
       restaurants: [],

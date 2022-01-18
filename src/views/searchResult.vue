@@ -215,7 +215,6 @@ import api from "../API/index";
 import Condition from "../components/condition.vue";
 import DeDetails from "../components/deDetails.vue";
 import pagination from "../components/pagination.vue";
-import testVue from "./test.vue";
 export default {
   components: { pagination, DeDetails, Condition },
   data() {
@@ -343,7 +342,6 @@ export default {
           }
         });
       }
-
       const data = {
         startDate: this.startDate,
         endDate: this.endDate,
@@ -466,7 +464,6 @@ export default {
         addDateZero(d.getDate());
       return formatdatetime;
     },
-
     //文字中间显示省略号
     getSubStr(str) {
       if (str) {

@@ -405,53 +405,9 @@ export default {
 
   created() {
     this.getdata();
-    this.lists = JSON.parse(localStorage.getItem("listData"));
-    if (this.lists) {
-      this.lists.forEach((item) => {
-        if (item.id == 0) {
-          this.text = item.text;
-        }
-        if (item.id == 1) {
-          if (item.keywords) {
-            this.keywords = item.keyword.toString().split(",");
-          } else {
-            this.keywords = [];
-          }
-        }
-        if (item.id == 2) {
-          if (item.text) {
-            this.codes = item.text.toString().split(",");
-          } else {
-            this.codes = [];
-          }
-        }
-        if (item.id == 3) {
-          this.value1 = item.value1;
-        }
-        if (item.id == 4) {
-          this.airplane = item.airplanes;
-        }
-        if (item.id == 5) {
-          if (item.airplaneTypes) {
-            this.planes = item.airplaneTypes.toString().split(",");
-          } else {
-            this.planes = [];
-          }
-        }
-        if (item.id == 6) {
-          this.start = item.chapters;
-          this.end = item.sections;
-        }
-        if (item.id == 7) {
-          this.startDate = item.startDate;
-          this.endDate = item.endDate;
-        }
-      });
-    }
+    this.psuhdata();
   },
-  mounted() {
-    // this.restaurants = this.loadAll();
-  },
+  mounted() {},
   updated() {
     const len = this.items.filter((item) => !!item.isshow).length;
     if (len > 0) {
@@ -499,6 +455,52 @@ export default {
     }
   },
   methods: {
+    //初始化赋值
+    psuhdata() {
+      this.lists = JSON.parse(localStorage.getItem("listData"));
+      if (this.lists) {
+        this.lists.forEach((item) => {
+          if (item.id == 0) {
+            this.text = item.text;
+          }
+          if (item.id == 1) {
+            if (item.keyword) {
+              this.keywords = item.keyword.toString().split(",");
+            } else {
+              this.keywords = [];
+            }
+          }
+          if (item.id == 2) {
+            if (item.text) {
+              this.codes = item.text.toString().split(",");
+            } else {
+              this.codes = [];
+            }
+          }
+          if (item.id == 3) {
+            this.value1 = item.value1;
+          }
+          if (item.id == 4) {
+            this.airplane = item.airplanes;
+          }
+          if (item.id == 5) {
+            if (item.airplaneTypes) {
+              this.planes = item.airplaneTypes.toString().split(",");
+            } else {
+              this.planes = [];
+            }
+          }
+          if (item.id == 6) {
+            this.start = item.chapters;
+            this.end = item.sections;
+          }
+          if (item.id == 7) {
+            this.startDate = item.startDate;
+            this.endDate = item.endDate;
+          }
+        });
+      }
+    },
     toggleShow(index) {
       this.$set(this.items[index], "isshow", !this.items[index].isshow);
     },
@@ -598,7 +600,6 @@ export default {
         this.value1 = 0;
       }
     },
-
     vagueNumber(val) {
       this.number = val;
     },

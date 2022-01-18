@@ -1383,12 +1383,23 @@ img {
 }
 
 .schemeNews {
+  position: relative;
+
   h2 {
     font-weight: 600;
     text-align : left !important;
     border     : none !important;
     font-size  : 1rem !important;
     line-height: 150% !important;
+  }
+
+  .downloadPdf {
+    position        : absolute;
+    display         : block;
+    right           : 0;
+    top             : 2px;
+    background-color: $green;
+    color           : $withe;
   }
 }
 
@@ -1524,4 +1535,30 @@ img {
 
 .classC {
   background-color: $green;
+}
+
+.preview {
+  height    : calc(100vh - 400px);
+  overflow-y: auto;
+}
+
+.downloading {
+  position        : absolute;
+  top             : 15px;
+  right           : 80px;
+  background-color: $green;
+  color           : $withe;
+
+  &:hover,
+  &:focus {
+    color           : $withe;
+    background-color: $green;
+  }
+}
+
+#previewpdf {
+  .el-dialog {
+    min-width: 680px
+  }
+
 }

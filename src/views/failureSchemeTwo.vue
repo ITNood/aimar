@@ -51,6 +51,12 @@
               <el-col :span="16">
                 <div class="programmeDetails">
                   <div class="schemeNews">
+                    <el-button
+                      class="el-icon-download downloadPdf"
+                      @click="confirm"
+                    >
+                      &nbsp;&nbsp;预览/下载
+                    </el-button>
                     <h2>B-1234 （A-320） @ SZX @ YYYY-MM-DD HH:MM</h2>
                     <p>方案 # XXXXXXXX【综合排故概率： XX %】</p>
                   </div>
@@ -231,6 +237,7 @@
       ref="basisChild"
       @click="openbasis"
     />
+    <pdf ref="pdfs" :img="img" />
   </div>
 </template>
 
@@ -241,8 +248,9 @@ import api from "../API/index";
 import deDetails from "../components/deDetails.vue";
 import Opentable from "../components/opentable.vue";
 import Basis from "../components/basis.vue";
+import pdf from "../components/previewPf.vue";
 export default {
-  components: { deDetails, Opentable, Basis },
+  components: { deDetails, Opentable, Basis, pdf },
   data() {
     return {
       items: [],
@@ -370,6 +378,13 @@ export default {
         { picture_image: require("../static/pdf/3445_4.png") },
         { picture_image: require("../static/pdf/3445_5.png") },
       ],
+      img: [
+        { img: require("../static/pdf/3445_1.png") },
+        { img: require("../static/pdf/3445_2.png") },
+        { img: require("../static/pdf/3445_3.png") },
+        { img: require("../static/pdf/3445_4.png") },
+        { img: require("../static/pdf/3445_5.png") },
+      ],
     };
   },
   created() {
@@ -489,8 +504,9 @@ export default {
       this.lists = data.SolutionBody;
     },
 
-    //确认
+    //预览下载
     confirm() {
+      this.$refs.pdfs.preview();
       // let val = this.radio;
       // if (this.arrs.filter((item) => item.key === val).length > 0) {
       //   // 弹提示已添加
