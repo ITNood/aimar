@@ -71,6 +71,7 @@ export default {
   },
   created() {},
   mounted() {},
+  computed: {},
   methods: {
     closeBasis() {
       this.show = !this.show;

@@ -48,7 +48,7 @@
               </el-radio-button>
             </el-radio-group>
             <el-row class="border">
-              <el-col :span="16">
+              <el-col :span="result.length == 0 ? 0 : 16">
                 <div
                   class="programmeDetails"
                   v-for="(obj, index) in objects"
@@ -205,11 +205,10 @@
                   </div>
                 </div>
               </el-col>
-              <el-col :span="8">
+              <el-col :span="result.length > 0 ? 8 : 24">
                 <div class="proprammeRight">
                   <div class="programmeImg">
                     <h3>推荐推理逻辑可视化展示 <span>beta</span></h3>
-                    <!-- <img src="../static/image/img.png" /> -->
                     <div class="echarts">
                       <div id="main"></div>
                     </div>
@@ -465,41 +464,6 @@ export default {
             this.result = res.data;
             this.objects = res.data;
           }
-          // if (res.data) {
-          //   this.result = res.data.Solutions;
-          //   const data = res.data.Solutions[0];
-          //   if (data.SolutionHeader.Reference) {
-          //     this.show = true;
-          //     this.reference = data.SolutionHeader.Reference;
-          //   } else {
-          //     this.show = false;
-          //   }
-          //   this.target = data.SolutionHeader.Target;
-          //   this.fault = data.SolutionHeader.Fault;
-          //   this.action = data.SolutionHeader.Action;
-          //   this.probability = data.SolutionHeader.Probability;
-          //   this.des = data.SolutionHeader.DE;
-          //   this.solutionProbability = data.SolutionProbability;
-          //   if (data.SolutionMEL) {
-          //     this.SolutionMEL = true;
-          //     this.option1 = data.SolutionMEL.Reference;
-          //     this.option2 = data.SolutionMEL.Action;
-          //     this.melDe = data.SolutionMEL.DE;
-          //   } else {
-          //     this.SolutionMEL = false;
-          //   }
-          //   this.lists = data.SolutionBody;
-          // }
-          // const number = this.chatnumber;
-          // if (number) {
-          //   const nodes = solution[number].nodes;
-          //   const name = solution[number].categories.map((a) => {
-          //     return a.name;
-          //   });
-          //   const links = solution[number].links;
-          //   const categories = solution[number].categories;
-          //   this.getEcharts(nodes, name, links, categories);
-          // }
         })
         .catch((err) => {
           console.log(err);
@@ -514,16 +478,6 @@ export default {
     //预览下载
     confirm() {
       this.$refs.pdfs.preview();
-      // let val = this.radio;
-      // if (this.arrs.filter((item) => item.key === val).length > 0) {
-      //   // 弹提示已添加
-      //   this.$message.warning("该方案已添加!!!");
-      // } else {
-      //   this.arrs.push({
-      //     ...this.result[val],
-      //     key: val,
-      //   });
-      // }
     },
     //关闭
     close(index) {
