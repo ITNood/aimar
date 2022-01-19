@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-row class="scheme">
-      <el-col :md="5" :lg="5" :xl="4">
+      <el-col :md="5" :lg="5" :xl="3">
         <div class="entryFault">
           <h2>已输入故障信息</h2>
           <div class="faultInformation">
@@ -30,7 +30,7 @@
           </div>
         </div>
       </el-col>
-      <el-col :md="14" :lg="14" :xl="15">
+      <el-col :md="19" :lg="19" :xl="21">
         <div class="selectedsProgramme">
           <h2>选择排故方案</h2>
           <div class="programme">
@@ -44,108 +44,168 @@
                 v-for="(todo, index) in result"
                 :key="index"
               >
-                方案 #{{ index + 1 }}({{ todo.SolutionProbability }})
+                方案 #{{ index + 1 }}({{ todo.solutionProbability }})
               </el-radio-button>
             </el-radio-group>
             <el-row class="border">
-              <el-col :span="12">
-                <div class="programmeDetails">
-                  <ul>
-                    <li v-if="show">
-                      依据<span>{{ reference }}</span>
-                    </li>
-                    <li>
-                      针对 <span>{{ target }}</span> 出现
-                      <span>{{ fault }}</span> 故障 ；
-                    </li>
-                    <li>
-                      <p>
-                        执行<span>{{ action }}</span> 操作；
-                      </p>
-                      <p>
-                        【故障排除概率： <span>{{ probability }} </span>】
-                      </p>
-                      <p>
-                        （参照 DE #
-                        <span
-                          v-for="(item, index) in des"
-                          :key="index"
-                          @click="openDe(item)"
-                          class="text-decoration"
-                        >
-                          {{ item }};
-                        </span>
-                        ）
-                      </p>
-                      <div
-                        class="other"
-                        v-for="(item, index) in lists"
+              <el-col :span="16">
+                <div
+                  class="programmeDetails"
+                  v-for="(obj, index) in objects"
+                  :key="index"
+                >
+                  <div class="schemeNews">
+                    <el-button
+                      class="el-icon-download downloadPdf"
+                      @click="confirm"
+                    >
+                      &nbsp;&nbsp;预览/下载
+                    </el-button>
+                    <h2>B-1234 （A-320） @ SZX @ YYYY-MM-DD HH:MM</h2>
+                    <p>
+                      方案 # {{ index + 1 }}【综合排故概率：
+                      {{ obj.solutionProbability }} %】
+                    </p>
+                  </div>
+                  <div class="counter">
+                    针对 XXXX 出现 XXXX；XXXXXXXX 故障：
+                  </div>
+                  <div class="suggestionList">
+                    <el-row style="width: 100%">
+                      <el-col
+                        v-for="(item, index) in obj.solutions"
                         :key="index"
+                        :offset="index"
+                        :span="24 - index"
+                        class="contentBorder"
                       >
-                        <h5>-若故障仍未解除：</h5>
-                        <p>
-                          执行 <span>{{ item.Action }}</span> 操作；
-                        </p>
-                        <p>
-                          依据 <span>{{ item.Reference }}</span>
-                        </p>
-                        <p>
-                          【故障排除概率：<span> {{ item.Probability }} </span
-                          >】
-                        </p>
-                        <p>
-                          （参照 DE #
-                          <span
-                            v-for="(list, index) in item.DE"
-                            :key="index"
-                            @click="openDe(list)"
-                            class="text-decoration"
-                          >
-                            {{ list }}; </span
-                          >）
-                        </p>
-                      </div>
-
-                      <div class="other" v-if="SolutionMEL">
-                        <h5>-若故障仍未解除：</h5>
-                        <p>
-                          依据 <span>{{ option1 }}</span> ；
-                        </p>
-                        <p>
-                          执行 <span>{{ option2 }}</span
-                          >；
-                        </p>
-                        <p>
-                          （参照 DE #
-                          <span
-                            v-for="(de, index) in melDe"
-                            :key="index"
-                            @click="openDe(de)"
-                            class="text-decoration"
-                            >{{ de }}</span
-                          >）
-                        </p>
-                      </div>
-                    </li>
-                    <li>
-                      【综合排故概率： <span>{{ solutionProbability }}</span
-                      >】
-                    </li>
-                    <div class="btncenter">
-                      <el-button class="el-icon-check" @click="confirm">
-                        &nbsp;&nbsp;确认
-                      </el-button>
-                      <el-button class="el-icon-edit">
-                        &nbsp;&nbsp;修改
-                      </el-button>
-                      <el-button class="el-icon-delete">
-                        &nbsp;&nbsp;弃用
-                      </el-button>
-                    </div>
-                  </ul>
+                        <i v-if="obj.solutions.length > 1 && index !== 0"
+                          >若故障仍未排除：</i
+                        >
+                        <el-row :gutter="20">
+                          <el-col :span="8">
+                            <div class="listleft">
+                              <p>
+                                依据
+                                <span @click="basis">{{
+                                  item.reference.join()
+                                }}</span
+                                >；
+                              </p>
+                              <p>
+                                执行
+                                <span class="orange">{{ item.action }}</span>
+                                操作；
+                              </p>
+                              <p>【故障排除概率： {{ item.probability }} %】</p>
+                              <p>
+                                （参照 DE #<span
+                                  v-for="de in obj.solutions[index].de"
+                                  :key="de"
+                                  class="text-decoration"
+                                  @click="openDe(de)"
+                                  >{{ de }}; </span
+                                >）
+                              </p>
+                            </div>
+                          </el-col>
+                          <el-col :span="8">
+                            <div class="listleft special">
+                              <p>
+                                <i
+                                  :class="
+                                    item.color1 == 0
+                                      ? 'classA'
+                                      : item.color1 == 1
+                                      ? 'classB'
+                                      : 'classC'
+                                  "
+                                ></i>
+                                维修 Kit #
+                                <span @click="openTable(item.repair)">{{
+                                  item.repair
+                                }}</span>
+                                ：
+                              </p>
+                              <p>
+                                <i
+                                  :class="
+                                    item.color2 == 0
+                                      ? 'classA'
+                                      : item.color2 == 1
+                                      ? 'classB'
+                                      : 'classC'
+                                  "
+                                ></i>
+                                工具：<span
+                                  v-for="tool in item.tools"
+                                  :key="tool"
+                                  @click="openTable(tool)"
+                                  >{{ tool }};
+                                </span>
+                              </p>
+                              <p>
+                                <i
+                                  :class="
+                                    item.color3 == 0
+                                      ? 'classA'
+                                      : item.color3 == 1
+                                      ? 'classB'
+                                      : 'classC'
+                                  "
+                                ></i>
+                                主件：<span
+                                  v-for="part in item.parts"
+                                  :key="part"
+                                  @click="openTable(part)"
+                                  >{{ part }};
+                                </span>
+                              </p>
+                              <p>
+                                <i
+                                  :class="
+                                    item.color4 == 0
+                                      ? 'classA'
+                                      : item.color4 == 1
+                                      ? 'classB'
+                                      : 'classC'
+                                  "
+                                ></i>
+                                辅件:<span
+                                  v-for="acce in item.acces"
+                                  :key="acce"
+                                  @click="openTable(acce)"
+                                  >{{ acce }};
+                                </span>
+                              </p>
+                            </div>
+                          </el-col>
+                          <el-col :span="8">
+                            <div class="listright">
+                              <p>施工条件：</p>
+                              <p>{{ item.message }}</p>
+                              <p>预计工时：</p>
+                              <p>{{ item.date }}</p>
+                            </div>
+                          </el-col>
+                        </el-row>
+                      </el-col>
+                    </el-row>
+                  </div>
+                  <div class="btncenter">
+                    <el-button class="el-icon-download" @click="confirm">
+                      &nbsp;&nbsp;预览/下载
+                    </el-button>
+                    <el-button class="el-icon-edit">
+                      &nbsp;&nbsp;修改
+                    </el-button>
+                    <el-button class="el-icon-delete">
+                      &nbsp;&nbsp;弃用
+                    </el-button>
+                  </div>
                 </div>
               </el-col>
-              <el-col :span="12">
+              <el-col :span="8">
                 <div class="proprammeRight">
                   <div class="programmeImg">
                     <h3>推荐推理逻辑可视化展示 <span>beta</span></h3>
@@ -157,97 +217,6 @@
                 </div>
               </el-col>
             </el-row>
-          </div>
-        </div>
-      </el-col>
-      <el-col :md="5" :lg="5" :xl="5">
-        <div class="selecteds">
-          <h2>已选择排故方案</h2>
-          <div class="programmeDetails" style="border-right: none">
-            <div v-for="(val, index) in arrs" :key="index">
-              <h1 class="clear">
-                方案 # {{ val.key + 1 }}
-                <i class="el-icon-close" @click="close(index)"></i
-                ><i class="el-icon-edit"></i>
-              </h1>
-              <ul>
-                <li>
-                  针对 <span>{{ val.SolutionHeader.Reference }}</span> 出现
-                  <span>{{ val.SolutionHeader.Target }}</span> 故障 ；
-                </li>
-                <li>
-                  <p>
-                    执行 <span>{{ val.SolutionHeader.Fault }}</span> 操作，执行
-                    <span>{{ val.SolutionHeader.Action }}</span> 操作；
-                  </p>
-                  <p>
-                    【故障排除概率：
-                    <span>{{ val.SolutionHeader.Probability }}</span
-                    >】
-                  </p>
-                  <p>
-                    （参照 DE #
-                    <span
-                      v-for="(item, index) in val.SolutionHeader.DE"
-                      :key="index"
-                    >
-                      {{ item }};
-                    </span>
-                    ）
-                  </p>
-
-                  <div
-                    class="other"
-                    v-for="(item, index) in val.SolutionBody"
-                    :key="index"
-                  >
-                    <h5>-若故障仍未解除：</h5>
-                    <p>
-                      执行 <span>{{ item.Action }}</span> 操作；
-                    </p>
-                    <p>
-                      依据 <span>{{ item.Reference }}</span>
-                    </p>
-                    <p>
-                      【故障排除概率：<span> {{ item.Probability }}</span
-                      >】
-                    </p>
-                    <p>
-                      （参照 DE # <span>{{ item.DE.join() }}</span
-                      >）
-                    </p>
-                  </div>
-
-                  <div class="other" v-if="val.SolutionMEL">
-                    <h5>-若故障仍未解除：</h5>
-                    <p>
-                      依据 <span>{{ val.SolutionMEL.Reference }}</span> ；
-                    </p>
-                    <p>
-                      执行 <span>{{ val.SolutionMEL.Action }}</span
-                      >；
-                    </p>
-                    <p>
-                      （参照 DE #
-                      <span>{{ val.SolutionMEL.DE.join() }}</span
-                      >）
-                    </p>
-                  </div>
-                </li>
-                <li>
-                  【综合排故概率： <span>{{ val.SolutionProbability }}</span
-                  >】
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div class="mt20 submitBtn center">
-            <el-button class="el-icon-delete btn empty" @click="clean">
-              &nbsp;&nbsp;清空
-            </el-button>
-            <el-button class="el-icon-check btn submit" @click="submit">
-              &nbsp;&nbsp;确认
-            </el-button>
           </div>
         </div>
       </el-col>
@@ -266,6 +235,23 @@
       @closedDialog="closedDialog"
       ref="child"
     />
+    <opentable :data="tables" :title="title" ref="tables" @click="cloetable" />
+    <basis
+      :headName="headName"
+      :type="type"
+      :updateDate="updateDate"
+      :manual="manual"
+      :chapter="chapter"
+      :keyword="keyword"
+      :part="part"
+      :page="page"
+      :section="section"
+      :notestext="notestext"
+      :data="data"
+      ref="basisChild"
+      @click="openbasis"
+    />
+    <pdf ref="pdfs" :img="img" />
   </div>
 </template>
 
@@ -274,8 +260,11 @@ import solution from "../solutiongraph";
 import * as echarts from "echarts";
 import api from "../API/index";
 import deDetails from "../components/deDetails.vue";
+import Opentable from "../components/opentable.vue";
+import Basis from "../components/basis.vue";
+import pdf from "../components/previewPf.vue";
 export default {
-  components: { deDetails },
+  components: { deDetails, Opentable, Basis, pdf },
   data() {
     return {
       items: [],
@@ -309,6 +298,112 @@ export default {
       melDe: [],
       option1: "",
       option2: "",
+      objects: [
+        // {
+        //   tablelist: [
+        //     {
+        //       name: "sdfasffasd",
+        //       operation: "dadsfjioasjfi ",
+        //       percent: "99.8",
+        //       de: ["1263912", "1184930"],
+        //       construction: "dkaodhfiaodhfiopshdfpiosahdfsupah ",
+        //       date: "32h",
+        //       tools: ["dad", "dadds", "wew"],
+        //       parts: ["fgg", "ddgg", "ffddff"],
+        //       acces: ["hh", "fht", "jjt"],
+        //       color1: 0,
+        //       color2: 2,
+        //       color3: 1,
+        //       color4: 1,
+        //       repair: "XXXXXX",
+        //     },
+        //     {
+        //       name: "sdfasffasd",
+        //       operation: "dadsfjioasjfi ",
+        //       percent: "99.8",
+        //       de: ["1263912", "1184930"],
+        //       construction: "dkaodhfiaodhfiopshdfpiosahdfsupah ",
+        //       date: "32h",
+        //       tools: ["dad", "dadds", "wew"],
+        //       parts: ["fgg", "ddgg", "ffddff"],
+        //       acces: ["hh", "fht", "jjt"],
+        //       color1: 0,
+        //       color2: 2,
+        //       color3: 1,
+        //       color4: 1,
+        //       repair: "XXXXXX",
+        //     },
+        //     {
+        //       name: "sdfasffasd",
+        //       operation: "dadsfjioasjfi ",
+        //       percent: "99.8",
+        //       de: ["1263912", "1184930"],
+        //       construction: "dkaodhfiaodhfiopshdfpiosahdfsupah ",
+        //       date: "32h",
+        //       tools: ["dad", "dadds", "wew"],
+        //       parts: ["fgg", "ddgg", "ffddff"],
+        //       acces: ["hh", "fht", "jjt"],
+        //       color1: 0,
+        //       color2: 2,
+        //       color3: 1,
+        //       color4: 1,
+        //       repair: "XXXXXX",
+        //     },
+        //     {
+        //       name: "sdfasffasd",
+        //       operation: "dadsfjioasjfi ",
+        //       percent: "99.8",
+        //       de: ["1263912", "1184930"],
+        //       construction: "dkaodhfiaodhfiopshdfpiosahdfsupah ",
+        //       date: "32h",
+        //       tools: ["dad", "dadds", "wew"],
+        //       parts: ["fgg", "ddgg", "ffddff"],
+        //       acces: ["hh", "fht", "jjt"],
+        //       color1: 0,
+        //       color2: 2,
+        //       color3: 1,
+        //       color4: 1,
+        //       repair: "XXXXXX",
+        //     },
+        //   ],
+        // },
+      ],
+
+      tables: [
+        {
+          type: "工具",
+          name: "和第哦啊和",
+          pieceNumber: "65969",
+          number: 4654,
+          stock: 64564,
+          otherStock: "daskdhoioh ",
+        },
+      ],
+      title: "名称",
+      headName: "xxx",
+      type: "737",
+      updateDate: "2021-12-12",
+      manual: "SDSDA",
+      chapter: "34-45",
+      keyword: "dafa;dadfads;faddfas;",
+      part: "dafasf",
+      page: "AAA",
+      section: "DDD",
+      notestext: "SDADAJKSDOJFOSAFOAHSFOISHAFOSFHSAIFOHSDFOIDSHFODISAFHIOA",
+      data: [
+        { picture_image: require("../static/pdf/3445_1.png") },
+        { picture_image: require("../static/pdf/3445_2.png") },
+        { picture_image: require("../static/pdf/3445_3.png") },
+        { picture_image: require("../static/pdf/3445_4.png") },
+        { picture_image: require("../static/pdf/3445_5.png") },
+      ],
+      img: [
+        { img: require("../static/pdf/3445_1.png") },
+        { img: require("../static/pdf/3445_2.png") },
+        { img: require("../static/pdf/3445_3.png") },
+        { img: require("../static/pdf/3445_4.png") },
+        { img: require("../static/pdf/3445_5.png") },
+      ],
     };
   },
   created() {
@@ -326,6 +421,20 @@ export default {
     this.getEcharts(nodes, name, links, categories);
   },
   methods: {
+    //依据
+    basis(name) {
+      this.openbasis();
+    },
+    openbasis() {
+      this.$refs.basisChild.closeBasis();
+    },
+    cloetable() {
+      this.$refs.tables.closetable();
+    },
+    openTable(name) {
+      console.log(name);
+      this.cloetable();
+    },
     //获取缓存
     getCacheData() {
       this.items = JSON.parse(localStorage.getItem("listData"));
@@ -352,41 +461,45 @@ export default {
           `/scheme/recommendation/by/all?acType=${ariNumber}&section=${this.chatnumber}`
         )
         .then((res) => {
-          if (res.data) {
-            this.result = res.data.Solutions;
-            const data = res.data.Solutions[0];
-            if (data.SolutionHeader.Reference) {
-              this.show = true;
-              this.reference = data.SolutionHeader.Reference;
-            } else {
-              this.show = false;
-            }
-            this.target = data.SolutionHeader.Target;
-            this.fault = data.SolutionHeader.Fault;
-            this.action = data.SolutionHeader.Action;
-            this.probability = data.SolutionHeader.Probability;
-            this.des = data.SolutionHeader.DE;
-            this.solutionProbability = data.SolutionProbability;
-            if (data.SolutionMEL) {
-              this.SolutionMEL = true;
-              this.option1 = data.SolutionMEL.Reference;
-              this.option2 = data.SolutionMEL.Action;
-              this.melDe = data.SolutionMEL.DE;
-            } else {
-              this.SolutionMEL = false;
-            }
-            this.lists = data.SolutionBody;
+          if (res.data && res.data.length > 0) {
+            this.result = res.data;
+            this.objects = res.data;
           }
-          const number = this.chatnumber;
-          if (number) {
-            const nodes = solution[number].nodes;
-            const name = solution[number].categories.map((a) => {
-              return a.name;
-            });
-            const links = solution[number].links;
-            const categories = solution[number].categories;
-            this.getEcharts(nodes, name, links, categories);
-          }
+          // if (res.data) {
+          //   this.result = res.data.Solutions;
+          //   const data = res.data.Solutions[0];
+          //   if (data.SolutionHeader.Reference) {
+          //     this.show = true;
+          //     this.reference = data.SolutionHeader.Reference;
+          //   } else {
+          //     this.show = false;
+          //   }
+          //   this.target = data.SolutionHeader.Target;
+          //   this.fault = data.SolutionHeader.Fault;
+          //   this.action = data.SolutionHeader.Action;
+          //   this.probability = data.SolutionHeader.Probability;
+          //   this.des = data.SolutionHeader.DE;
+          //   this.solutionProbability = data.SolutionProbability;
+          //   if (data.SolutionMEL) {
+          //     this.SolutionMEL = true;
+          //     this.option1 = data.SolutionMEL.Reference;
+          //     this.option2 = data.SolutionMEL.Action;
+          //     this.melDe = data.SolutionMEL.DE;
+          //   } else {
+          //     this.SolutionMEL = false;
+          //   }
+          //   this.lists = data.SolutionBody;
+          // }
+          // const number = this.chatnumber;
+          // if (number) {
+          //   const nodes = solution[number].nodes;
+          //   const name = solution[number].categories.map((a) => {
+          //     return a.name;
+          //   });
+          //   const links = solution[number].links;
+          //   const categories = solution[number].categories;
+          //   this.getEcharts(nodes, name, links, categories);
+          // }
         })
         .catch((err) => {
           console.log(err);
@@ -395,37 +508,22 @@ export default {
     },
     //选择方案
     changeRadio(val) {
-      const data = this.result[val];
-      this.reference = data.SolutionHeader.Reference;
-      this.target = data.SolutionHeader.Target;
-      this.fault = data.SolutionHeader.Fault;
-      this.action = data.SolutionHeader.Action;
-      this.probability = data.SolutionHeader.Probability;
-      this.de = data.SolutionHeader.DE.join();
-      this.solutionProbability = data.SolutionProbability;
-      if (data.SolutionMEL) {
-        this.SolutionMEL = true;
-        this.option1 = data.SolutionMEL.Reference;
-        this.option2 = data.SolutionMEL.Action;
-        this.melDe = data.SolutionMEL.DE;
-      } else {
-        this.SolutionMEL = false;
-      }
-      this.lists = data.SolutionBody;
+      this.objects = this.result.filter((item, index) => val == index);
     },
 
-    //确认
+    //预览下载
     confirm() {
-      let val = this.radio;
-      if (this.arrs.filter((item) => item.key === val).length > 0) {
-        // 弹提示已添加
-        this.$message.warning("该方案已添加!!!");
-      } else {
-        this.arrs.push({
-          ...this.result[val],
-          key: val,
-        });
-      }
+      this.$refs.pdfs.preview();
+      // let val = this.radio;
+      // if (this.arrs.filter((item) => item.key === val).length > 0) {
+      //   // 弹提示已添加
+      //   this.$message.warning("该方案已添加!!!");
+      // } else {
+      //   this.arrs.push({
+      //     ...this.result[val],
+      //     key: val,
+      //   });
+      // }
     },
     //关闭
     close(index) {
@@ -455,7 +553,7 @@ export default {
         .get(`/DeRecord/by/id/${item}`)
         .then((res) => {
           if (res.data) {
-            this.de = item;
+            this.de = item.toString();
             this.date = res.data.dateAction;
             this.open = res.data.ataOpen;
             this.closed = res.data.ataClose;

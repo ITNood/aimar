@@ -19,6 +19,7 @@ $bordercolor:#F2F2F2;
 $red        :#D9001B;
 $orange     :#F59A23;
 $green      :#03BF16;
+$blue       :#409eff;
 
 img {
   width: 100%;
@@ -293,7 +294,7 @@ img {
       cursor       : pointer;
 
       &:hover {
-        color: #409eff;
+        color: $blue;
       }
     }
   }
@@ -913,6 +914,7 @@ img {
       display        : flex;
       align-items    : center;
       justify-content: center;
+      margin-top     : 50px;
     }
 
     img {
@@ -1165,7 +1167,7 @@ img {
     }
 
     .current {
-      background-color: #409eff;
+      background-color: $blue;
       color           : $withe;
 
       i {
@@ -1298,7 +1300,7 @@ img {
       }
 
       &:hover {
-        color: #409eff !important;
+        color: $blue !important;
       }
     }
   }
@@ -1344,7 +1346,7 @@ img {
       }
 
       &:hover {
-        color: #409eff !important;
+        color: $blue !important;
       }
     }
   }
@@ -1540,6 +1542,11 @@ img {
 .preview {
   height    : calc(100vh - 400px);
   overflow-y: auto;
+}
+
+.orange {
+  color          : $blue !important;
+  text-decoration: none !important;
 }
 
 .downloading {

@@ -351,7 +351,6 @@ export default {
       listselection: [],
     };
   },
-  watch: {},
   created() {},
   mounted() {},
   computed: {
@@ -368,7 +367,7 @@ export default {
       this.$refs.multipleTable.clearSelection();
       this.$refs.listdata.clearSelection();
     },
-    //删除选中
+    //删除选中(动态删除已勾选的table)
     deltel(index) {
       let type = this.lists[index].type;
       const list = [...this.lists];

@@ -10,7 +10,7 @@
         >&nbsp;下载</el-button
       >
       <div class="preview">
-        <!-- <img v-for="(item, index) in img" :key="index" :src="item.img" /> -->
+        <img v-for="(item, index) in img" :key="index" :src="item.img" />
       </div>
     </el-dialog>
   </div>

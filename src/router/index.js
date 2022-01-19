@@ -12,7 +12,7 @@ const repairHistory = () => import('../views/repairhistory')
 const integrated = () => import('../views/integrated')
 const searchResult = () => import('../views/searchResult')
 const failureScheme = () => import('../views/failureScheme')
-const failureSchemeTwo = () => import('../views/failureSchemeTwo')
+const failureSchemeone = () => import('../views/failureSchemeone')
 const faultDescription = () => import('../views/faultDescription')
 const keyword = () => import('../views/keyword')
 const faultCode = () => import('../views/faultCode')
@@ -81,8 +81,8 @@ export const fixedRouter = [{
   path: '',
   component: layout,
   children: [{
-    path: 'failureSchemeTwo',
-    component: failureSchemeTwo,
+    path: 'failureSchemeone',
+    component: failureSchemeone,
     meta: {
       title: '排故方案推荐2',
       icon: 'icon-paigufangan',

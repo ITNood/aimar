@@ -318,7 +318,6 @@
 <script>
 import api from "../API/index";
 import deDetails from "../components/deDetails.vue";
-import solution from "../solutiongraph";
 export default {
   components: { deDetails },
   data() {
