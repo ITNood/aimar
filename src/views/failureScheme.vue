@@ -48,7 +48,10 @@
               </el-radio-button>
             </el-radio-group>
             <el-row class="border">
-              <el-col :span="result.length == 0 ? 0 : 16">
+              <el-col :span="16" v-if="isData"
+                ><el-empty description="暂无数据"></el-empty
+              ></el-col>
+              <el-col :span="16" v-else>
                 <div
                   class="programmeDetails"
                   v-for="(obj, i) in objects"
@@ -64,7 +67,7 @@
                     <h2>B-1234 （A-320） @ SZX @ YYYY-MM-DD HH:MM</h2>
                     <p>
                       方案 # {{ tabnumber }}【综合排故概率：
-                      {{ obj.solutionProbability }} %】
+                      {{ obj.solutionProbability }}】
                     </p>
                   </div>
                   <div class="counter">
@@ -219,7 +222,7 @@
                   </div>
                 </div>
               </el-col>
-              <el-col :span="result.length > 0 ? 8 : 24">
+              <el-col :span="8">
                 <div class="proprammeRight">
                   <div class="programmeImg">
                     <h3>推荐推理逻辑可视化展示 <span>beta</span></h3>
@@ -350,6 +353,7 @@ export default {
         { img: require("../static/pdf/3445_4.png") },
         { img: require("../static/pdf/3445_5.png") },
       ],
+      isData: false,
     };
   },
   created() {
@@ -364,7 +368,10 @@ export default {
     });
     const links = solution[number].links;
     const categories = solution[number].categories;
-    this.getEcharts(nodes, name, links, categories);
+    this.$nextTick(() => {
+      this.getEcharts(nodes, name, links, categories);
+    });
+
     this.tabnumber = 1;
   },
   methods: {
@@ -472,6 +479,7 @@ export default {
         )
         .then((res) => {
           if (res.data && res.data.length > 0) {
+            this.isData = false;
             this.result = res.data;
             const data = [...res.data].map((item) => {
               return {
@@ -491,6 +499,8 @@ export default {
             });
             this.objects = data;
             this.newdata = data;
+          } else {
+            this.isData = false;
           }
         })
         .catch((err) => {
@@ -565,7 +575,6 @@ export default {
       let option;
       myChart.showLoading();
       myChart.hideLoading();
-
       nodes.forEach((node) => {
         node.label = {
           show: node.symbolSize > 30,

@@ -75,21 +75,22 @@ export const fixedRouter = [{
       icon: 'icon-paigufangan',
       roles: ['user', 'admin'],
     }
-  }]
+  }],
+  hidden: true,
 },
-{
-  path: '',
-  component: layout,
-  children: [{
-    path: 'failureSchemeone',
-    component: failureSchemeone,
-    meta: {
-      title: '排故方案推荐2',
-      icon: 'icon-paigufangan',
-      roles: ['user', 'admin'],
-    }
-  }]
-},
+// {
+//   path: '',
+//   component: layout,
+//   children: [{
+//     path: 'failureSchemeone',
+//     component: failureSchemeone,
+//     meta: {
+//       title: '排故方案推荐2',
+//       icon: 'icon-paigufangan',
+//       roles: ['user', 'admin'],
+//     }
+//   }]
+// },
 
 {
   path: '',
