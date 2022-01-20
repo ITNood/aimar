@@ -51,8 +51,8 @@
               <el-col :span="result.length == 0 ? 0 : 16">
                 <div
                   class="programmeDetails"
-                  v-for="(obj, index) in objects"
-                  :key="index"
+                  v-for="(obj, i) in objects"
+                  :key="i"
                 >
                   <div class="schemeNews">
                     <el-button
@@ -63,12 +63,12 @@
                     </el-button>
                     <h2>B-1234 （A-320） @ SZX @ YYYY-MM-DD HH:MM</h2>
                     <p>
-                      方案 # {{ index + 1 }}【综合排故概率：
+                      方案 # {{ tabnumber }}【综合排故概率：
                       {{ obj.solutionProbability }} %】
                     </p>
                   </div>
                   <div class="counter">
-                    针对 XXXX 出现 XXXX；XXXXXXXX 故障：
+                    针对 {{ obj.target }} 出现 {{ obj.fault }} 故障：
                   </div>
                   <div class="suggestionList">
                     <el-row style="width: 100%">
@@ -122,10 +122,9 @@
                                   "
                                 ></i>
                                 维修 Kit #
-                                <span @click="openTable(item.repair)">{{
-                                  item.repair
+                                <span @click="openTable(item.name)">{{
+                                  item.name
                                 }}</span>
-                                ：
                               </p>
                               <p>
                                 <i
@@ -138,11 +137,16 @@
                                   "
                                 ></i>
                                 工具：<span
-                                  v-for="tool in item.tools"
-                                  :key="tool"
+                                  v-for="(tool, index) in item.toolPnList"
+                                  :key="index"
                                   @click="openTable(tool)"
                                   >{{ tool }};
                                 </span>
+                                <span
+                                  v-if="obj.solutions[index].istool == true"
+                                  @click="moreTool(index)"
+                                  >...</span
+                                >
                               </p>
                               <p>
                                 <i
@@ -155,11 +159,16 @@
                                   "
                                 ></i>
                                 主件：<span
-                                  v-for="part in item.parts"
-                                  :key="part"
+                                  v-for="(part, index) in item.mainPnList"
+                                  :key="index"
                                   @click="openTable(part)"
                                   >{{ part }};
                                 </span>
+                                <span
+                                  v-if="obj.solutions[index].ismain == true"
+                                  @click="moreMain(index)"
+                                  >...</span
+                                >
                               </p>
                               <p>
                                 <i
@@ -171,21 +180,26 @@
                                       : 'classC'
                                   "
                                 ></i>
-                                辅件:<span
-                                  v-for="acce in item.acces"
-                                  :key="acce"
+                                辅件：<span
+                                  v-for="(acce, index) in item.supportPnList"
+                                  :key="index"
                                   @click="openTable(acce)"
                                   >{{ acce }};
                                 </span>
+                                <span
+                                  v-if="obj.solutions[index].issupport == true"
+                                  @click="moreSupport(index)"
+                                  >...</span
+                                >
                               </p>
                             </div>
                           </el-col>
                           <el-col :span="8">
                             <div class="listright">
                               <p>施工条件：</p>
-                              <p>{{ item.message }}</p>
+                              <p>{{ item.buildCondition }}</p>
                               <p>预计工时：</p>
-                              <p>{{ item.date }}</p>
+                              <p>{{ item.estimateDuration }}</p>
                             </div>
                           </el-col>
                         </el-row>
@@ -297,76 +311,9 @@ export default {
       melDe: [],
       option1: "",
       option2: "",
-      objects: [
-        // {
-        //   tablelist: [
-        //     {
-        //       name: "sdfasffasd",
-        //       operation: "dadsfjioasjfi ",
-        //       percent: "99.8",
-        //       de: ["1263912", "1184930"],
-        //       construction: "dkaodhfiaodhfiopshdfpiosahdfsupah ",
-        //       date: "32h",
-        //       tools: ["dad", "dadds", "wew"],
-        //       parts: ["fgg", "ddgg", "ffddff"],
-        //       acces: ["hh", "fht", "jjt"],
-        //       color1: 0,
-        //       color2: 2,
-        //       color3: 1,
-        //       color4: 1,
-        //       repair: "XXXXXX",
-        //     },
-        //     {
-        //       name: "sdfasffasd",
-        //       operation: "dadsfjioasjfi ",
-        //       percent: "99.8",
-        //       de: ["1263912", "1184930"],
-        //       construction: "dkaodhfiaodhfiopshdfpiosahdfsupah ",
-        //       date: "32h",
-        //       tools: ["dad", "dadds", "wew"],
-        //       parts: ["fgg", "ddgg", "ffddff"],
-        //       acces: ["hh", "fht", "jjt"],
-        //       color1: 0,
-        //       color2: 2,
-        //       color3: 1,
-        //       color4: 1,
-        //       repair: "XXXXXX",
-        //     },
-        //     {
-        //       name: "sdfasffasd",
-        //       operation: "dadsfjioasjfi ",
-        //       percent: "99.8",
-        //       de: ["1263912", "1184930"],
-        //       construction: "dkaodhfiaodhfiopshdfpiosahdfsupah ",
-        //       date: "32h",
-        //       tools: ["dad", "dadds", "wew"],
-        //       parts: ["fgg", "ddgg", "ffddff"],
-        //       acces: ["hh", "fht", "jjt"],
-        //       color1: 0,
-        //       color2: 2,
-        //       color3: 1,
-        //       color4: 1,
-        //       repair: "XXXXXX",
-        //     },
-        //     {
-        //       name: "sdfasffasd",
-        //       operation: "dadsfjioasjfi ",
-        //       percent: "99.8",
-        //       de: ["1263912", "1184930"],
-        //       construction: "dkaodhfiaodhfiopshdfpiosahdfsupah ",
-        //       date: "32h",
-        //       tools: ["dad", "dadds", "wew"],
-        //       parts: ["fgg", "ddgg", "ffddff"],
-        //       acces: ["hh", "fht", "jjt"],
-        //       color1: 0,
-        //       color2: 2,
-        //       color3: 1,
-        //       color4: 1,
-        //       repair: "XXXXXX",
-        //     },
-        //   ],
-        // },
-      ],
+      newdata: [],
+      objects: [],
+      tabnumber: 0,
 
       tables: [
         {
@@ -378,8 +325,8 @@ export default {
           otherStock: "daskdhoioh ",
         },
       ],
-      title: "名称",
-      headName: "xxx",
+      title: "",
+      headName: "",
       type: "737",
       updateDate: "2021-12-12",
       manual: "SDSDA",
@@ -418,11 +365,75 @@ export default {
     const links = solution[number].links;
     const categories = solution[number].categories;
     this.getEcharts(nodes, name, links, categories);
+    this.tabnumber = 1;
   },
   methods: {
+    //更多工具
+    moreTool(index) {
+      this.cloetable();
+      const data =
+        this.result[this.tabnumber - 1].solutions[index].toolPnList.slice(2);
+      this.title = data.join();
+      console.log(data);
+      data.map((item) => {
+        console.log(item);
+        // api
+        //   .post(item)
+        //   .then((res) => {
+        //     console.log(res);
+        //   })
+        //   .catch((err) => {
+        //     console.log(err);
+        //   })
+        //   .finally(() => {});
+      });
+    },
+
+    //更多主件
+    moreMain(index) {
+      this.cloetable();
+      const data =
+        this.result[this.tabnumber - 1].solutions[index].mainPnList.slice(2);
+      this.title = data.join();
+      console.log(data);
+      data.map((item) => {
+        console.log(item);
+        // api
+        //   .post(item)
+        //   .then((res) => {
+        //     console.log(res);
+        //   })
+        //   .catch((err) => {
+        //     console.log(err);
+        //   })
+        //   .finally(() => {});
+      });
+    },
+    //更多附件
+    moreSupport(index) {
+      this.cloetable();
+      const data =
+        this.result[this.tabnumber - 1].solutions[index].supportPnList.slice(2);
+      this.title = data.join();
+      console.log(data);
+      data.map((item) => {
+        console.log(item);
+        // api
+        //   .post(item)
+        //   .then((res) => {
+        //     console.log(res);
+        //   })
+        //   .catch((err) => {
+        //     console.log(err);
+        //   })
+        //   .finally(() => {});
+      });
+    },
+
     //依据
     basis(name) {
       this.openbasis();
+      this.headName = name.target.innerText;
     },
     openbasis() {
       this.$refs.basisChild.closeBasis();
@@ -462,7 +473,24 @@ export default {
         .then((res) => {
           if (res.data && res.data.length > 0) {
             this.result = res.data;
-            this.objects = res.data;
+            const data = [...res.data].map((item) => {
+              return {
+                ...item,
+                solutions: [...item.solutions].map((e) => {
+                  return {
+                    ...e,
+                    ismain: e.mainPnList.length > 2 ? true : false,
+                    issupport: e.supportPnList.length > 2 ? true : false,
+                    istool: e.toolPnList.length > 2 ? true : false,
+                    mainPnList: [...e.mainPnList].slice(0, 2),
+                    supportPnList: [...e.supportPnList].slice(0, 2),
+                    toolPnList: [...e.toolPnList].slice(0, 2),
+                  };
+                }),
+              };
+            });
+            this.objects = data;
+            this.newdata = data;
           }
         })
         .catch((err) => {
@@ -472,7 +500,8 @@ export default {
     },
     //选择方案
     changeRadio(val) {
-      this.objects = this.result.filter((item, index) => val == index);
+      this.tabnumber = val + 1;
+      this.objects = this.newdata.filter((item, index) => val == index);
     },
 
     //预览下载
