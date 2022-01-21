@@ -1002,8 +1002,9 @@ img {
       min-height: 24px;
 
       &:last-child {
-        color      : $theme;
-        font-weight: 600;
+        color: $blue;
+        @extend %fontEllipsis;
+        cursor: pointer;
       }
     }
   }

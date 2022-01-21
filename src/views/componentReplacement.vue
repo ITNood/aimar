@@ -136,7 +136,7 @@
                     <el-row :gutter="20">
                       <el-col :md="24" :lg="24" :xl="12">
                         <p>PN#：</p>
-                        <p>{{ pn }}</p>
+                        <p :title="pn">{{ pn }}</p>
                       </el-col>
                       <el-col :md="24" :lg="24" :xl="12">
                         <p>PN是否在机({{ pn }}})：</p>
@@ -144,11 +144,11 @@
                       </el-col>
                       <el-col :md="24" :lg="24" :xl="12">
                         <p>部件名称：</p>
-                        <p>{{ pnName }}</p>
+                        <p :title="pnName">{{ pnName }}</p>
                       </el-col>
                       <el-col :md="24" :lg="24" :xl="12">
                         <p>可替换PN：</p>
-                        <p>{{ replacePn }}</p>
+                        <p :title="replacePn">{{ replacePn }}</p>
                       </el-col>
                       <el-col :md="24" :lg="24" :xl="12">
                         <p>PN平均在机时间：</p>

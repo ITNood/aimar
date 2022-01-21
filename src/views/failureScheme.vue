@@ -500,7 +500,7 @@ export default {
             this.objects = data;
             this.newdata = data;
           } else {
-            this.isData = false;
+            this.isData = true;
           }
         })
         .catch((err) => {
