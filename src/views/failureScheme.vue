@@ -67,11 +67,13 @@
                     <h2>B-1234 （A-320） @ SZX @ YYYY-MM-DD HH:MM</h2>
                     <p>
                       方案 # {{ tabnumber }}【综合排故概率：
-                      {{ obj.solutionProbability }}】
+                      <span class="target">{{ obj.solutionProbability }}</span
+                      >】
                     </p>
                   </div>
                   <div class="counter">
-                    针对 {{ obj.target }} 出现 {{ obj.fault }} 故障：
+                    针对 <span class="target">{{ obj.target }}</span> 出现
+                    <span class="target">{{ obj.fault }}</span> 故障：
                   </div>
                   <div class="suggestionList">
                     <el-row style="width: 100%">
@@ -100,7 +102,12 @@
                                 <span class="orange">{{ item.action }}</span>
                                 操作；
                               </p>
-                              <p>【故障排除概率： {{ item.probability }} %】</p>
+                              <p>
+                                【故障排除概率：
+                                <span class="target"
+                                  >{{ item.probability }} %</span
+                                >】
+                              </p>
                               <p>
                                 （参照 DE #<span
                                   v-for="de in obj.solutions[index].de"
@@ -368,9 +375,7 @@ export default {
     });
     const links = solution[number].links;
     const categories = solution[number].categories;
-    this.$nextTick(() => {
-      this.getEcharts(nodes, name, links, categories);
-    });
+    this.getEcharts(nodes, name, links, categories);
 
     this.tabnumber = 1;
   },
