@@ -245,8 +245,7 @@ img {
         }
 
         p {
-          color: $font333;
-
+          color  : $font333;
           display: block;
           @extend %fontEllipsis;
           font-size: 0.8rem;
