@@ -526,7 +526,7 @@ export default {
     faultSubmit() {
       if (this.text) {
         api
-          .get(`/WordRecord/${this.text}/cut/synonym`)
+          .get(`/WordRecord/cut/synonym?word=${this.text}`)
           .then((res) => {
             const arr = [];
             this.checkboxValue.forEach((item) => {

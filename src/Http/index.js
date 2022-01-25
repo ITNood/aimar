@@ -2,6 +2,7 @@ import axios from 'axios'
 import { Loading, Message } from 'element-ui'
 import Vue from 'vue'
 import Router from 'vue-router'
+// import encodeURI from "urlencode";
 Vue.use(Router)
 // 创建axios实例
 const Axios = axios.create({
@@ -28,6 +29,7 @@ Axios.interceptors.request.use(
     return Promise.reject(err)
   }
 )
+
 // 拦截所有的 api 响应，可以实现自动弹窗报错
 Axios.interceptors.response.use(
   response => {

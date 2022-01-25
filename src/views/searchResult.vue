@@ -490,7 +490,6 @@ export default {
     },
     //删除条件
     del(index) {
-      console.log("111");
       const list = [...this.items];
       list.splice(index, 1);
       this.items = [...list];
@@ -523,7 +522,6 @@ export default {
       this.$refs.child.closeDialog();
     },
     lookDe(row) {
-      const data = row;
       var id = row.de;
       const newdata = this.arr.filter((item) => {
         return item.de == id;

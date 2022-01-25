@@ -11,6 +11,7 @@
     "core-js": "^3.6.4",
     "echarts": "^5.2.2",
     "element-ui": "^2.15.6",
+    "urlencode": "^1.1.0",
     "vue": "^2.6.11",
     "vue-flip-page": "^1.0.7",
     "vue-router": "^3.2.0",

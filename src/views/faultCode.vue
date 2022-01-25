@@ -68,9 +68,9 @@
         <el-col :md="16" :lg="20" :xl="20">
           <div class="clear">
             <el-radio-group v-model="radio" class="selectradio">
-              <el-radio :label="3"> 按综合相似度排序</el-radio>
-              <el-radio :label="6"> 按描述相似度排序</el-radio>
-              <el-radio :label="9"> 按时间排序</el-radio>
+              <el-radio :label="0"> 按综合相似度排序</el-radio>
+              <el-radio :label="1"> 按描述相似度排序</el-radio>
+              <el-radio :label="2"> 按时间排序</el-radio>
             </el-radio-group>
             <el-checkbox v-model="checked" class="selectcheckbox">
               仅查看相关ATA
@@ -145,7 +145,7 @@ export default {
       startChapter: "12:飞机维修",
       endChapter: "16:维修结果",
       listChapter: "36:就殴打Jodi",
-      radio: 3,
+      radio: "0",
       checked: false,
       tableData: [
         {
