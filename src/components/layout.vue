@@ -202,7 +202,7 @@ export default {
         type: "warning",
       })
         .then(() => {
-          localStorage.setItem("userRole", "unload");
+          localStorage.removeItem("Token");
           this.$router.push("/");
         })
         .catch(() => {

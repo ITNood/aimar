@@ -16,7 +16,7 @@ const Axios = axios.create({
 Axios.interceptors.request.use(
   config => {
     // load = Loading.service({ fullscreen: true, text: 'Loading...' })
-    const token = localStorage.getItem('token')
+    const token = localStorage.getItem('Token')
     // const lang = localStorage.getItem('lang')
     if (token) {
       config.headers.Token = token
@@ -35,8 +35,8 @@ Axios.interceptors.response.use(
   response => {
     // load.close()
     if (response.data.code === 500) {//退出登录
-      this.$message.info(response.data.msg)
-      localStorage.removeItem('token')
+      this.$message.error(response.data.msg)
+      localStorage.removeItem('Token')
       this.$router.push('/')
     } else if (response.data.code === 400) {//返回错误
       this.$message.error(response.data.msg)

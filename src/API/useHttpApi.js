@@ -1,3 +1,4 @@
 export default [
-  '/elasticSearch/deRecord/page'
+  '/elasticSearch/deRecord/page',
+  '/sys/login'
 ]

@@ -525,8 +525,9 @@ export default {
     //故障描述提交渲染关键词组
     faultSubmit() {
       if (this.text) {
+        const text = encodeURIComponent(this.text);
         api
-          .get(`/WordRecord/cut/synonym?word=${this.text}`)
+          .get(`/WordRecord/cut/synonym?word=${text}`)
           .then((res) => {
             const arr = [];
             this.checkboxValue.forEach((item) => {

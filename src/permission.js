@@ -5,7 +5,7 @@ var addRouFlag = false
 
 router.beforeEach((to, from, next) => {
   // 取到用户的角色
-  let GetRole = localStorage.getItem("userRole")
+  let GetRole = localStorage.getItem("Token")
   // 如果登录了
   if (GetRole && GetRole !== 'unload') {
     next() //next()方法后的代码也会执行

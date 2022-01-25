@@ -154,7 +154,8 @@
                     size="mini"
                     @click="lookDe(scope.row)"
                     class="btnfont"
-                    >查看MR
+                  >
+                    查看MR
                   </el-button>
                   <el-button
                     size="mini"
