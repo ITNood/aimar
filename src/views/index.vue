@@ -30,35 +30,8 @@
         </el-row>
       </el-col>
     </el-row>
-    <task-card
-      ref="task"
-      @opendialog="opendialog"
-      :cardDe="cardDe"
-      :acid="acid"
-      :ataChater="ataChater"
-      :date="cardDate"
-      :station="station"
-      :describe="describe"
-      :plans="plancard"
-      :programmes="programmes"
-      :statusPlan="statusPlan"
-      :repairData="repairData"
-      :data="data"
-    />
-    <de-details
-      :de="de"
-      :date="date"
-      :open="open"
-      :close="closed"
-      :terminal="terminal"
-      :number="number"
-      :model="model"
-      :fault="faults"
-      :plan="plan"
-      :programme="programme"
-      @closedDialog="closedDialog"
-      ref="child"
-    />
+    <task-card ref="task" @opendialog="opendialog" :cardDe="cardDe" :acid="acid" :ataChater="ataChater" :date="cardDate" :station="station" :describe="describe" :plans="plancard" :programmes="programmes" :statusPlan="statusPlan" :repairData="repairData" :data="data" />
+    <de-details :de="de" :date="date" :open="open" :close="closed" :terminal="terminal" :number="number" :model="model" :fault="faults" :plan="plan" :programme="programme" @closedDialog="closedDialog" ref="child" />
   </div>
 </template>
 

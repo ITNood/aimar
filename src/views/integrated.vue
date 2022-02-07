@@ -5,13 +5,7 @@
         <div class="screenCondition">
           <h2>选择筛选条件</h2>
           <ul>
-            <li
-              class="el-icon-plus"
-              v-for="(item, index) in items"
-              :key="index"
-              @click="toggleShow(index)"
-              :class="item.isshow ? 'current' : ''"
-            >
+            <li class="el-icon-plus" v-for="(item, index) in items" :key="index" @click="toggleShow(index)" :class="item.isshow ? 'current' : ''">
               &nbsp;&nbsp;{{ item.name }}
             </li>
           </ul>
@@ -25,31 +19,14 @@
               <el-col :md="24" :lg="12" :xl="12" v-show="items[0].isshow">
                 <div class="conditionTable">
                   <h4>故障描述</h4>
-                  <div
-                    class="conditionTableContent clear"
-                    style="position: relative"
-                  >
-                    <el-input
-                      v-model="text"
-                      class="blurtext"
-                      clearable
-                      @focus="clickhere()"
-                      placeholder="输入故障描述"
-                    ></el-input>
+                  <div class="conditionTableContent clear" style="position: relative">
+                    <el-input v-model="text" class="blurtext" clearable @focus="clickhere()" placeholder="输入故障描述"></el-input>
                     <ul class="listtext" v-show="ishide">
-                      <li
-                        v-for="(item1, index1) in texts"
-                        :key="index1"
-                        @click="selecttext(item1)"
-                      >
+                      <li v-for="(item1, index1) in texts" :key="index1" @click="selecttext(item1)">
                         {{ item1 }}
                       </li>
                     </ul>
-                    <el-button
-                      size="mini"
-                      class="faultSubmit"
-                      @click="faultSubmit"
-                    >
+                    <el-button size="mini" class="faultSubmit" @click="faultSubmit">
                       确定
                     </el-button>
                   </div>
@@ -60,25 +37,10 @@
                   <h4>选定飞机</h4>
                   <div class="conditionTableContent">
                     <div class="tagBorder">
-                      <el-tag
-                        :key="tag"
-                        v-for="tag in airplane"
-                        closable
-                        :disable-transitions="false"
-                        @close="closeAriplane(tag)"
-                      >
+                      <el-tag :key="tag" v-for="tag in airplane" closable :disable-transitions="false" @close="closeAriplane(tag)">
                         {{ tag }}
                       </el-tag>
-                      <el-autocomplete
-                        v-show="showAri"
-                        class="input-new-tag"
-                        v-model="ariValue"
-                        ref="saveTagInput"
-                        size="small"
-                        @keyup.enter.native="handleAriplane"
-                        :fetch-suggestions="searchAri"
-                        @select="handleAriplane"
-                      >
+                      <el-autocomplete v-show="showAri" class="input-new-tag" v-model="ariValue" ref="saveTagInput" size="small" @keyup.enter.native="handleAriplane" :fetch-suggestions="searchAri" @select="handleAriplane">
                       </el-autocomplete>
                     </div>
                   </div>
@@ -89,29 +51,13 @@
                   <h4>关键词组</h4>
                   <div class="conditionTableContent">
                     <div class="tagBorder">
-                      <el-tag
-                        :key="tag1"
-                        v-for="tag1 in keywords"
-                        closable
-                        :disable-transitions="false"
-                        @close="closeKeyword(tag1)"
-                      >
+                      <el-tag :key="tag1" v-for="tag1 in keywords" closable :disable-transitions="false" @close="closeKeyword(tag1)">
                         {{ tag1 }}
                       </el-tag>
-                      <el-input
-                        class="input-new-tag"
-                        v-model="keywordValue"
-                        ref="saveTagInput"
-                        size="small"
-                        @keyup.enter.native="handlekeyword"
-                      >
+                      <el-input class="input-new-tag" v-model="keywordValue" ref="saveTagInput" size="small" @keyup.enter.native="handlekeyword">
                       </el-input>
                     </div>
-                    <el-checkbox-group
-                      v-model="checkboxValue"
-                      @change="selectCheckbox"
-                      class="mt20"
-                    >
+                    <el-checkbox-group v-model="checkboxValue" @change="selectCheckbox" class="mt20">
                       <el-checkbox label="COMPONENT"></el-checkbox>
                       <el-checkbox label="ALERT"></el-checkbox>
                       <el-checkbox label="INDICATOR"></el-checkbox>
@@ -126,24 +72,10 @@
                   <h4>选定机型</h4>
                   <div class="conditionTableContent">
                     <div class="tagBorder">
-                      <el-tag
-                        :key="tag2"
-                        v-for="tag2 in planes"
-                        closable
-                        :disable-transitions="false"
-                        @close="closePlan(tag2)"
-                      >
+                      <el-tag :key="tag2" v-for="tag2 in planes" closable :disable-transitions="false" @close="closePlan(tag2)">
                         {{ tag2 }}
                       </el-tag>
-                      <el-autocomplete
-                        class="input-new-tag"
-                        v-model="planeValue"
-                        ref="saveTagInput"
-                        size="small"
-                        @keyup.enter.native="handlePlane"
-                        :fetch-suggestions="searchPlane"
-                        @select="handlePlane"
-                      >
+                      <el-autocomplete class="input-new-tag" v-model="planeValue" ref="saveTagInput" size="small" @keyup.enter.native="handlePlane" :fetch-suggestions="searchPlane" @select="handlePlane">
                       </el-autocomplete>
                     </div>
                   </div>
@@ -154,24 +86,10 @@
                   <h4>故障代码</h4>
                   <div class="conditionTableContent">
                     <div class="tagBorder">
-                      <el-tag
-                        :key="tag3"
-                        v-for="tag3 in codes"
-                        closable
-                        :disable-transitions="false"
-                        @close="closeCode(tag3)"
-                      >
+                      <el-tag :key="tag3" v-for="tag3 in codes" closable :disable-transitions="false" @close="closeCode(tag3)">
                         {{ tag3 }}
                       </el-tag>
-                      <el-autocomplete
-                        class="input-new-tag"
-                        v-model="codeValue"
-                        ref="saveTagInput"
-                        size="small"
-                        @keyup.enter.native="handleCode"
-                        :fetch-suggestions="searchCode"
-                        @select="handleCode"
-                      >
+                      <el-autocomplete class="input-new-tag" v-model="codeValue" ref="saveTagInput" size="small" @keyup.enter.native="handleCode" :fetch-suggestions="searchCode" @select="handleCode">
                       </el-autocomplete>
                     </div>
                   </div>
@@ -182,22 +100,13 @@
                   <h4>章节范围</h4>
                   <div class="conditionTableContent">
                     <el-row :gutter="20">
-                      <el-col :span="11"
-                        ><el-input
-                          v-model="start"
-                          placeholder="ATA 章节 (2位)"
-                          maxlength="2"
-                        ></el-input
-                      ></el-col>
+                      <el-col :span="11">
+                        <el-input v-model="start" placeholder="ATA 章节 (2位)" maxlength="2"></el-input>
+                      </el-col>
                       <el-col :span="2" class="line">-</el-col>
-                      <el-col :span="11"
-                        ><el-input
-                          v-model="end"
-                          placeholder="ATA 章节 (4位)"
-                          maxlength="4"
-                          minlength="4"
-                        ></el-input
-                      ></el-col>
+                      <el-col :span="11">
+                        <el-input v-model="end" placeholder="ATA 章节 (4位)" maxlength="4" minlength="4"></el-input>
+                      </el-col>
                     </el-row>
                   </div>
                 </div>
@@ -210,32 +119,20 @@
                       <el-col :span="5">
                         <div class="matching">
                           <h5>模糊开关</h5>
-                          <el-switch
-                            v-model="value"
-                            size="medium"
-                            @change="vague"
-                          >
+                          <el-switch v-model="value" size="medium" @change="vague">
                           </el-switch>
                         </div>
                       </el-col>
                       <el-col :span="14">
                         <div class="matching">
                           <h5>模糊度调整</h5>
-                          <el-slider
-                            v-model="value1"
-                            @change="vagueNumber"
-                            :disabled="disable"
-                          ></el-slider>
+                          <el-slider v-model="value1" @change="vagueNumber" :disabled="disable"></el-slider>
                         </div>
                       </el-col>
                       <el-col :span="5">
                         <div class="matching text-right">
                           <h5>同近义词</h5>
-                          <el-switch
-                            v-model="value2"
-                            size="medium"
-                            @change="synonsm"
-                          >
+                          <el-switch v-model="value2" size="medium" @change="synonsm">
                           </el-switch>
                         </div>
                       </el-col>
@@ -258,16 +155,7 @@
                       <el-row>
                         <el-col :xl="6">自定义日期</el-col>
                         <el-col :xl="18">
-                          <el-date-picker
-                            class="datePicker"
-                            v-model="date"
-                            type="daterange"
-                            range-separator="至"
-                            start-placeholder="开始日期"
-                            end-placeholder="结束日期"
-                            value-format="yyyy-MM-dd"
-                            :picker-options="pickerOptions"
-                          >
+                          <el-date-picker class="datePicker" v-model="date" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" value-format="yyyy-MM-dd" :picker-options="pickerOptions">
                           </el-date-picker>
                         </el-col>
                       </el-row>
@@ -276,11 +164,7 @@
                 </div>
               </el-col>
             </el-row>
-            <el-button
-              class="el-icon-plus addcontent"
-              v-if="show"
-              @click="addData"
-            >
+            <el-button class="el-icon-plus addcontent" v-if="show" @click="addData">
               &nbsp;&nbsp;添加
             </el-button>
           </div>
@@ -295,8 +179,7 @@
                 <li v-for="(list, index2) in lists" :key="index2">
                   <div class="name">
                     {{ list.name }}
-                    <i class="el-icon-close" @click="close(index2)"></i
-                    ><i class="el-icon-edit" @click="edit(list.id)"></i>
+                    <i class="el-icon-close" @click="close(index2)"></i><i class="el-icon-edit" @click="edit(list.id)"></i>
                   </div>
                   <p v-if="list.airplaneTypes">{{ list.airplaneTypes }}</p>
                   <p v-if="list.airplanes">{{ list.airplanes }}</p>

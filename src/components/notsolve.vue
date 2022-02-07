@@ -4,11 +4,7 @@
       <h2>未解决 | Open</h2>
       <div class="monitor">
         <ul>
-          <li
-            v-for="(item, index) in items"
-            :key="index"
-            @click="openData(item.de)"
-          >
+          <li v-for="(item, index) in items" :key="index" @click="openData(item.de)">
             {{ item.name }} | {{ item.date }}
           </li>
         </ul>

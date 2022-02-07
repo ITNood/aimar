@@ -1,11 +1,7 @@
 <template>
   <div>
     <el-row :gutter="40">
-      <el-col
-        :span="12"
-        class="border-right border-bottom"
-        style="padding-bottom: 20px"
-      >
+      <el-col :span="12" class="border-right border-bottom" style="padding-bottom: 20px">
         <div class="queryCenter border">
           <h2>查询中心</h2>
           <div class="queryList">

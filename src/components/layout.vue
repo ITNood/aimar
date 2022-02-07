@@ -3,14 +3,7 @@
     <el-container>
       <!-- 左侧菜单 -->
       <el-aside class="slider_container">
-        <el-menu
-          class="sub_meuns_wapper"
-          mode="vertical"
-          unique-opened
-          :default-active="$route.path"
-          text-color="#fff"
-          active-text-color="#42b983"
-        >
+        <el-menu class="sub_meuns_wapper" mode="vertical" unique-opened :default-active="$route.path" text-color="#fff" active-text-color="#42b983">
           <!-- 菜单组件 -->
           <div class="logo">
             <h2>AiMaR</h2>
@@ -38,42 +31,21 @@
               <i class="icon iconfont icon-warning"></i>
             </el-badge>
             <el-dropdown>
-              <span
-                class="el-dropdown-link"
-                style="color: #858796; font-weight: 800"
-              >
-                <img
-                  src="../assets/logo.png"
-                  style="width: 40px; border-radius: 50%"
-                />
+              <span class="el-dropdown-link" style="color: #858796; font-weight: 800">
+                <img src="../assets/logo.png" style="width: 40px; border-radius: 50%" />
               </span>
               <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item
-                  ><i class="el-icon-user-solid"></i>个人中心</el-dropdown-item
-                >
-                <el-dropdown-item
-                  ><i class="el-icon-s-tools"></i>设置</el-dropdown-item
-                >
-                <el-dropdown-item style="border-bottom: 1px solid #e3e6f0"
-                  ><i class="el-icon-s-operation"></i>活动日志</el-dropdown-item
-                >
-                <el-dropdown-item @click.native="outSystem"
-                  ><i class="el-icon-s-unfold"></i>登出</el-dropdown-item
-                >
+                <el-dropdown-item><i class="el-icon-user-solid"></i>个人中心</el-dropdown-item>
+                <el-dropdown-item><i class="el-icon-s-tools"></i>设置</el-dropdown-item>
+                <el-dropdown-item style="border-bottom: 1px solid #e3e6f0"><i class="el-icon-s-operation"></i>活动日志</el-dropdown-item>
+                <el-dropdown-item @click.native="outSystem"><i class="el-icon-s-unfold"></i>登出</el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
           </div>
 
           <div class="tagtitle">
             <div class="tabs clear">
-              <el-tag
-                v-for="tag in getrouterList"
-                :key="tag.path"
-                :closable="tag.clearclose"
-                @close="handleCloseTag(tag)"
-                @click="tabs(tag.path)"
-                :class="tag.current == true ? 'current' : ''"
-              >
+              <el-tag v-for="tag in getrouterList" :key="tag.path" :closable="tag.clearclose" @close="handleCloseTag(tag)" @click="tabs(tag.path)" :class="tag.current == true ? 'current' : ''">
                 {{ tag.title }}
               </el-tag>
             </div>

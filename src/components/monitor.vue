@@ -4,11 +4,7 @@
       <h2>监控中 | Monitor</h2>
       <div class="monitor">
         <ul>
-          <li
-            v-for="(item, index) in items"
-            :key="index"
-            @click="openData(item.name)"
-          >
+          <li v-for="(item, index) in items" :key="index" @click="openData(item.name)">
             {{ item.name }} | {{ item.date }}
           </li>
         </ul>

@@ -34,41 +34,25 @@
         <div class="selectedsProgramme">
           <h2>选择排故方案</h2>
           <div class="programme">
-            <el-radio-group
-              v-model="radio"
-              class="selectRadioGroup"
-              @change="changeRadio"
-            >
-              <el-radio-button
-                :label="index"
-                v-for="(todo, index) in result"
-                :key="index"
-              >
+            <el-radio-group v-model="radio" class="selectRadioGroup" @change="changeRadio">
+              <el-radio-button :label="index" v-for="(todo, index) in result" :key="index">
                 方案 #{{ index + 1 }}({{ todo.solutionProbability }})
               </el-radio-button>
             </el-radio-group>
             <el-row class="border">
-              <el-col :span="16" v-if="isData"
-                ><el-empty description="暂无数据"></el-empty
-              ></el-col>
+              <el-col :span="16" v-if="isData">
+                <el-empty description="暂无数据"></el-empty>
+              </el-col>
               <el-col :span="16" v-else>
-                <div
-                  class="programmeDetails"
-                  v-for="(obj, i) in objects"
-                  :key="i"
-                >
+                <div class="programmeDetails" v-for="(obj, i) in objects" :key="i">
                   <div class="schemeNews">
-                    <el-button
-                      class="el-icon-download downloadPdf"
-                      @click="confirm"
-                    >
+                    <el-button class="el-icon-download downloadPdf" @click="confirm">
                       &nbsp;&nbsp;预览/下载
                     </el-button>
                     <h2>B-1234 （A-320） @ SZX @ YYYY-MM-DD HH:MM</h2>
                     <p>
                       方案 # {{ tabnumber }}【综合排故概率：
-                      <span class="target">{{ obj.solutionProbability }}</span
-                      >】
+                      <span class="target">{{ obj.solutionProbability }}</span>】
                     </p>
                   </div>
                   <div class="counter">
@@ -77,16 +61,8 @@
                   </div>
                   <div class="suggestionList">
                     <el-row style="width: 100%">
-                      <el-col
-                        v-for="(item, index) in obj.solutions"
-                        :key="index"
-                        :offset="index"
-                        :span="24 - index"
-                        class="contentBorder"
-                      >
-                        <i v-if="obj.solutions.length > 1 && index !== 0"
-                          >若故障仍未排除：</i
-                        >
+                      <el-col v-for="(item, index) in obj.solutions" :key="index" :offset="index" :span="24 - index" class="contentBorder">
+                        <i v-if="obj.solutions.length > 1 && index !== 0">若故障仍未排除：</i>
                         <el-row :gutter="20">
                           <el-col :span="8">
                             <div class="listleft">
@@ -94,8 +70,7 @@
                                 依据
                                 <span @click="basis">{{
                                   item.reference.join()
-                                }}</span
-                                >；
+                                }}</span>；
                               </p>
                               <p>
                                 执行
@@ -104,103 +79,45 @@
                               </p>
                               <p>
                                 【故障排除概率：
-                                <span class="target"
-                                  >{{ item.probability }} %</span
-                                >】
+                                <span class="target">{{ item.probability }} %</span>】
                               </p>
                               <p>
-                                （参照 DE #<span
-                                  v-for="de in obj.solutions[index].de"
-                                  :key="de"
-                                  class="text-decoration"
-                                  @click="openDe(de)"
-                                  >{{ de }}; </span
-                                >）
+                                （参照 DE #<span v-for="de in obj.solutions[index].de" :key="de" class="text-decoration" @click="openDe(de)">{{ de }}; </span>）
                               </p>
                             </div>
                           </el-col>
                           <el-col :span="8">
                             <div class="listleft special">
                               <p>
-                                <i
-                                  :class="
-                                    item.color1 == 0
-                                      ? 'classA'
-                                      : item.color1 == 1
-                                      ? 'classB'
-                                      : 'classC'
-                                  "
-                                ></i>
+                                <i :class="item.color1 == 0? 'classA': item.color1 == 1? 'classB': 'classC'"></i>
                                 维修 Kit #
                                 <span @click="openTable(item.name)">{{
                                   item.name
                                 }}</span>
                               </p>
                               <p>
-                                <i
-                                  :class="
+                                <i :class="
                                     item.color2 == 0
                                       ? 'classA'
                                       : item.color2 == 1
                                       ? 'classB'
                                       : 'classC'
-                                  "
-                                ></i>
-                                工具：<span
-                                  v-for="(tool, index) in item.toolPnList"
-                                  :key="index"
-                                  @click="openTable(tool)"
-                                  >{{ tool }};
+                                  "></i>
+                                工具：<span v-for="(tool, index) in item.toolPnList" :key="index" @click="openTable(tool)">{{ tool }};
                                 </span>
-                                <span
-                                  v-if="obj.solutions[index].istool == true"
-                                  @click="moreTool(index)"
-                                  >...</span
-                                >
+                                <span v-if="obj.solutions[index].istool == true" @click="moreTool(index)">...</span>
                               </p>
                               <p>
-                                <i
-                                  :class="
-                                    item.color3 == 0
-                                      ? 'classA'
-                                      : item.color3 == 1
-                                      ? 'classB'
-                                      : 'classC'
-                                  "
-                                ></i>
-                                主件：<span
-                                  v-for="(part, index) in item.mainPnList"
-                                  :key="index"
-                                  @click="openTable(part)"
-                                  >{{ part }};
+                                <i :class="item.color3 == 0? 'classA': item.color3 == 1? 'classB': 'classC'"></i>
+                                主件：<span v-for="(part, index) in item.mainPnList" :key="index" @click="openTable(part)">{{ part }};
                                 </span>
-                                <span
-                                  v-if="obj.solutions[index].ismain == true"
-                                  @click="moreMain(index)"
-                                  >...</span
-                                >
+                                <span v-if="obj.solutions[index].ismain == true" @click="moreMain(index)">...</span>
                               </p>
                               <p>
-                                <i
-                                  :class="
-                                    item.color4 == 0
-                                      ? 'classA'
-                                      : item.color4 == 1
-                                      ? 'classB'
-                                      : 'classC'
-                                  "
-                                ></i>
-                                辅件：<span
-                                  v-for="(acce, index) in item.supportPnList"
-                                  :key="index"
-                                  @click="openTable(acce)"
-                                  >{{ acce }};
+                                <i :class="item.color4 == 0? 'classA': item.color4 == 1? 'classB': 'classC'"></i>
+                                辅件：<span v-for="(acce, index) in item.supportPnList" :key="index" @click="openTable(acce)">{{ acce }};
                                 </span>
-                                <span
-                                  v-if="obj.solutions[index].issupport == true"
-                                  @click="moreSupport(index)"
-                                  >...</span
-                                >
+                                <span v-if="obj.solutions[index].issupport == true" @click="moreSupport(index)">...</span>
                               </p>
                             </div>
                           </el-col>
@@ -244,36 +161,9 @@
         </div>
       </el-col>
     </el-row>
-    <de-details
-      :de="de"
-      :date="date"
-      :open="open"
-      :close="closed"
-      :terminal="terminal"
-      :number="number"
-      :model="model"
-      :fault="faults"
-      :plan="plan"
-      :programme="programme"
-      @closedDialog="closedDialog"
-      ref="child"
-    />
+    <de-details :de="de" :date="date" :open="open" :close="closed" :terminal="terminal" :number="number" :model="model" :fault="faults" :plan="plan" :programme="programme" @closedDialog="closedDialog" ref="child" />
     <opentable :data="tables" :title="title" ref="tables" @click="cloetable" />
-    <basis
-      :headName="headName"
-      :type="type"
-      :updateDate="updateDate"
-      :manual="manual"
-      :chapter="chapter"
-      :keyword="keyword"
-      :part="part"
-      :page="page"
-      :section="section"
-      :notestext="notestext"
-      :data="data"
-      ref="basisChild"
-      @click="openbasis"
-    />
+    <basis :headName="headName" :type="type" :updateDate="updateDate" :manual="manual" :chapter="chapter" :keyword="keyword" :part="part" :page="page" :section="section" :notestext="notestext" :data="data" ref="basisChild" @click="openbasis" />
     <pdf ref="pdfs" :img="img" />
   </div>
 </template>

@@ -34,16 +34,8 @@
         <div class="selectedsProgramme">
           <h2>选择排故方案</h2>
           <div class="programme">
-            <el-radio-group
-              v-model="radio"
-              class="selectRadioGroup"
-              @change="changeRadio"
-            >
-              <el-radio-button
-                :label="index"
-                v-for="(todo, index) in result"
-                :key="index"
-              >
+            <el-radio-group v-model="radio" class="selectRadioGroup" @change="changeRadio">
+              <el-radio-button :label="index" v-for="(todo, index) in result" :key="index">
                 方案 #{{ index + 1 }}({{ todo.SolutionProbability }})
               </el-radio-button>
             </el-radio-group>
@@ -67,21 +59,12 @@
                       </p>
                       <p>
                         （参照 DE #
-                        <span
-                          v-for="(item, index) in des"
-                          :key="index"
-                          @click="openDe(item)"
-                          class="text-decoration"
-                        >
+                        <span v-for="(item, index) in des" :key="index" @click="openDe(item)" class="text-decoration">
                           {{ item }};
                         </span>
                         ）
                       </p>
-                      <div
-                        class="other"
-                        v-for="(item, index) in lists"
-                        :key="index"
-                      >
+                      <div class="other" v-for="(item, index) in lists" :key="index">
                         <h5>-若故障仍未解除：</h5>
                         <p>
                           执行 <span>{{ item.Action }}</span> 操作；
@@ -90,19 +73,12 @@
                           依据 <span>{{ item.Reference }}</span>
                         </p>
                         <p>
-                          【故障排除概率：<span> {{ item.Probability }} </span
-                          >】
+                          【故障排除概率：<span> {{ item.Probability }} </span>】
                         </p>
                         <p>
                           （参照 DE #
-                          <span
-                            v-for="(list, index) in item.DE"
-                            :key="index"
-                            @click="openDe(list)"
-                            class="text-decoration"
-                          >
-                            {{ list }}; </span
-                          >）
+                          <span v-for="(list, index) in item.DE" :key="index" @click="openDe(list)" class="text-decoration">
+                            {{ list }}; </span>）
                         </p>
                       </div>
 
@@ -112,24 +88,16 @@
                           依据 <span>{{ option1 }}</span> ；
                         </p>
                         <p>
-                          执行 <span>{{ option2 }}</span
-                          >；
+                          执行 <span>{{ option2 }}</span>；
                         </p>
                         <p>
                           （参照 DE #
-                          <span
-                            v-for="(de, index) in melDe"
-                            :key="index"
-                            @click="openDe(de)"
-                            class="text-decoration"
-                            >{{ de }}</span
-                          >）
+                          <span v-for="(de, index) in melDe" :key="index" @click="openDe(de)" class="text-decoration">{{ de }}</span>）
                         </p>
                       </div>
                     </li>
                     <li>
-                      【综合排故概率： <span>{{ solutionProbability }}</span
-                      >】
+                      【综合排故概率： <span>{{ solutionProbability }}</span>】
                     </li>
                     <div class="btncenter">
                       <el-button class="el-icon-check" @click="confirm">
@@ -167,8 +135,7 @@
             <div v-for="(val, index) in arrs" :key="index">
               <h1 class="clear">
                 方案 # {{ val.key + 1 }}
-                <i class="el-icon-close" @click="close(index)"></i
-                ><i class="el-icon-edit"></i>
+                <i class="el-icon-close" @click="close(index)"></i><i class="el-icon-edit"></i>
               </h1>
               <ul>
                 <li>
@@ -182,25 +149,17 @@
                   </p>
                   <p>
                     【故障排除概率：
-                    <span>{{ val.SolutionHeader.Probability }}</span
-                    >】
+                    <span>{{ val.SolutionHeader.Probability }}</span>】
                   </p>
                   <p>
                     （参照 DE #
-                    <span
-                      v-for="(item, index) in val.SolutionHeader.DE"
-                      :key="index"
-                    >
+                    <span v-for="(item, index) in val.SolutionHeader.DE" :key="index">
                       {{ item }};
                     </span>
                     ）
                   </p>
 
-                  <div
-                    class="other"
-                    v-for="(item, index) in val.SolutionBody"
-                    :key="index"
-                  >
+                  <div class="other" v-for="(item, index) in val.SolutionBody" :key="index">
                     <h5>-若故障仍未解除：</h5>
                     <p>
                       执行 <span>{{ item.Action }}</span> 操作；
@@ -209,12 +168,10 @@
                       依据 <span>{{ item.Reference }}</span>
                     </p>
                     <p>
-                      【故障排除概率：<span> {{ item.Probability }}</span
-                      >】
+                      【故障排除概率：<span> {{ item.Probability }}</span>】
                     </p>
                     <p>
-                      （参照 DE # <span>{{ item.DE.join() }}</span
-                      >）
+                      （参照 DE # <span>{{ item.DE.join() }}</span>）
                     </p>
                   </div>
 
@@ -224,19 +181,16 @@
                       依据 <span>{{ val.SolutionMEL.Reference }}</span> ；
                     </p>
                     <p>
-                      执行 <span>{{ val.SolutionMEL.Action }}</span
-                      >；
+                      执行 <span>{{ val.SolutionMEL.Action }}</span>；
                     </p>
                     <p>
                       （参照 DE #
-                      <span>{{ val.SolutionMEL.DE.join() }}</span
-                      >）
+                      <span>{{ val.SolutionMEL.DE.join() }}</span>）
                     </p>
                   </div>
                 </li>
                 <li>
-                  【综合排故概率： <span>{{ val.SolutionProbability }}</span
-                  >】
+                  【综合排故概率： <span>{{ val.SolutionProbability }}</span>】
                 </li>
               </ul>
             </div>
@@ -252,20 +206,7 @@
         </div>
       </el-col>
     </el-row>
-    <de-details
-      :de="de"
-      :date="date"
-      :open="open"
-      :close="closed"
-      :terminal="terminal"
-      :number="number"
-      :model="model"
-      :fault="faults"
-      :plan="plan"
-      :programme="programme"
-      @closedDialog="closedDialog"
-      ref="child"
-    />
+    <de-details :de="de" :date="date" :open="open" :close="closed" :terminal="terminal" :number="number" :model="model" :fault="faults" :plan="plan" :programme="programme" @closedDialog="closedDialog" ref="child" />
   </div>
 </template>
 

@@ -1,34 +1,15 @@
 <template>
   <div>
-    <el-dialog
-      title="提示"
-      :visible.sync="dialogVisible"
-      width="80%"
-      :close-on-click-modal="false"
-    >
+    <el-dialog title="提示" :visible.sync="dialogVisible" width="80%" :close-on-click-modal="false">
       <div class="conditionList">
         <el-row :gutter="20">
           <el-col :md="24" :lg="12" :xl="12">
             <div class="conditionTable">
               <h4>故障描述</h4>
               <div class="conditionTableContent clear">
-                <el-input
-                  v-model="text"
-                  class="blurtext"
-                  clearable
-                  @focus="clickhere($event)"
-                  placeholder="输入故障描述"
-                ></el-input>
-                <ul
-                  class="listtext"
-                  v-show="ishide"
-                  style="top: 105px; left: 35px"
-                >
-                  <li
-                    v-for="(item, index) in texts"
-                    :key="index"
-                    @click="selecttext(item)"
-                  >
+                <el-input v-model="text" class="blurtext" clearable @focus="clickhere($event)" placeholder="输入故障描述"></el-input>
+                <ul class="listtext" v-show="ishide" style="top: 105px; left: 35px">
+                  <li v-for="(item, index) in texts" :key="index" @click="selecttext(item)">
                     {{ item }}
                   </li>
                 </ul>
@@ -43,25 +24,10 @@
               <h4>选定飞机</h4>
               <div class="conditionTableContent">
                 <div class="tagBorder">
-                  <el-tag
-                    :key="tag"
-                    v-for="tag in airplane"
-                    closable
-                    :disable-transitions="false"
-                    @close="closeAriplane(tag)"
-                  >
+                  <el-tag :key="tag" v-for="tag in airplane" closable :disable-transitions="false" @close="closeAriplane(tag)">
                     {{ tag }}
                   </el-tag>
-                  <el-autocomplete
-                    v-show="showAri"
-                    class="input-new-tag"
-                    v-model="ariValue"
-                    ref="saveTagInput"
-                    size="small"
-                    @keyup.enter.native="handleAriplane"
-                    :fetch-suggestions="searchAri"
-                    @select="handleAriplane"
-                  >
+                  <el-autocomplete v-show="showAri" class="input-new-tag" v-model="ariValue" ref="saveTagInput" size="small" @keyup.enter.native="handleAriplane" :fetch-suggestions="searchAri" @select="handleAriplane">
                   </el-autocomplete>
                 </div>
               </div>
@@ -72,29 +38,13 @@
               <h4>关键词组</h4>
               <div class="conditionTableContent">
                 <div class="tagBorder">
-                  <el-tag
-                    :key="tag"
-                    v-for="tag in keywords"
-                    closable
-                    :disable-transitions="false"
-                    @close="closeKeyword(tag)"
-                  >
+                  <el-tag :key="tag" v-for="tag in keywords" closable :disable-transitions="false" @close="closeKeyword(tag)">
                     {{ tag }}
                   </el-tag>
-                  <el-input
-                    class="input-new-tag"
-                    v-model="keywordValue"
-                    ref="saveTagInput"
-                    size="small"
-                    @keyup.enter.native="handlekeyword"
-                  >
+                  <el-input class="input-new-tag" v-model="keywordValue" ref="saveTagInput" size="small" @keyup.enter.native="handlekeyword">
                   </el-input>
                 </div>
-                <el-checkbox-group
-                  v-model="checkboxValue"
-                  @change="selectCheckbox"
-                  class="mt20"
-                >
+                <el-checkbox-group v-model="checkboxValue" @change="selectCheckbox" class="mt20">
                   <el-checkbox label="COMPONENT"></el-checkbox>
                   <el-checkbox label="ALERT"></el-checkbox>
                   <el-checkbox label="INDICATOR"></el-checkbox>
@@ -109,24 +59,10 @@
               <h4>选定机型</h4>
               <div class="conditionTableContent">
                 <div class="tagBorder">
-                  <el-tag
-                    :key="tag"
-                    v-for="tag in planes"
-                    closable
-                    :disable-transitions="false"
-                    @close="closePlan(tag)"
-                  >
+                  <el-tag :key="tag" v-for="tag in planes" closable :disable-transitions="false" @close="closePlan(tag)">
                     {{ tag }}
                   </el-tag>
-                  <el-autocomplete
-                    class="input-new-tag"
-                    v-model="planeValue"
-                    ref="saveTagInput"
-                    size="small"
-                    @keyup.enter.native="handlePlane"
-                    :fetch-suggestions="searchPlane"
-                    @select="handlePlane"
-                  >
+                  <el-autocomplete class="input-new-tag" v-model="planeValue" ref="saveTagInput" size="small" @keyup.enter.native="handlePlane" :fetch-suggestions="searchPlane" @select="handlePlane">
                   </el-autocomplete>
                 </div>
               </div>
@@ -137,24 +73,10 @@
               <h4>故障代码</h4>
               <div class="conditionTableContent">
                 <div class="tagBorder">
-                  <el-tag
-                    :key="tag"
-                    v-for="tag in codes"
-                    closable
-                    :disable-transitions="false"
-                    @close="closeCode(tag)"
-                  >
+                  <el-tag :key="tag" v-for="tag in codes" closable :disable-transitions="false" @close="closeCode(tag)">
                     {{ tag }}
                   </el-tag>
-                  <el-autocomplete
-                    class="input-new-tag"
-                    v-model="codeValue"
-                    ref="saveTagInput"
-                    size="small"
-                    @keyup.enter.native="handleCode"
-                    :fetch-suggestions="searchCode"
-                    @select="handleCode"
-                  >
+                  <el-autocomplete class="input-new-tag" v-model="codeValue" ref="saveTagInput" size="small" @keyup.enter.native="handleCode" :fetch-suggestions="searchCode" @select="handleCode">
                   </el-autocomplete>
                 </div>
               </div>
@@ -165,22 +87,13 @@
               <h4>章节范围</h4>
               <div class="conditionTableContent">
                 <el-row :gutter="20">
-                  <el-col :span="11"
-                    ><el-input
-                      v-model="start"
-                      placeholder="ATA 章节 (2位)"
-                      maxlength="2"
-                    ></el-input
-                  ></el-col>
+                  <el-col :span="11">
+                    <el-input v-model="start" placeholder="ATA 章节 (2位)" maxlength="2"></el-input>
+                  </el-col>
                   <el-col :span="2" class="line">-</el-col>
-                  <el-col :span="11"
-                    ><el-input
-                      v-model="end"
-                      placeholder="ATA 章节 (4位)"
-                      maxlength="4"
-                      minlength="4"
-                    ></el-input
-                  ></el-col>
+                  <el-col :span="11">
+                    <el-input v-model="end" placeholder="ATA 章节 (4位)" maxlength="4" minlength="4"></el-input>
+                  </el-col>
                 </el-row>
               </div>
             </div>
@@ -200,21 +113,13 @@
                   <el-col :span="14">
                     <div class="matching">
                       <h5>模糊度调整</h5>
-                      <el-slider
-                        v-model="value1"
-                        @change="vagueNumber"
-                        :disabled="disable"
-                      ></el-slider>
+                      <el-slider v-model="value1" @change="vagueNumber" :disabled="disable"></el-slider>
                     </div>
                   </el-col>
                   <el-col :span="5">
                     <div class="matching text-right">
                       <h5>同近义词</h5>
-                      <el-switch
-                        v-model="value2"
-                        size="medium"
-                        @change="synonsm"
-                      >
+                      <el-switch v-model="value2" size="medium" @change="synonsm">
                       </el-switch>
                     </div>
                   </el-col>
@@ -237,16 +142,7 @@
                   <el-row>
                     <el-col :xl="6">自定义日期</el-col>
                     <el-col :xl="18">
-                      <el-date-picker
-                        class="datePicker"
-                        v-model="date"
-                        type="daterange"
-                        range-separator="至"
-                        start-placeholder="开始日期"
-                        end-placeholder="结束日期"
-                        value-format="yyyy-MM-dd"
-                        :picker-options="pickerOptions"
-                      >
+                      <el-date-picker class="datePicker" v-model="date" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" value-format="yyyy-MM-dd" :picker-options="pickerOptions">
                       </el-date-picker>
                     </el-col>
                   </el-row>

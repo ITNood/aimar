@@ -6,25 +6,10 @@
       </div>
       <div class="conditionSummaryList">
         <div class="tagBorder">
-          <el-tag
-            :key="tag"
-            v-for="tag in dynamicTags"
-            closable
-            :disable-transitions="false"
-            @close="handleClose(tag)"
-          >
+          <el-tag :key="tag" v-for="tag in dynamicTags" closable :disable-transitions="false" @close="handleClose(tag)">
             {{ tag }}
           </el-tag>
-          <el-autocomplete
-            class="input-new-tag"
-            v-model="inputValue"
-            ref="saveTagInput"
-            size="small"
-            @keyup.enter.native="handleInputConfirm"
-            @blur="handleInputConfirm"
-            :fetch-suggestions="querySearch"
-            @select="handleInputConfirm"
-          >
+          <el-autocomplete class="input-new-tag" v-model="inputValue" ref="saveTagInput" size="small" @keyup.enter.native="handleInputConfirm" @blur="handleInputConfirm" :fetch-suggestions="querySearch" @select="handleInputConfirm">
           </el-autocomplete>
         </div>
       </div>
@@ -76,18 +61,11 @@
               仅查看相关ATA
             </el-checkbox>
           </div>
-          <el-table
-            :data="tableData"
-            border
-            @selection-change="handleSelectionChange"
-            :header-cell-style="{
+          <el-table :data="tableData" border @selection-change="handleSelectionChange" :header-cell-style="{
               background: '#012A4A',
               color: '#fff',
               fontWeight: 'normal',
-            }"
-            max-height="500"
-            class="mt20"
-          >
+            }" max-height="500" class="mt20">
             <el-table-column type="selection" width="55"></el-table-column>
             <el-table-column prop="id" label="DE号"></el-table-column>
             <el-table-column prop="start" label="开单ATA"></el-table-column>
@@ -112,13 +90,7 @@
               </el-button>
             </el-table-column>
           </el-table>
-          <pagination
-            :total="totalPage"
-            :pageSize="pageSize"
-            :currentPage="currentPage"
-            @handleSizeChange="handleSizeChange"
-            @handleCurrentChange="handleCurrentChange"
-          />
+          <pagination :total="totalPage" :pageSize="pageSize" :currentPage="currentPage" @handleSizeChange="handleSizeChange" @handleCurrentChange="handleCurrentChange" />
         </el-col>
       </el-row>
       <div class="mt20 mb20" style="padding-right: 20px; float: right">

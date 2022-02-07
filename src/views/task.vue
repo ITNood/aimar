@@ -3,16 +3,12 @@
     <el-row :gutter="40">
       <el-col :md="16" :lg="18" :xl="20" class="border-right">
         <el-row :gutter="40">
-          <el-col
-            :span="12"
-            class="border-right border-bottom"
-            style="padding-bottom: 20px"
-          >
-            <monitor
-          /></el-col>
-          <el-col :span="12" class="border-bottom" style="padding-bottom: 20px"
-            ><notsolve
-          /></el-col>
+          <el-col :span="12" class="border-right border-bottom" style="padding-bottom: 20px">
+            <monitor />
+          </el-col>
+          <el-col :span="12" class="border-bottom" style="padding-bottom: 20px">
+            <notsolve />
+          </el-col>
         </el-row>
         <task class="mt20 border-bottom" style="padding-bottom: 20px" />
         <echarts class="mt20" />

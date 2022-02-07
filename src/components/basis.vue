@@ -1,11 +1,6 @@
 <template>
   <div>
-    <el-dialog
-      :title="headName"
-      :visible.sync="show"
-      width="50%"
-      :close-on-click-modal="false"
-    >
+    <el-dialog :title="headName" :visible.sync="show" width="50%" :close-on-click-modal="false">
       <el-row :gutter="20">
         <el-col :span="12" class="border-right">
           <div class="border pd20 contenttext">
@@ -29,14 +24,7 @@
           </div>
         </el-col>
         <el-col :span="12">
-          <flipPage
-            ref="thePage"
-            :data="data"
-            :width="pWidth"
-            :height="pHeight"
-            @tap="tapPage"
-            @change="currentPage"
-          ></flipPage>
+          <flipPage ref="thePage" :data="data" :width="pWidth" :height="pHeight" @tap="tapPage" @change="currentPage"></flipPage>
         </el-col>
       </el-row>
     </el-dialog>

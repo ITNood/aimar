@@ -5,17 +5,10 @@
         <h4>筛选条件汇总</h4>
       </div>
       <el-row :gutter="40" class="conditionSummaryList">
-        <el-col
-          :md="8"
-          :lg="6"
-          :xl="4"
-          v-for="(item, index) in items"
-          :key="index"
-        >
+        <el-col :md="8" :lg="6" :xl="4" v-for="(item, index) in items" :key="index">
           <h5>
             {{ item.name }}
-            <i class="el-icon-close" @click="del(index)"></i
-            ><i class="el-icon-edit" @click="edit"></i>
+            <i class="el-icon-close" @click="del(index)"></i><i class="el-icon-edit" @click="edit"></i>
           </h5>
           <p v-if="item.airplaneTypes">{{ item.airplaneTypes }}</p>
           <p v-if="item.airplanes">{{ item.airplanes }}</p>
@@ -75,36 +68,20 @@
         </el-col>
         <el-col :md="18" :lg="20" :xl="21">
           <div class="clear">
-            <el-radio-group
-              v-model="radio"
-              class="selectradio"
-              @change="changesSort"
-            >
+            <el-radio-group v-model="radio" class="selectradio" @change="changesSort">
               <el-radio label="0"> 按综合相似度排序</el-radio>
               <el-radio label="1"> 按描述相似度排序</el-radio>
               <el-radio label="2"> 按时间排序</el-radio>
             </el-radio-group>
-            <el-checkbox
-              v-model="checked"
-              class="selectcheckbox"
-              @change="isChange"
-            >
+            <el-checkbox v-model="checked" class="selectcheckbox" @change="isChange">
               是否开启全局检索
             </el-checkbox>
           </div>
-          <el-table
-            :data="tableData"
-            border
-            v-loading="loading"
-            @selection-change="handleSelectionChange"
-            :header-cell-style="{
+          <el-table :data="tableData" border v-loading="loading" @selection-change="handleSelectionChange" :header-cell-style="{
               background: '#012A4A',
               color: '#fff',
               fontWeight: 'normal',
-            }"
-            max-height="500"
-            class="mt20 table"
-          >
+            }" max-height="500" class="mt20 table">
             <el-table-column type="selection" width="55"></el-table-column>
             <el-table-column prop="de" label="DE号"></el-table-column>
             <el-table-column prop="ataOpen" label="开单ATA"></el-table-column>
@@ -112,10 +89,7 @@
             <el-table-column prop="dateAction" label="日期"></el-table-column>
             <el-table-column prop="description" label="故障描述">
               <template slot-scope="scope">
-                <div
-                  class="colorfont tablefont"
-                  v-html="scope.row.description"
-                ></div>
+                <div class="colorfont tablefont" v-html="scope.row.description"></div>
               </template>
             </el-table-column>
             <el-table-column prop="plannedAction" label="计划措施">
@@ -127,54 +101,29 @@
             </el-table-column>
             <el-table-column prop="action" label="排故措施">
               <template slot-scope="scope">
-                <div
-                  class="colorfont tablefont"
-                  v-html="scope.row.action"
-                ></div>
+                <div class="colorfont tablefont" v-html="scope.row.action"></div>
               </template>
             </el-table-column>
             <el-table-column label="操作" width="330">
               <template slot-scope="scope">
                 <div class="table-btn">
-                  <el-button
-                    size="mini"
-                    @click="lookDe(scope.row)"
-                    class="btnfont"
-                  >
+                  <el-button size="mini" @click="lookDe(scope.row)" class="btnfont">
                     查看DE
                   </el-button>
-                  <el-button
-                    size="mini"
-                    @click="lookDe(scope.row)"
-                    class="btnfont"
-                  >
+                  <el-button size="mini" @click="lookDe(scope.row)" class="btnfont">
                     查看CC
                   </el-button>
-                  <el-button
-                    size="mini"
-                    @click="lookDe(scope.row)"
-                    class="btnfont"
-                  >
+                  <el-button size="mini" @click="lookDe(scope.row)" class="btnfont">
                     查看MR
                   </el-button>
-                  <el-button
-                    size="mini"
-                    @click="collection(scope.row)"
-                    class="btnfont"
-                  >
+                  <el-button size="mini" @click="collection(scope.row)" class="btnfont">
                     收藏
                   </el-button>
                 </div>
               </template>
             </el-table-column>
           </el-table>
-          <pagination
-            :total="total"
-            :pageSize="pageSize"
-            :currentPage="currentPage"
-            @handleSizeChange="handleSizeChange"
-            @handleCurrentChange="handleCurrentChange"
-          />
+          <pagination :total="total" :pageSize="pageSize" :currentPage="currentPage" @handleSizeChange="handleSizeChange" @handleCurrentChange="handleCurrentChange" />
         </el-col>
       </el-row>
       <div class="mt20 mb20" style="padding-right: 20px; float: right">
@@ -187,27 +136,8 @@
       </div>
     </div>
     <!---->
-    <de-details
-      :de="de"
-      :date="date"
-      :open="open"
-      :close="closed"
-      :terminal="terminal"
-      :number="number"
-      :model="model"
-      :fault="faults"
-      :plan="plan"
-      :programme="programme"
-      @closedDialog="closedDialog"
-      ref="child"
-    />
-    <condition
-      ref="conditions"
-      :data="items"
-      :synonym="synonym"
-      @addData="addData"
-      @synonsm="synonsmdata"
-    />
+    <de-details :de="de" :date="date" :open="open" :close="closed" :terminal="terminal" :number="number" :model="model" :fault="faults" :plan="plan" :programme="programme" @closedDialog="closedDialog" ref="child" />
+    <condition ref="conditions" :data="items" :synonym="synonym" @addData="addData" @synonsm="synonsmdata" />
   </div>
 </template>
 

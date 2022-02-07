@@ -5,13 +5,7 @@
         <div class="screenCondition">
           <h2>选择类型</h2>
           <ul>
-            <li
-              class="el-icon-plus"
-              v-for="(item, index) in items"
-              :key="index"
-              @click="toggleShow(index)"
-              :class="item.isshow ? 'current' : ''"
-            >
+            <li class="el-icon-plus" v-for="(item, index) in items" :key="index" @click="toggleShow(index)" :class="item.isshow ? 'current' : ''">
               &nbsp;&nbsp;{{ item.name }}
             </li>
           </ul>
@@ -25,40 +19,15 @@
               <el-col :md="24" :lg="12" :xl="12">
                 <div class="conditionTable">
                   <h4>报告生成记录</h4>
-                  <div
-                    class="conditionTableContent"
-                    style="height: 500px !important"
-                  >
-                    <el-table
-                      :data="reportRecord"
-                      border
-                      row-key="id"
-                      ref="multipleTable"
-                      @selection-change="handleSelectionChange"
-                    >
-                      <el-table-column
-                        type="selection"
-                        width="55"
-                        :selectable="renderSelectable"
-                      ></el-table-column>
-                      <el-table-column
-                        label="生成时间"
-                        prop="date"
-                      ></el-table-column>
-                      <el-table-column
-                        label="报告类型"
-                        prop="reportType"
-                      ></el-table-column>
-                      <el-table-column
-                        label="报告ID"
-                        prop="reportId"
-                      ></el-table-column>
+                  <div class="conditionTableContent" style="height: 500px !important">
+                    <el-table :data="reportRecord" border row-key="id" ref="multipleTable" @selection-change="handleSelectionChange">
+                      <el-table-column type="selection" width="55" :selectable="renderSelectable"></el-table-column>
+                      <el-table-column label="生成时间" prop="date"></el-table-column>
+                      <el-table-column label="报告类型" prop="reportType"></el-table-column>
+                      <el-table-column label="报告ID" prop="reportId"></el-table-column>
                       <el-table-column label="查看报告">
                         <template slot-scope="scope">
-                          <el-button
-                            size="mini"
-                            @click="lookReport(scope.$index)"
-                          >
+                          <el-button size="mini" @click="lookReport(scope.$index)">
                             查看
                           </el-button>
                         </template>
@@ -70,100 +39,43 @@
               <el-col :md="24" :lg="12" :xl="12">
                 <div class="conditionTable">
                   <h4>工单/报告搜索</h4>
-                  <div
-                    class="conditionTableContent"
-                    style="min-height: 500px !important"
-                  >
+                  <div class="conditionTableContent" style="min-height: 500px !important">
                     <el-row>
                       <el-col :span="24">
-                        <span>报告类型： &nbsp;&nbsp;</span
-                        ><el-select v-model="reportType">
-                          <el-option
-                            v-for="(list, index) in todos"
-                            :key="index"
-                            >{{ list }}</el-option
-                          >
+                        <span>报告类型： &nbsp;&nbsp;</span>
+                        <el-select v-model="reportType">
+                          <el-option v-for="(list, index) in todos" :key="index">{{ list }}</el-option>
                         </el-select>
                       </el-col>
                       <el-col :span="24" class="mt20">
                         <span>日期选择：&nbsp;&nbsp;</span>
-                        <el-date-picker
-                          v-model="date"
-                          type="daterange"
-                          range-separator="至"
-                          start-placeholder="开始日期"
-                          end-placeholder="结束日期"
-                        >
+                        <el-date-picker v-model="date" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
                         </el-date-picker>
                       </el-col>
                     </el-row>
                     <div class="tagInput" style="padding-left: 100px">
                       <p>关键词搜索</p>
                       <div class="tagBorder mt20">
-                        <el-tag
-                          :key="tag"
-                          v-for="tag in dynamicTags"
-                          closable
-                          :disable-transitions="false"
-                          @close="handleClose(tag)"
-                        >
+                        <el-tag :key="tag" v-for="tag in dynamicTags" closable :disable-transitions="false" @close="handleClose(tag)">
                           {{ tag }}
                         </el-tag>
-                        <el-autocomplete
-                          class="input-new-tag"
-                          v-model="inputValue"
-                          ref="saveTagInput"
-                          size="small"
-                          @keyup.enter.native="handleInputConfirm"
-                          @blur="handleInputConfirm"
-                          :fetch-suggestions="querySearch"
-                          @select="handleInputConfirm"
-                        >
+                        <el-autocomplete class="input-new-tag" v-model="inputValue" ref="saveTagInput" size="small" @keyup.enter.native="handleInputConfirm" @blur="handleInputConfirm" :fetch-suggestions="querySearch" @select="handleInputConfirm">
                         </el-autocomplete>
                       </div>
                     </div>
                     <div class="reportTable">
-                      <el-input
-                        placeholder="请输入内容"
-                        v-model="searchValue"
-                        class="input-with-select"
-                      >
-                        <el-button
-                          slot="append"
-                          icon="el-icon-search"
-                        ></el-button>
+                      <el-input placeholder="请输入内容" v-model="searchValue" class="input-with-select">
+                        <el-button slot="append" icon="el-icon-search"></el-button>
                       </el-input>
 
-                      <el-table
-                        :data="reportData"
-                        border
-                        ref="listdata"
-                        row-key="id"
-                        @selection-change="handleSelectionChange1"
-                      >
-                        <el-table-column
-                          type="selection"
-                          width="55"
-                          :selectable="renderSelectable"
-                        ></el-table-column>
-                        <el-table-column
-                          label="生成时间"
-                          prop="date"
-                        ></el-table-column>
-                        <el-table-column
-                          label="报告类型"
-                          prop="reportType"
-                        ></el-table-column>
-                        <el-table-column
-                          label="报告Id"
-                          prop="reportId"
-                        ></el-table-column>
+                      <el-table :data="reportData" border ref="listdata" row-key="id" @selection-change="handleSelectionChange1">
+                        <el-table-column type="selection" width="55" :selectable="renderSelectable"></el-table-column>
+                        <el-table-column label="生成时间" prop="date"></el-table-column>
+                        <el-table-column label="报告类型" prop="reportType"></el-table-column>
+                        <el-table-column label="报告Id" prop="reportId"></el-table-column>
                         <el-table-column label="查看报告">
                           <template slot-scope="scope">
-                            <el-button
-                              size="mini"
-                              @click="lookReport(scope.$index)"
-                            >
+                            <el-button size="mini" @click="lookReport(scope.$index)">
                               查看
                             </el-button>
                           </template>
@@ -189,8 +101,7 @@
                 <li v-for="(list, index) in lists" :key="index">
                   <div class="name">
                     {{ list.reportType }}
-                    <i class="el-icon-close" @click="deltel(index)"></i
-                    ><i class="el-icon-edit"></i>
+                    <i class="el-icon-close" @click="deltel(index)"></i><i class="el-icon-edit"></i>
                   </div>
                   <p>{{ list.reportId }}</p>
                 </li>
@@ -202,10 +113,7 @@
                   </el-button>
                 </el-col>
                 <el-col :span="12">
-                  <el-button
-                    class="icon iconfont icon-download btn submit"
-                    @click="download"
-                  >
+                  <el-button class="icon iconfont icon-download btn submit" @click="download">
                     &nbsp;&nbsp;下载
                   </el-button>
                 </el-col>
@@ -215,20 +123,9 @@
         </div>
       </el-col>
     </el-row>
-    <el-dialog
-      title="预览"
-      :visible.sync="dialogVisible"
-      width="40%"
-      :close-on-click-modal="false"
-      id="pdf"
-    >
+    <el-dialog title="预览" :visible.sync="dialogVisible" width="40%" :close-on-click-modal="false" id="pdf">
       <div>
-        <img
-          v-for="(item, index) in imgs"
-          :src="item"
-          :key="index"
-          width="50%"
-        />
+        <img v-for="(item, index) in imgs" :src="item" :key="index" width="50%" />
       </div>
     </el-dialog>
   </div>

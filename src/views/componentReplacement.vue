@@ -9,24 +9,10 @@
               <li>
                 <h5>飞机编号</h5>
                 <div class="tagBorder">
-                  <el-tag
-                    :key="tag"
-                    v-for="tag in ariNumber"
-                    closable
-                    :disable-transitions="false"
-                    @close="handleClose(tag)"
-                  >
+                  <el-tag :key="tag" v-for="tag in ariNumber" closable :disable-transitions="false" @close="handleClose(tag)">
                     {{ tag }}
                   </el-tag>
-                  <el-input
-                    class="input-new-tag"
-                    v-model="inputValue"
-                    ref="saveTagInput"
-                    size="small"
-                    @keyup.enter.native="handleInputConfirm"
-                    :fetch-suggestions="querySearch"
-                    @select="handleInputConfirm"
-                  >
+                  <el-input class="input-new-tag" v-model="inputValue" ref="saveTagInput" size="small" @keyup.enter.native="handleInputConfirm" :fetch-suggestions="querySearch" @select="handleInputConfirm">
                   </el-input>
                   <!-- <el-autocomplete
                     class="input-new-tag"
@@ -43,13 +29,7 @@
               <li>
                 <h5>部件名</h5>
                 <div class="tagBorder">
-                  <el-tag
-                    :key="tag"
-                    v-for="tag in names"
-                    closable
-                    :disable-transitions="false"
-                    @close="handleClose1(tag)"
-                  >
+                  <el-tag :key="tag" v-for="tag in names" closable :disable-transitions="false" @close="handleClose1(tag)">
                     {{ tag }}
                   </el-tag>
                   <!-- <el-autocomplete
@@ -62,40 +42,17 @@
                     @select="handleInputConfirm1"
                   >
                   </el-autocomplete> -->
-                  <el-input
-                    class="input-new-tag"
-                    v-model="inputValue1"
-                    ref="saveTagInput"
-                    size="small"
-                    @keyup.enter.native="handleInputConfirm1"
-                    :fetch-suggestions="querySearch1"
-                    @select="handleInputConfirm1"
-                  >
+                  <el-input class="input-new-tag" v-model="inputValue1" ref="saveTagInput" size="small" @keyup.enter.native="handleInputConfirm1" :fetch-suggestions="querySearch1" @select="handleInputConfirm1">
                   </el-input>
                 </div>
               </li>
               <li>
                 <h5>部件号（PN）</h5>
                 <div class="tagBorder">
-                  <el-tag
-                    :key="tag"
-                    v-for="tag in dynamicTags"
-                    closable
-                    :disable-transitions="false"
-                    @close="handleClose2(tag)"
-                  >
+                  <el-tag :key="tag" v-for="tag in dynamicTags" closable :disable-transitions="false" @close="handleClose2(tag)">
                     {{ tag }}
                   </el-tag>
-                  <el-autocomplete
-                    class="input-new-tag"
-                    v-model="inputValue2"
-                    ref="saveTagInput"
-                    size="small"
-                    style="width: 150px !important"
-                    @keyup.enter.native="handleInputConfirm2"
-                    :fetch-suggestions="querySearch2"
-                    @select="handleInputConfirm2"
-                  >
+                  <el-autocomplete class="input-new-tag" v-model="inputValue2" ref="saveTagInput" size="small" style="width: 150px !important" @keyup.enter.native="handleInputConfirm2" :fetch-suggestions="querySearch2" @select="handleInputConfirm2">
                   </el-autocomplete>
                 </div>
               </li>
@@ -121,12 +78,7 @@
           <h2>选择更换部件</h2>
           <div class="programme">
             <el-radio-group v-model="radio" @change="changePn">
-              <el-radio-button
-                :label="index"
-                v-for="(item, index) in pns"
-                :key="index"
-                >PN # {{ item }}</el-radio-button
-              >
+              <el-radio-button :label="index" v-for="(item, index) in pns" :key="index">PN # {{ item }}</el-radio-button>
             </el-radio-group>
             <el-row class="border">
               <el-col :span="12">
@@ -168,27 +120,13 @@
                       </el-col>
                     </el-row>
                   </div>
-                  <el-table
-                    border
-                    :data="tableData"
-                    class="mt20"
-                    ref="multipleTable"
-                    @selection-change="handleSelectionChange"
-                  >
-                    <el-table-column
-                      type="selection"
-                      width="55"
-                    ></el-table-column>
+                  <el-table border :data="tableData" class="mt20" ref="multipleTable" @selection-change="handleSelectionChange">
+                    <el-table-column type="selection" width="55"></el-table-column>
                     <el-table-column label="SN" prop="sn"></el-table-column>
                     <el-table-column label="在机时长" prop="onlineDays">
-                      <template #default="row"
-                        >{{ row.row.onlineDays }}天</template
-                      >
+                      <template #default="row">{{ row.row.onlineDays }}天</template>
                     </el-table-column>
-                    <el-table-column
-                      label="历史更换次数"
-                      prop="historyChangeCount"
-                    >
+                    <el-table-column label="历史更换次数" prop="historyChangeCount">
                     </el-table-column>
                     <el-table-column label="流转信息">
                       <template #default="row">
@@ -206,16 +144,10 @@
                     <h3>部件流转信息展示 <span>beta</span></h3>
                     <!-- <img src="../static/image/img.png" /> -->
                     <div class="pntitle">
-                      <strong>PN#:</strong>{{ pn }}&nbsp;&nbsp;<strong
-                        >SN#:</strong
-                      >{{ sn }}
+                      <strong>PN#:</strong>{{ pn }}&nbsp;&nbsp;<strong>SN#:</strong>{{ sn }}
                     </div>
                     <el-table :data="data" border class="mt20">
-                      <el-table-column
-                        label="更换时间"
-                        prop="changeOnDateTime,changeOffDateTime"
-                        min-width="140"
-                      >
+                      <el-table-column label="更换时间" prop="changeOnDateTime,changeOffDateTime" min-width="140">
                         <template slot-scope="scope">
                           <p class="fonthide">
                             {{ scope.row.changeOnDateTime }}
@@ -223,23 +155,15 @@
                           <p class="fonthide">
                             {{ scope.row.changeOffDateTime }}
                           </p>
-                        </template></el-table-column
-                      >
+                        </template>
+                      </el-table-column>
                       <el-table-column label="在机时长" prop="time">
                         <template slot-scope="scope">
                           {{ scope.row.onlineDays }}
                         </template>
                       </el-table-column>
-                      <el-table-column
-                        label="拆下"
-                        prop="acOff"
-                        width="70"
-                      ></el-table-column>
-                      <el-table-column
-                        label="装上"
-                        prop="acOn"
-                        width="70"
-                      ></el-table-column>
+                      <el-table-column label="拆下" prop="acOff" width="70"></el-table-column>
+                      <el-table-column label="装上" prop="acOn" width="70"></el-table-column>
                       <el-table-column label="CC/MR记录">
                         <template slot-scope="scope">
                           <el-button size="mini" @click="record(scope.row)">
@@ -270,8 +194,7 @@
               <li v-for="(item, index) in items" :key="index">
                 <p>
                   PN# {{ item.pn
-                  }}<i class="el-icon-close" @click="delData(index)"></i
-                  ><i class="el-icon-edit"></i>
+                  }}<i class="el-icon-close" @click="delData(index)"></i><i class="el-icon-edit"></i>
                 </p>
                 <p>SN# {{ item.sn }}</p>
               </li>
@@ -298,20 +221,7 @@
         </div>
       </el-col>
     </el-row>
-    <de-details
-      :de="de"
-      :date="date"
-      :open="open"
-      :close="closed"
-      :terminal="terminal"
-      :number="number"
-      :model="model"
-      :fault="faults"
-      :plan="plan"
-      :programme="programme"
-      @closedDialog="closedDialog"
-      ref="child"
-    />
+    <de-details :de="de" :date="date" :open="open" :close="closed" :terminal="terminal" :number="number" :model="model" :fault="faults" :plan="plan" :programme="programme" @closedDialog="closedDialog" ref="child" />
   </div>
 </template>
 

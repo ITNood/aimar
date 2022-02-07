@@ -9,11 +9,7 @@
           <el-menu-item :index="item.path + '/' + item.children[0].path">
             <template slot="title">
               <!-- 设置icon -->
-              <i
-                v-if="item.children[0].meta.icon"
-                :class="item.children[0].meta.icon"
-                class="icon iconfont"
-              ></i>
+              <i v-if="item.children[0].meta.icon" :class="item.children[0].meta.icon" class="icon iconfont"></i>
               <!-- 菜单名称 -->
               {{ item.children[0].meta.title }}
             </template>
@@ -29,27 +25,18 @@
             {{ item.meta.title }}
           </template>
           <!-- 遍历子菜单 -->
-          <template
-            v-for="(itemChild, indexChild) in item.children"
-            v-if="!itemChild.hidden"
-          >
+          <template v-for="(itemChild, indexChild) in item.children" v-if="!itemChild.hidden">
             <!-- 当发现存在3级或大于3级菜单时,重新遍历当前组件 -->
-            <template
-              v-if="itemChild.children && itemChild.children.length > 0"
-            >
+            <template v-if="itemChild.children && itemChild.children.length > 0">
               <side-meuns :routes="[itemChild]" class="nest-menu"></side-meuns>
             </template>
             <!-- 2级菜单时-->
             <template v-else>
               <router-link :to="item.path + '/' + itemChild.path">
                 <el-menu-item :index="item.path + '/' + itemChild.path">
-                  <i
-                    v-if="itemChild.meta.icon"
-                    class="icon iconfont"
-                    :class="itemChild.meta.icon"
-                  ></i>
-                  {{ itemChild.meta.title }}</el-menu-item
-                >
+                  <i v-if="itemChild.meta.icon" class="icon iconfont" :class="itemChild.meta.icon"></i>
+                  {{ itemChild.meta.title }}
+                </el-menu-item>
               </router-link>
             </template>
           </template>

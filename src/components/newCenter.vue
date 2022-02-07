@@ -9,20 +9,15 @@
               <div class="newstitle">维修通知</div>
               <ul class="newscenterlist">
                 <li v-for="(item, index) in news" :key="index">
-                  <router-link
-                    to=""
-                    :style="{ color: item.read == 1 ? '#666' : '' }"
-                  >
-                    <i
-                      :style="{
+                  <router-link to="" :style="{ color: item.read == 1 ? '#666' : '' }">
+                    <i :style="{
                         'background-color':
                           item.warning == 1
                             ? 'red'
                             : item.warning == 2
                             ? '#F59A23'
                             : '#03BF16',
-                      }"
-                    ></i>
+                      }"></i>
                     <span>{{ item.read == 1 ? "[已读]" : "[未读]" }}</span>
                     <p>{{ item.text }}</p>
                   </router-link>
@@ -34,12 +29,7 @@
             <div class="tips">
               <div class="newstitle">监控提醒</div>
               <div class="tipslist">
-                <router-link
-                  to=""
-                  v-for="(item, index) in tips"
-                  :key="index"
-                  :style="{ color: item.read == 1 ? '#666' : '' }"
-                >
+                <router-link to="" v-for="(item, index) in tips" :key="index" :style="{ color: item.read == 1 ? '#666' : '' }">
                   <span>{{ item.read == 1 ? "[已读]" : "[未读]" }}</span>
                   <p>{{ item.text }}</p>
                 </router-link>
@@ -48,12 +38,7 @@
             <div class="emaillist">
               <div class="newstitle">站内信</div>
               <div class="tipslist">
-                <router-link
-                  to=""
-                  v-for="(item, index) in message"
-                  :key="index"
-                  :style="{ color: item.read == 1 ? '#666' : '' }"
-                >
+                <router-link to="" v-for="(item, index) in message" :key="index" :style="{ color: item.read == 1 ? '#666' : '' }">
                   <span>{{ item.read == 1 ? "[已读]" : "[未读]" }}</span>
                   <p>{{ item.text }}</p>
                 </router-link>
