@@ -106,17 +106,17 @@
 </template>
 
 <script>
-import pagination from "../components/pagination.vue";
+import pagination from '../components/pagination.vue';
 export default {
   components: { pagination },
   data() {
     return {
-      text: "",
+      text: '',
       total: 10,
       checkedNumber: 0,
-      startChapter: "12:飞机维修",
-      endChapter: "16:维修结果",
-      listChapter: "36:就殴打Jodi",
+      startChapter: '12:飞机维修',
+      endChapter: '16:维修结果',
+      listChapter: '36:就殴打Jodi',
       radio: 3,
       checked: false,
       tableData: [
@@ -124,10 +124,10 @@ export default {
           id: 2641654,
           start: 5454,
           end: 8548,
-          date: "2021-12-13",
-          text: "dadgasgas",
-          plan: "deadagasg",
-          measures: "dasgasgsagdgas",
+          date: '2021-12-13',
+          text: 'dadgasgas',
+          plan: 'deadagasg',
+          measures: 'dasgasgsagdgas',
         },
       ],
       multipleSelection: [],
@@ -136,7 +136,7 @@ export default {
       currentPage: 1,
 
       dynamicTags: [],
-      inputValue: "",
+      inputValue: '',
       restaurants: [],
     };
   },
@@ -173,7 +173,7 @@ export default {
         this.dynamicTags.push(inputValue);
         console.log(this.dynamicTags);
       }
-      this.inputValue = "";
+      this.inputValue = '';
     },
     querySearch(queryString, cb) {
       var restaurants = this.restaurants;
@@ -193,21 +193,21 @@ export default {
     },
     loadAll() {
       return [
-        { value: "三全鲜食（北新泾店）", address: "长宁区新渔路144号" },
+        { value: '三全鲜食（北新泾店）', address: '长宁区新渔路144号' },
         {
-          value: "Hot honey 首尔炸鸡（仙霞路）",
-          address: "上海市长宁区淞虹路661号",
+          value: 'Hot honey 首尔炸鸡（仙霞路）',
+          address: '上海市长宁区淞虹路661号',
         },
         {
-          value: "新旺角茶餐厅",
-          address: "上海市普陀区真北路988号创邑金沙谷6号楼113",
+          value: '新旺角茶餐厅',
+          address: '上海市普陀区真北路988号创邑金沙谷6号楼113',
         },
-        { value: "泷千家(天山西路店)", address: "天山西路438号" },
+        { value: '泷千家(天山西路店)', address: '天山西路438号' },
         {
-          value: "胖仙女纸杯蛋糕（上海凌空店）",
-          address: "上海市长宁区金钟路968号1幢18号楼一层商铺18-101",
+          value: '胖仙女纸杯蛋糕（上海凌空店）',
+          address: '上海市长宁区金钟路968号1幢18号楼一层商铺18-101',
         },
-        { value: "贡茶", address: "上海市长宁区金钟路633号" },
+        { value: '贡茶', address: '上海市长宁区金钟路633号' },
       ];
     },
   },
