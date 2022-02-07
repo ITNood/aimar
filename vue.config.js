@@ -22,7 +22,7 @@ module.exports = {
   devServer: {
     //局域网访问
     host: '10.17.10.77', //host改成自己的IP
-    port: 8080,
+    port: 8080,//端口
     overlay: {
       warning: false,
       errors: false

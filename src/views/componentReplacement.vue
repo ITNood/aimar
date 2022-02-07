@@ -544,9 +544,9 @@ export default {
       cb(results);
     },
     querySearch1(queryString, cb) {
-      var restaurants = this.restaurants2;
+      var restaurants = this.restaurants1;
       var results = queryString
-        ? restaurants.filter(this.createFilter1(queryString))
+        ? restaurants.filter(this.createFilter(queryString))
         : restaurants;
       // 调用 callback 返回建议列表的数据
       cb(results);
@@ -554,28 +554,12 @@ export default {
     querySearch2(queryString, cb) {
       var restaurants = this.restaurants2;
       var results = queryString
-        ? restaurants.filter(this.createFilter2(queryString))
+        ? restaurants.filter(this.createFilter(queryString))
         : restaurants;
       // 调用 callback 返回建议列表的数据
       cb(results);
     },
     createFilter(queryString) {
-      return (restaurant) => {
-        return (
-          restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) ===
-          0
-        );
-      };
-    },
-    createFilter1(queryString) {
-      return (restaurant) => {
-        return (
-          restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) ===
-          0
-        );
-      };
-    },
-    createFilter2(queryString) {
       return (restaurant) => {
         return (
           restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) ===
