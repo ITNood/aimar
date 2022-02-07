@@ -169,27 +169,27 @@
 </template>
 
 <script>
-import solution from "../solutiongraph";
-import * as echarts from "echarts";
-import api from "../API/index";
-import deDetails from "../components/deDetails.vue";
-import Opentable from "../components/opentable.vue";
-import Basis from "../components/basis.vue";
-import pdf from "../components/previewPf.vue";
+import solution from '../solutiongraph';
+import * as echarts from 'echarts';
+import api from '../API/index';
+import deDetails from '../components/deDetails.vue';
+import Opentable from '../components/opentable.vue';
+import Basis from '../components/basis.vue';
+import pdf from '../components/previewPf.vue';
 export default {
   components: { deDetails, Opentable, Basis, pdf },
   data() {
     return {
       items: [],
-      radio: "0",
-      reference: "",
-      target: "",
-      fault: "",
-      action: "",
-      probability: "",
+      radio: '0',
+      reference: '',
+      target: '',
+      fault: '',
+      action: '',
+      probability: '',
       des: [],
       lists: [],
-      solutionProbability: "",
+      solutionProbability: '',
       result: [],
       SolutionMEL: false,
       todos: [],
@@ -197,57 +197,57 @@ export default {
       arrs: [],
       show: false,
       //DE详情
-      de: "",
-      date: "",
+      de: '',
+      date: '',
       open: 0,
       closed: 0,
-      terminal: "",
-      number: "",
-      model: "",
-      faults: "",
-      plan: "",
-      programme: "",
-      chatnumber: "",
+      terminal: '',
+      number: '',
+      model: '',
+      faults: '',
+      plan: '',
+      programme: '',
+      chatnumber: '',
       melDe: [],
-      option1: "",
-      option2: "",
+      option1: '',
+      option2: '',
       newdata: [],
       objects: [],
       tabnumber: 0,
       tables: [
         {
-          type: "工具",
-          name: "和第哦啊和",
-          pieceNumber: "65969",
+          type: '工具',
+          name: '和第哦啊和',
+          pieceNumber: '65969',
           number: 4654,
           stock: 64564,
-          otherStock: "daskdhoioh ",
+          otherStock: 'daskdhoioh ',
         },
       ],
-      title: "",
-      headName: "",
-      type: "737",
-      updateDate: "2021-12-12",
-      manual: "SDSDA",
-      chapter: "34-45",
-      keyword: "dafa;dadfads;faddfas;",
-      part: "dafasf",
-      page: "AAA",
-      section: "DDD",
-      notestext: "SDADAJKSDOJFOSAFOAHSFOISHAFOSFHSAIFOHSDFOIDSHFODISAFHIOA",
+      title: '',
+      headName: '',
+      type: '737',
+      updateDate: '2021-12-12',
+      manual: 'SDSDA',
+      chapter: '34-45',
+      keyword: 'dafa;dadfads;faddfas;',
+      part: 'dafasf',
+      page: 'AAA',
+      section: 'DDD',
+      notestext: 'SDADAJKSDOJFOSAFOAHSFOISHAFOSFHSAIFOHSDFOIDSHFODISAFHIOA',
       data: [
-        { picture_image: require("../static/pdf/3445_1.png") },
-        { picture_image: require("../static/pdf/3445_2.png") },
-        { picture_image: require("../static/pdf/3445_3.png") },
-        { picture_image: require("../static/pdf/3445_4.png") },
-        { picture_image: require("../static/pdf/3445_5.png") },
+        { picture_image: require('../static/pdf/3445_1.png') },
+        { picture_image: require('../static/pdf/3445_2.png') },
+        { picture_image: require('../static/pdf/3445_3.png') },
+        { picture_image: require('../static/pdf/3445_4.png') },
+        { picture_image: require('../static/pdf/3445_5.png') },
       ],
       img: [
-        { img: require("../static/pdf/3445_1.png") },
-        { img: require("../static/pdf/3445_2.png") },
-        { img: require("../static/pdf/3445_3.png") },
-        { img: require("../static/pdf/3445_4.png") },
-        { img: require("../static/pdf/3445_5.png") },
+        { img: require('../static/pdf/3445_1.png') },
+        { img: require('../static/pdf/3445_2.png') },
+        { img: require('../static/pdf/3445_3.png') },
+        { img: require('../static/pdf/3445_4.png') },
+        { img: require('../static/pdf/3445_5.png') },
       ],
       isData: false,
     };
@@ -257,7 +257,7 @@ export default {
     this.getdata();
   },
   mounted() {
-    const number = "2151";
+    const number = '2151';
     const nodes = solution[number].nodes;
     const name = solution[number].categories.map((a) => {
       return a.name;
@@ -348,7 +348,7 @@ export default {
     },
     //获取缓存
     getCacheData() {
-      this.items = JSON.parse(localStorage.getItem("listData"));
+      this.items = JSON.parse(localStorage.getItem('listData'));
     },
     getdata() {
       if (this.items) {
@@ -421,16 +421,16 @@ export default {
     //清空
     clean() {
       if (this.arrs.length > 0) {
-        this.$confirm("确定要清空已选方案 ?", "提示", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning",
+        this.$confirm('确定要清空已选方案 ?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning',
         })
           .then(() => {
             this.arrs = [];
           })
           .catch(() => {
-            this.$message.info("取消了!!!");
+            this.$message.info('取消了!!!');
           });
       }
     },
@@ -452,7 +452,7 @@ export default {
             this.programme = res.data.action;
             this.closedDialog();
           } else {
-            this.$message.warning("没有数据!!!");
+            this.$message.warning('没有数据!!!');
           }
         })
         .catch((err) => {
@@ -464,7 +464,7 @@ export default {
       this.$refs.child.closeDialog();
     },
     getEcharts(nodes, name, links, categories) {
-      let chartDom = document.getElementById("main");
+      let chartDom = document.getElementById('main');
       let myChart = echarts.init(chartDom);
       let option;
       myChart.showLoading();
@@ -478,8 +478,8 @@ export default {
         title: {
           // text: "Les Miserables",
           // subtext: "Default layout",
-          top: "bottom",
-          left: "right",
+          top: 'bottom',
+          left: 'right',
         },
         tooltip: {},
         legend: [
@@ -488,12 +488,12 @@ export default {
           },
         ],
         animationDuration: 1500,
-        animationEasingUpdate: "quinticInOut",
+        animationEasingUpdate: 'quinticInOut',
         series: [
           {
             // name: "Les Miserables",
-            type: "graph",
-            layout: "none",
+            type: 'graph',
+            layout: 'none',
 
             data: nodes,
             links: links,
@@ -501,15 +501,15 @@ export default {
 
             roam: true,
             label: {
-              position: "inside",
-              formatter: "{b}",
+              position: 'inside',
+              formatter: '{b}',
             },
             lineStyle: {
-              color: "source",
+              color: 'source',
               curveness: 0.3,
             },
             emphasis: {
-              focus: "adjacency",
+              focus: 'adjacency',
               lineStyle: {
                 width: 10,
               },

@@ -14,16 +14,6 @@
                   </el-tag>
                   <el-input class="input-new-tag" v-model="inputValue" ref="saveTagInput" size="small" @keyup.enter.native="handleInputConfirm" :fetch-suggestions="querySearch" @select="handleInputConfirm">
                   </el-input>
-                  <!-- <el-autocomplete
-                    class="input-new-tag"
-                    v-model="inputValue"
-                    ref="saveTagInput"
-                    size="small"
-                    @keyup.enter.native="handleInputConfirm"
-                    :fetch-suggestions="querySearch"
-                    @select="handleInputConfirm"
-                  >
-                  </el-autocomplete> -->
                 </div>
               </li>
               <li>
@@ -32,16 +22,6 @@
                   <el-tag :key="tag" v-for="tag in names" closable :disable-transitions="false" @close="handleClose1(tag)">
                     {{ tag }}
                   </el-tag>
-                  <!-- <el-autocomplete
-                    class="input-new-tag"
-                    v-model="inputValue1"
-                    ref="saveTagInput"
-                    size="small"
-                    @keyup.enter.native="handleInputConfirm1"
-                    :fetch-suggestions="querySearch1"
-                    @select="handleInputConfirm1"
-                  >
-                  </el-autocomplete> -->
                   <el-input class="input-new-tag" v-model="inputValue1" ref="saveTagInput" size="small" @keyup.enter.native="handleInputConfirm1" :fetch-suggestions="querySearch1" @select="handleInputConfirm1">
                   </el-input>
                 </div>
@@ -226,20 +206,20 @@
 </template>
 
 <script>
-import api from "../API/index";
-import deDetails from "../components/deDetails.vue";
+import api from '../API/index';
+import deDetails from '../components/deDetails.vue';
 export default {
   components: { deDetails },
   data() {
     return {
-      sn: "",
+      sn: '',
       ariNumber: [],
       names: [],
-      radio: "0",
+      radio: '0',
       dynamicTags: [],
-      inputValue: "",
-      inputValue1: "",
-      inputValue2: "",
+      inputValue: '',
+      inputValue1: '',
+      inputValue2: '',
       restaurants: [],
       restaurants2: [],
       restaurants1: [],
@@ -252,29 +232,29 @@ export default {
       checked2: false,
       checked3: false,
       pns: [],
-      pn: "",
-      replacePercent: "",
-      percent: "",
-      averageDate: "",
-      onlineDate: "",
-      replacePn: "",
-      pnName: "",
-      isonline: "",
+      pn: '',
+      replacePercent: '',
+      percent: '',
+      averageDate: '',
+      onlineDate: '',
+      replacePn: '',
+      pnName: '',
+      isonline: '',
       multipleSelection: [],
-      getPn: "",
+      getPn: '',
       result: [],
       //DE详情
-      de: "",
-      date: "",
+      de: '',
+      date: '',
       open: 0,
       closed: 0,
-      terminal: "",
-      number: "",
-      model: "",
-      faults: "",
-      plan: "",
-      programme: "",
-      chatnumber: "",
+      terminal: '',
+      number: '',
+      model: '',
+      faults: '',
+      plan: '',
+      programme: '',
+      chatnumber: '',
     };
   },
   created() {},
@@ -339,12 +319,12 @@ export default {
       if (data.replacePn) {
         this.replacePn = data.replacePn.join();
       } else {
-        this.replacePn = "";
+        this.replacePn = '';
       }
       if (data.pnOnline == true) {
-        this.isonline = "是";
+        this.isonline = '是';
       } else {
-        this.isonline = "否";
+        this.isonline = '否';
       }
       this.tableData = data.snList;
       this.data = data.snList[0].snChangeDetail;
@@ -359,7 +339,7 @@ export default {
         pnNames: this.names,
       };
       api
-        .post("/ccDeInfo/merged/de", data)
+        .post('/ccDeInfo/merged/de', data)
         .then((res) => {
           if (res.data && res.data.length > 0) {
             this.result = res.data;
@@ -378,29 +358,29 @@ export default {
             if (data.replacePn) {
               this.replacePn = data.replacePn.join();
             } else {
-              this.replacePn = "";
+              this.replacePn = '';
             }
             if (data.pnOnline == true) {
-              this.isonline = "是";
+              this.isonline = '是';
             } else {
-              this.isonline = "否";
+              this.isonline = '否';
             }
             this.tableData = data.snList;
             this.data = data.snList[0].snChangeDetail;
             this.sn = data.snList[0].sn;
           } else {
             this.result = [];
-            this.pn = "";
+            this.pn = '';
             // this.replacePercent = data.oyfp;
-            this.onlineDate = "";
-            this.averageDate = "";
-            this.percent = "";
-            this.pnName = "";
-            this.replacePn = "";
-            this.isonline = "";
-            this.tableData = "";
+            this.onlineDate = '';
+            this.averageDate = '';
+            this.percent = '';
+            this.pnName = '';
+            this.replacePn = '';
+            this.isonline = '';
+            this.tableData = '';
             this.data = [];
-            this.sn = "";
+            this.sn = '';
           }
         })
         .catch((err) => {
@@ -428,14 +408,14 @@ export default {
       if (inputValue) {
         this.ariNumber.push(inputValue);
       }
-      this.inputValue = "";
+      this.inputValue = '';
     },
     handleInputConfirm1() {
       let inputValue = this.inputValue1;
       if (inputValue) {
         this.names.push(inputValue);
       }
-      this.inputValue1 = "";
+      this.inputValue1 = '';
     },
     handleInputConfirm2() {
       let inputValue = this.inputValue2;
@@ -443,7 +423,7 @@ export default {
         this.dynamicTags.push(inputValue);
         this.dynamicTags = [...new Set(this.dynamicTags)];
       }
-      this.inputValue2 = "";
+      this.inputValue2 = '';
     },
     querySearch(queryString, cb) {
       var restaurants = this.restaurants;
@@ -479,35 +459,35 @@ export default {
     },
     loadAll() {
       return [
-        { value: "109-9554304" },
+        { value: '109-9554304' },
         {
-          value: "1-11-3802",
+          value: '1-11-3802',
         },
         {
-          value: "30-0000A3031",
+          value: '30-0000A3031',
         },
-        { value: "542-6242511" },
+        { value: '542-6242511' },
         {
-          value: "102-8787-226",
+          value: '102-8787-226',
         },
-        { value: "10-20-101471" },
+        { value: '10-20-101471' },
         {
-          value: "1MNA143H",
-        },
-        {
-          value: "AA10-27991-3604",
+          value: '1MNA143H',
         },
         {
-          value: "100-4045-228",
+          value: 'AA10-27991-3604',
         },
         {
-          value: "8-3911063",
+          value: '100-4045-228',
         },
         {
-          value: "500-5726-297",
+          value: '8-3911063',
         },
         {
-          value: "1-0577163",
+          value: '500-5726-297',
+        },
+        {
+          value: '1-0577163',
         },
       ];
     },
