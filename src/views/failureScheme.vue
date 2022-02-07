@@ -324,7 +324,6 @@ export default {
       newdata: [],
       objects: [],
       tabnumber: 0,
-
       tables: [
         {
           type: "工具",
