@@ -273,7 +273,6 @@ export default {
       api
         .get(`/DeRecord/by/id/${de}`)
         .then((res) => {
-          console.log(res);
           this.date = res.data.dateAction;
           this.open = res.data.ataOpen;
           this.closed = res.data.ataClose;

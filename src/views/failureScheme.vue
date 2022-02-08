@@ -68,9 +68,7 @@
                             <div class="listleft">
                               <p>
                                 依据
-                                <span @click="basis">{{
-                                  item.reference.join()
-                                }}</span>；
+                                <span @click="basis">{{item.reference.join()}}</span>；
                               </p>
                               <p>
                                 执行
@@ -89,32 +87,24 @@
                           <el-col :span="8">
                             <div class="listleft special">
                               <p>
-                                <i :class="item.color1 == 0? 'classA': item.color1 == 1? 'classB': 'classC'"></i>
+                                <i :class="item.color1 == 0 ? 'classA': item.color1 == 1? 'classB': 'classC'"></i>
                                 维修 Kit #
-                                <span @click="openTable(item.name)">{{
-                                  item.name
-                                }}</span>
+                                <span @click="openTable(item.name)">{{item.name}}</span>
                               </p>
                               <p>
-                                <i :class="
-                                    item.color2 == 0
-                                      ? 'classA'
-                                      : item.color2 == 1
-                                      ? 'classB'
-                                      : 'classC'
-                                  "></i>
+                                <i :class="item.color2 == 0 ? 'classA': item.color2 == 1? 'classB': 'classC'"></i>
                                 工具：<span v-for="(tool, index) in item.toolPnList" :key="index" @click="openTable(tool)">{{ tool }};
                                 </span>
                                 <span v-if="obj.solutions[index].istool == true" @click="moreTool(index)">...</span>
                               </p>
                               <p>
-                                <i :class="item.color3 == 0? 'classA': item.color3 == 1? 'classB': 'classC'"></i>
+                                <i :class="item.color3 == 0 ? 'classA': item.color3 == 1? 'classB': 'classC'"></i>
                                 主件：<span v-for="(part, index) in item.mainPnList" :key="index" @click="openTable(part)">{{ part }};
                                 </span>
                                 <span v-if="obj.solutions[index].ismain == true" @click="moreMain(index)">...</span>
                               </p>
                               <p>
-                                <i :class="item.color4 == 0? 'classA': item.color4 == 1? 'classB': 'classC'"></i>
+                                <i :class="item.color4 == 0 ? 'classA': item.color4 == 1? 'classB': 'classC'"></i>
                                 辅件：<span v-for="(acce, index) in item.supportPnList" :key="index" @click="openTable(acce)">{{ acce }};
                                 </span>
                                 <span v-if="obj.solutions[index].issupport == true" @click="moreSupport(index)">...</span>
