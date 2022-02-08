@@ -24,7 +24,6 @@ const test = () => import('../views/test')
 
 const data = () => import('@/views/data')
 
-
 // 解决ElementUI导航栏中的vue-router在3.0版本以上重复点菜单报错问题
 const originalPush = Router.prototype.push
 Router.prototype.push = function push(location) {
@@ -210,7 +209,6 @@ export const fixedRouter = [{
       roles: ['user', 'admin'],
     }
   }],
-
 },
 // {
 //   path: '',

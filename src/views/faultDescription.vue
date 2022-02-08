@@ -100,17 +100,17 @@
 </template>
 
 <script>
-import pagination from "../components/pagination.vue";
+import pagination from '../components/pagination.vue';
 export default {
   components: { pagination },
   data() {
     return {
-      text: "",
+      text: '',
       total: 10,
       checkedNumber: 0,
-      startChapter: "12:飞机维修",
-      endChapter: "16:维修结果",
-      listChapter: "36:就殴打Jodi",
+      startChapter: '12:飞机维修',
+      endChapter: '16:维修结果',
+      listChapter: '36:就殴打Jodi',
       radio: 3,
       checked: false,
       tableData: [
@@ -118,10 +118,10 @@ export default {
           id: 2641654,
           start: 5454,
           end: 8548,
-          date: "2021-12-13",
-          text: "dadgasgas",
-          plan: "deadagasg",
-          measures: "dasgasgsagdgas",
+          date: '2021-12-13',
+          text: 'dadgasgas',
+          plan: 'deadagasg',
+          measures: 'dasgasgsagdgas',
         },
       ],
       multipleSelection: [],
