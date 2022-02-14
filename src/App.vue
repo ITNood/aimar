@@ -11,6 +11,4 @@
   -moz-osx-font-smoothing: grayscale;
 }
 </style>
-<script>
-</script>
 

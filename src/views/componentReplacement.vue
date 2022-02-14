@@ -12,7 +12,7 @@
                   <el-tag :key="tag" v-for="tag in ariNumber" closable :disable-transitions="false" @close="handleClose(tag)">
                     {{ tag }}
                   </el-tag>
-                  <el-input class="input-new-tag" v-model="inputValue" ref="saveTagInput" size="small" @keyup.enter.native="handleInputConfirm" :fetch-suggestions="querySearch" @select="handleInputConfirm">
+                  <el-input class="input-new-tag" v-model="inputValue" size="small" @keyup.enter.native="handleInputConfirm" :fetch-suggestions="querySearch" @select="handleInputConfirm">
                   </el-input>
                 </div>
               </li>
@@ -22,7 +22,7 @@
                   <el-tag :key="tag" v-for="tag in names" closable :disable-transitions="false" @close="handleClose1(tag)">
                     {{ tag }}
                   </el-tag>
-                  <el-input class="input-new-tag" v-model="inputValue1" ref="saveTagInput" size="small" @keyup.enter.native="handleInputConfirm1" :fetch-suggestions="querySearch1" @select="handleInputConfirm1">
+                  <el-input class="input-new-tag" v-model="inputValue1" size="small" @keyup.enter.native="handleInputConfirm1" :fetch-suggestions="querySearch1" @select="handleInputConfirm1">
                   </el-input>
                 </div>
               </li>
@@ -32,7 +32,7 @@
                   <el-tag :key="tag" v-for="tag in dynamicTags" closable :disable-transitions="false" @close="handleClose2(tag)">
                     {{ tag }}
                   </el-tag>
-                  <el-autocomplete class="input-new-tag" v-model="inputValue2" ref="saveTagInput" size="small" style="width: 150px !important" @keyup.enter.native="handleInputConfirm2" :fetch-suggestions="querySearch2" @select="handleInputConfirm2">
+                  <el-autocomplete class="input-new-tag" v-model="inputValue2" size="small" @keyup.enter.native="handleInputConfirm2" :fetch-suggestions="querySearch2" @select="handleInputConfirm2" style="width: 150px !important">
                   </el-autocomplete>
                 </div>
               </li>

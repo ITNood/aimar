@@ -6,7 +6,6 @@ import Router from 'vue-router'
 const layout = () => import('@/components/layout')
 // 登录页
 const reload = () => import('@/components/reLoad')
-
 const main = () => import('@/views/index')
 const repairHistory = () => import('../views/repairhistory')
 const integrated = () => import('../views/integrated')

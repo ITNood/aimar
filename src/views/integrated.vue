@@ -221,38 +221,38 @@
 </template>
 
 <script>
-import api from "../API/index";
+import api from '../API/index';
 export default {
   data() {
     return {
       ishide: false,
-      show: false,
+      show: true,
       showAri: true,
       synonym: [],
       disable: false,
       items: [
-        { name: "故障描述", isshow: true },
-        { name: "关键词组", isshow: true },
-        { name: "故障代码", isshow: false },
-        { name: "模糊匹配", isshow: false },
-        { name: "选定飞机", isshow: false },
-        { name: "选定机型", isshow: false },
-        { name: "章节范围", isshow: false },
-        { name: "日期范围", isshow: false },
+        { name: '故障描述', isshow: true },
+        { name: '关键词组', isshow: true },
+        { name: '故障代码', isshow: false },
+        { name: '模糊匹配', isshow: false },
+        { name: '选定飞机', isshow: false },
+        { name: '选定机型', isshow: false },
+        { name: '章节范围', isshow: false },
+        { name: '日期范围', isshow: false },
       ],
       lists: [],
-      text: "",
+      text: '',
       dynamicTags: [],
-      inputValue: "",
+      inputValue: '',
       restaurants: [],
-      start: "",
-      end: "",
+      start: '',
+      end: '',
       value: true,
       value1: 0,
       value2: true,
-      radio: "近一年",
-      checkboxValue: ["COMPONENT", "ALERT", "INDICATOR"],
-      date: "",
+      radio: '近一年',
+      checkboxValue: ['COMPONENT', 'ALERT', 'INDICATOR'],
+      date: '',
       pickerOptions: {
         disabledDate(time) {
           // 禁止选择未来日期（可以选择今天）
@@ -262,26 +262,26 @@ export default {
       addCondition: [],
       //关键词
       keywords: [],
-      keywordValue: "",
+      keywordValue: '',
       //选定机型
       planes: [],
-      planeValue: "",
+      planeValue: '',
       restPlane: [],
       //选定飞机
       airplane: [],
-      ariValue: "",
+      ariValue: '',
       restAri: [],
 
       //故障代码
       codes: [],
-      codeValue: "",
+      codeValue: '',
       restCode: [],
 
       number: 0,
       texts: [
-        "机组反应空中出现TCAS FAIL,复位后正常",
-        "航后机组反应ATC1空中失效",
-        "过站机组反应APU引气压力低，复位引气电门后正常",
+        '机组反应空中出现TCAS FAIL,复位后正常',
+        '航后机组反应ATC1空中失效',
+        '过站机组反应APU引气压力低，复位引气电门后正常',
       ],
     };
   },
@@ -292,13 +292,15 @@ export default {
   },
   mounted() {},
   updated() {
-    const len = this.items.filter((item) => !!item.isshow).length;
-    if (len > 0) {
-      this.show = true;
-    } else {
-      this.show = false;
-    }
-    const data = JSON.parse(localStorage.getItem("ari"));
+    // const len = this.items.filter((item) => !!item.isshow).length;
+    // if (len > 0) {
+    //   //添加按钮显示隐藏
+    //   this.show = true;
+    // } else {
+    //   this.show = false;
+    // }
+    //过滤渲染飞机
+    const data = JSON.parse(localStorage.getItem('ari'));
     const arr = [];
     if (this.airplane.length > 0) {
       this.airplane.forEach((item) => {
@@ -315,7 +317,7 @@ export default {
       });
       let obj = {};
       let peon = newarr.reduce((cur, next) => {
-        obj[next.value] ? "" : (obj[next.value] = true && cur.push(next));
+        obj[next.value] ? '' : (obj[next.value] = true && cur.push(next));
         return cur;
       }, []); //设置cur默认类型为数组，并且初始值为空的数组
       this.restPlane = peon;
@@ -325,22 +327,16 @@ export default {
       });
       let obj = {};
       let peon = planeType.reduce((cur, next) => {
-        obj[next.value] ? "" : (obj[next.value] = true && cur.push(next));
+        obj[next.value] ? '' : (obj[next.value] = true && cur.push(next));
         return cur;
       }, []);
       this.restPlane = peon;
-    }
-    //是否选择飞机，已选择就隐藏输入框
-    if (this.airplane.length > 0) {
-      this.showAri = false;
-    } else {
-      this.showAri = true;
     }
   },
   methods: {
     //初始化赋值
     psuhdata() {
-      this.lists = JSON.parse(localStorage.getItem("listData"));
+      this.lists = JSON.parse(localStorage.getItem('listData'));
       if (this.lists) {
         this.lists.forEach((item) => {
           if (item.id == 0) {
@@ -348,14 +344,14 @@ export default {
           }
           if (item.id == 1) {
             if (item.keyword) {
-              this.keywords = item.keyword.toString().split(",");
+              this.keywords = item.keyword.toString().split(',');
             } else {
               this.keywords = [];
             }
           }
           if (item.id == 2) {
             if (item.text) {
-              this.codes = item.text.toString().split(",");
+              this.codes = item.text.toString().split(',');
             } else {
               this.codes = [];
             }
@@ -368,7 +364,7 @@ export default {
           }
           if (item.id == 5) {
             if (item.airplaneTypes) {
-              this.planes = item.airplaneTypes.toString().split(",");
+              this.planes = item.airplaneTypes.toString().split(',');
             } else {
               this.planes = [];
             }
@@ -385,11 +381,11 @@ export default {
       }
     },
     toggleShow(index) {
-      this.$set(this.items[index], "isshow", !this.items[index].isshow);
+      this.$set(this.items[index], 'isshow', !this.items[index].isshow);
     },
     //关键词checkbox
     selectCheckbox(value) {
-      const keyword = JSON.parse(localStorage.getItem("keyword"));
+      const keyword = JSON.parse(localStorage.getItem('keyword'));
       if (value) {
         const arr = [];
         this.checkboxValue.forEach((item) => {
@@ -424,7 +420,7 @@ export default {
             this.keywords = arr.map((item) => {
               return item.word;
             });
-            localStorage.setItem("keyword", JSON.stringify(res.data));
+            localStorage.setItem('keyword', JSON.stringify(res.data));
             //同义词
             const data = [];
             arr
@@ -437,9 +433,9 @@ export default {
               });
             //判断同义词是否打开，赋值
             if (data) {
-              localStorage.setItem("synonsm", JSON.stringify(data));
+              localStorage.setItem('synonsm', JSON.stringify(data));
             } else {
-              localStorage.removeItem("synonsm");
+              localStorage.removeItem('synonsm');
             }
             if (this.value2 == true) {
               this.synonym = data;
@@ -450,7 +446,7 @@ export default {
           })
           .finally(() => {});
       } else {
-        this.$message.warning("请输入故障描述");
+        this.$message.warning('请输入故障描述');
       }
     },
     clickhere() {
@@ -467,7 +463,7 @@ export default {
 
     //同近义词选择
     synonsm(val) {
-      const data = JSON.parse(localStorage.getItem("synonsm"));
+      const data = JSON.parse(localStorage.getItem('synonsm'));
       if (val == true) {
         this.synonym = data;
       } else {
@@ -489,7 +485,7 @@ export default {
     },
     getdata() {
       api
-        .get("/DeRecord/props")
+        .get('/DeRecord/props')
         .then((res) => {
           //渲染选定飞机
           const data = [...res.data.planesAndTypes].map((item) => {
@@ -497,9 +493,9 @@ export default {
           });
           this.restAri = data;
           if (data) {
-            localStorage.setItem("ari", JSON.stringify(data));
+            localStorage.setItem('ari', JSON.stringify(data));
           } else {
-            localStorage.removeItem("ari");
+            localStorage.removeItem('ari');
           }
           //渲染机型
           if (this.airplane.length < 1) {
@@ -508,7 +504,7 @@ export default {
             });
             let obj = {};
             let peon = planeType.reduce((cur, next) => {
-              obj[next.value] ? "" : (obj[next.value] = true && cur.push(next));
+              obj[next.value] ? '' : (obj[next.value] = true && cur.push(next));
               return cur;
             }, []); //设置cur默认类型为数组，并且初始值为空的数组
             this.restPlane = peon;
@@ -529,13 +525,13 @@ export default {
       this.addCondition = [];
       if (this.items[0].isshow == true) {
         if (this.text) {
-          this.addCondition.push({ name: "故障描述", text: this.text, id: 0 });
+          this.addCondition.push({ name: '故障描述', text: this.text, id: 0 });
         }
       }
       if (this.items[1].isshow == true) {
         if (this.keywords.length > 0) {
           this.addCondition.push({
-            name: "关键词组",
+            name: '关键词组',
             keyword: this.keywords.join(),
             id: 1,
           });
@@ -544,7 +540,7 @@ export default {
       if (this.items[2].isshow == true) {
         if (this.codes.length > 0) {
           this.addCondition.push({
-            name: "故障代码",
+            name: '故障代码',
             text: this.codes.join(),
             id: 2,
           });
@@ -552,7 +548,7 @@ export default {
       }
       if (this.items[3].isshow == true) {
         this.addCondition.push({
-          name: "模糊匹配",
+          name: '模糊匹配',
           value: this.value,
           value1: this.value1,
           value2: this.value2,
@@ -562,7 +558,7 @@ export default {
       if (this.items[4].isshow == true) {
         if (this.airplane.length > 0) {
           this.addCondition.push({
-            name: "选定飞机",
+            name: '选定飞机',
             airplanes: this.airplane.join(),
             id: 4,
           });
@@ -571,7 +567,7 @@ export default {
       if (this.items[5].isshow == true) {
         if (this.planes.length > 0) {
           this.addCondition.push({
-            name: "选定机型",
+            name: '选定机型',
             airplaneTypes: this.planes.join(),
             id: 5,
           });
@@ -580,7 +576,7 @@ export default {
       if (this.items[6].isshow == true) {
         if (this.start || this.end) {
           this.addCondition.push({
-            name: "章节范围",
+            name: '章节范围',
             chapters: this.start,
             sections: this.end,
             id: 6,
@@ -590,7 +586,7 @@ export default {
       if (this.items[7].isshow == true) {
         if (this.date) {
           this.addCondition.push({
-            name: "日期范围",
+            name: '日期范围',
             date: this.radio,
             startDate: this.date[0],
             endDate: this.date[1],
@@ -620,16 +616,16 @@ export default {
     submit() {
       if (this.keyword || (this.lists && this.lists.length)) {
         //存储已选条件
-        localStorage.setItem("listData", JSON.stringify(this.lists));
-        this.$router.push("/searchResult");
+        localStorage.setItem('listData', JSON.stringify(this.lists));
+        this.$router.push('/searchResult');
       } else {
-        this.$message.warning("请输入故障描述!!!");
+        this.$message.warning('请输入故障描述!!!');
       }
     },
     //关键词
     closeKeyword(tag) {
       this.keywords.splice(this.keywords.indexOf(tag), 1);
-      const keyword = JSON.parse(localStorage.getItem("keyword"));
+      const keyword = JSON.parse(localStorage.getItem('keyword'));
       const arr = [];
       this.keywords.map((item) => {
         const data = keyword.filter((e) => {
@@ -637,14 +633,14 @@ export default {
         });
         arr.push(...data);
       });
-      localStorage.setItem("keyword", JSON.stringify(arr));
+      localStorage.setItem('keyword', JSON.stringify(arr));
     },
     handlekeyword() {
       let keywordValue = this.keywordValue;
       if (keywordValue && !this.keywords.includes(keywordValue)) {
         this.keywords.push(keywordValue);
       }
-      this.keywordValue = "";
+      this.keywordValue = '';
     },
     //
     handleClose(tag) {
@@ -656,7 +652,7 @@ export default {
       if (planeValue && !this.planes.includes(planeValue)) {
         this.planes.push(planeValue);
       }
-      this.planeValue = "";
+      this.planeValue = '';
     },
     closePlan(tag) {
       this.planes.splice(this.planes.indexOf(tag), 1);
@@ -683,10 +679,17 @@ export default {
       if (ariValue) {
         this.airplane.push(ariValue);
       }
-      this.ariValue = "";
+      this.ariValue = '';
+      //是否选择飞机，已选择就隐藏输入框
+      if (this.airplane.length > 0) {
+        this.showAri = false;
+      }
     },
     closeAriplane(tag) {
       this.airplane.splice(this.airplane.indexOf(tag), 1);
+      if (this.airplane.length < 1) {
+        this.showAri = true;
+      }
     },
     searchAri(queryString, cb) {
       var restAri = this.restAri;
@@ -711,7 +714,7 @@ export default {
       if (codeValue && !this.codes.includes(codeValue)) {
         this.codes.push(codeValue);
       }
-      this.codeValue = "";
+      this.codeValue = '';
     },
     closeCode(tag) {
       this.codes.splice(this.codes.indexOf(tag), 1);
