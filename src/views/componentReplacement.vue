@@ -84,19 +84,19 @@
                       </el-col>
                       <el-col :md="24" :lg="24" :xl="12">
                         <p>PN平均在机时间：</p>
-                        <p>{{ onlineDate }} 天</p>
+                        <p>{{ onlineDate?onlineDate:0 }} 天</p>
                       </el-col>
                       <el-col :md="24" :lg="24" :xl="12">
                         <p>PN平均在机时间({{ pn }})：</p>
-                        <p>{{ averageDate }} 天</p>
+                        <p> {{ averageDate?averageDate:'0' }} 天</p>
                       </el-col>
                       <el-col :md="24" :lg="24" :xl="12">
                         <p>PN故障概率：</p>
-                        <p>{{ percent }}%</p>
+                        <p>{{ percent?percent:0 }}%</p>
                       </el-col>
                       <el-col :md="24" :lg="24" :xl="12">
                         <p>PN更换排故概率：</p>
-                        <p>{{ replacePercent }}%</p>
+                        <p>{{ replacePercent?replacePercent:0 }}%</p>
                       </el-col>
                     </el-row>
                   </div>

@@ -59,10 +59,10 @@
         <el-footer id="footer" height="100px">
           <p>
             Aircraft Maintenance Recommender System · AiMaR ·
-            机务维修决策辅助推荐系统 · V.7.0.1 · DEMO
+            机务维修决策辅助推荐系统 · V.7.2.0 · DEMO
           </p>
           <p>
-            Artifactor Technology © Copyright Reserved. | 2019 - 2021 |
+            Artifactor Technology © Copyright Reserved. | 2019 - 2022 |
             智因科技（深圳）有限公司 © 版权所有
           </p>
         </el-footer>
@@ -72,21 +72,21 @@
 </template>
 <script>
 // 左侧菜单组件
-import sideMeuns from "@/components/sideMeuns";
-import { mapActions, mapGetters } from "vuex";
+import sideMeuns from '@/components/sideMeuns';
+import { mapActions, mapGetters } from 'vuex';
 export default {
   components: {
     sideMeuns,
   },
   data() {
     return {
-      userRole: "Topest",
+      userRole: 'Topest',
       isCollapse: false,
       total: 3,
       total2: 3,
       total3: 3,
-      search: "",
-      title: "",
+      search: '',
+      title: '',
       tags: [],
     };
   },
@@ -100,11 +100,11 @@ export default {
 
       this.title = newValue.meta.title;
       if (
-        newValue.fullPath !== "/searchResult" &&
-        newValue.fullPath !== "/integrated" &&
-        newValue.fullPath !== "/failureScheme"
+        newValue.fullPath !== '/searchResult' &&
+        newValue.fullPath !== '/integrated' &&
+        newValue.fullPath !== '/failureScheme'
       ) {
-        localStorage.removeItem("listData");
+        localStorage.removeItem('listData');
       }
     },
   },
@@ -112,13 +112,13 @@ export default {
     this.setTags(this.$route);
   },
   computed: {
-    ...mapGetters(["getrouterList"]),
+    ...mapGetters(['getrouterList']),
     getRoutes() {
       return global.antRouter;
     },
   },
   methods: {
-    ...mapActions(["addRouter", "deleteRouter"]),
+    ...mapActions(['addRouter', 'deleteRouter']),
     tabs(path) {
       this.$router.push(path);
     },
@@ -130,7 +130,7 @@ export default {
           (item) => item.title === tag.title
         );
         if (index === -1) {
-          this.$router.push({ title: "总控制台" });
+          this.$router.push({ title: '总控制台' });
         } else if (this.$route.path === tag.path) {
           if (index === this.getrouterList.length - 1) {
             // 最后一个 往前一个挪
@@ -141,7 +141,7 @@ export default {
           }
         }
       } else {
-        this.$router.push({ title: "总控制台" });
+        this.$router.push({ title: '总控制台' });
       }
       this.deleteRouter(tag.title);
     },
@@ -154,7 +154,7 @@ export default {
           title: route.meta.title, //标签名
           path: route.fullPath, //路由
           current: false,
-          clearclose: !(route.meta.title == "总控制台"),
+          clearclose: !(route.meta.title == '总控制台'),
         });
       }
       //tag标签对应当前路由背景色
@@ -168,17 +168,17 @@ export default {
     },
     //退出系统
     outSystem() {
-      this.$confirm("是否退出登录？", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning",
+      this.$confirm('是否退出登录？', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
       })
         .then(() => {
-          localStorage.removeItem("Token");
-          this.$router.push("/");
+          localStorage.removeItem('Token');
+          this.$router.push('/');
         })
         .catch(() => {
-          console.log("没有退出登录状态！！！");
+          console.log('没有退出登录状态！！！');
         });
     },
   },
@@ -220,7 +220,7 @@ export default {
   clear: both;
   display: block;
   overflow: visible;
-  content: "";
+  content: '';
 }
 /*wapper*/
 .app_wapper {

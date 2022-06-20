@@ -32,10 +32,10 @@
 </template>
 
 <script>
-import flipPage from "vue-flip-page";
+import flipPage from 'vue-flip-page';
 export default {
   components: { flipPage },
-  name: "Basis",
+  name: 'Basis',
   props: {
     headName: String,
     type: String,
@@ -70,7 +70,7 @@ export default {
       } else {
         this.currentIndex = 0;
       }
-      this.$refs["thePage"].toPage(this.currentIndex);
+      this.$refs['thePage'].toPage(this.currentIndex);
     },
     //当前页数
     currentPage(index) {

@@ -40,10 +40,10 @@
               </el-radio-button>
             </el-radio-group>
             <el-row class="border">
-              <el-col :span="16" v-if="isData">
+              <!-- <el-col :span="16" v-if="isData">
                 <el-empty description="暂无数据"></el-empty>
-              </el-col>
-              <el-col :span="16" v-else>
+              </el-col> -->
+              <el-col :span="16">
                 <div class="programmeDetails" v-for="(obj, i) in objects" :key="i">
                   <div class="schemeNews">
                     <el-button class="el-icon-download downloadPdf" @click="confirm">
@@ -95,19 +95,19 @@
                                 <i :class="item.color2 == 0 ? 'classA': item.color2 == 1? 'classB': 'classC'"></i>
                                 工具：<span v-for="(tool, index) in item.toolPnList" :key="index" @click="openTable(tool)">{{ tool }};
                                 </span>
-                                <span v-if="obj.solutions[index].istool == true" @click="moreTool(index)">...</span>
+                                <!-- <span v-if="obj.solutions[index].istool == true" @click="moreTool(index)">...</span> -->
                               </p>
                               <p>
                                 <i :class="item.color3 == 0 ? 'classA': item.color3 == 1? 'classB': 'classC'"></i>
                                 主件：<span v-for="(part, index) in item.mainPnList" :key="index" @click="openTable(part)">{{ part }};
                                 </span>
-                                <span v-if="obj.solutions[index].ismain == true" @click="moreMain(index)">...</span>
+                                <!-- <span v-if="obj.solutions[index].ismain == true" @click="moreMain(index)">...</span> -->
                               </p>
                               <p>
                                 <i :class="item.color4 == 0 ? 'classA': item.color4 == 1? 'classB': 'classC'"></i>
                                 辅件：<span v-for="(acce, index) in item.supportPnList" :key="index" @click="openTable(acce)">{{ acce }};
                                 </span>
-                                <span v-if="obj.solutions[index].issupport == true" @click="moreSupport(index)">...</span>
+                                <!-- <span v-if="obj.solutions[index].issupport == true" @click="moreSupport(index)">...</span> -->
                               </p>
                             </div>
                           </el-col>
@@ -362,27 +362,46 @@ export default {
           `/scheme/recommendation/by/all?acType=${ariNumber}&section=${this.chatnumber}`
         )
         .then((res) => {
-          if (res.data && res.data.length > 0) {
+          console.log('------------res', res);
+          if (res.data) {
             this.isData = false;
             this.result = res.data;
+            // const data = [...res.data].map((item) => {
+            //   return {
+            //     ...item,
+            //     // solutions: [...item.solution].map((e) => {
+            //     //   return {
+            //     //     ...e,
+            //     //     // ismain: e.mainPnList.length > 2 ? true : false,
+            //     //     // issupport: e.supportPnList.length > 2 ? true : false,
+            //     //     // istool: e.toolPnList.length > 2 ? true : false,
+            //     //     mainPnList: [...e.mainPnList].slice(0, 2),
+            //     //     supportPnList: [...e.supportPnList].slice(0, 2),
+            //     //     toolPnList: [...e.toolPnList].slice(0, 2),
+            //     //   };
+            //     // }),
+            //   };
+            // });
             const data = [...res.data].map((item) => {
               return {
                 ...item,
                 solutions: [...item.solutions].map((e) => {
                   return {
                     ...e,
-                    ismain: e.mainPnList.length > 2 ? true : false,
-                    issupport: e.supportPnList.length > 2 ? true : false,
-                    istool: e.toolPnList.length > 2 ? true : false,
-                    mainPnList: [...e.mainPnList].slice(0, 2),
-                    supportPnList: [...e.supportPnList].slice(0, 2),
-                    toolPnList: [...e.toolPnList].slice(0, 2),
+                    // ismain: e.mainPnList.length > 2 ? true : false,
+                    // issupport: e.supportPnList.length > 2 ? true : false,
+                    // istool: e.toolPnList.length > 2 ? true : false,
+                    // mainPnList: [...e.mainPnList].slice(0, 2),
+                    // supportPnList: [...e.supportPnList].slice(0, 2),
+                    // toolPnList: [...e.toolPnList].slice(0, 2),
                   };
                 }),
               };
             });
-            this.objects = data;
-            this.newdata = data;
+
+            console.log('----------------data', data);
+            this.objects = res.data;
+            this.newdata = res.data;
           } else {
             this.isData = true;
           }

@@ -26,7 +26,7 @@
             </div>
           </el-col>
           <el-col :span="12">
-            <div class="tips">
+            <div class="tips" style="border-bottom:0">
               <div class="newstitle">监控提醒</div>
               <div class="tipslist">
                 <router-link to="" v-for="(item, index) in tips" :key="index" :style="{ color: item.read == 1 ? '#666' : '' }">
@@ -52,10 +52,10 @@
 </template>
 
 <script>
-import message from "../main_notificationsjson";
+import message from '../main_notificationsjson';
 export default {
   props: {},
-  name: "NewCenter",
+  name: 'NewCenter',
   data() {
     return {
       news: [],

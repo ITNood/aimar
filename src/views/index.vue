@@ -36,16 +36,16 @@
 </template>
 
 <script>
-import Home from "../components/home.vue";
-import NewCenter from "../components/newCenter.vue";
-import monitor from "../components/monitor.vue";
-import Notsolve from "../components/notsolve.vue";
-import Task from "../components/task.vue";
-import Echarts from "../components/echarts.vue";
-import TaskCard from "../components/taskCard.vue";
-import DeDetails from "../components/deDetails.vue";
-import monitorjs from "../main_monitor_data";
-import api from "../API/index";
+import Home from '../components/home.vue';
+import NewCenter from '../components/newCenter.vue';
+import monitor from '../components/monitor.vue';
+import Notsolve from '../components/notsolve.vue';
+import Task from '../components/task.vue';
+import Echarts from '../components/echarts.vue';
+import TaskCard from '../components/taskCard.vue';
+import DeDetails from '../components/deDetails.vue';
+import monitorjs from '../main_monitor_data';
+import api from '../API/index';
 export default {
   components: {
     Home,
@@ -61,36 +61,36 @@ export default {
     return {
       items: [],
       //de详情
-      de: "",
-      date: "",
+      de: '',
+      date: '',
       open: 0,
       closed: 0,
-      terminal: "",
-      number: "",
-      model: "",
-      faults: "",
-      plan: "",
-      programme: "",
+      terminal: '',
+      number: '',
+      model: '',
+      faults: '',
+      plan: '',
+      programme: '',
       lists: [],
-      cardDe: "",
-      acid: "",
-      ataChater: "",
-      date: "",
-      station: "",
-      describe: "",
-      plans: "",
-      programmes: "",
+      cardDe: '',
+      acid: '',
+      ataChater: '',
+      date: '',
+      station: '',
+      describe: '',
+      plans: '',
+      programmes: '',
       statusPlan: [],
       repairData: [],
       data: [],
-      plancard: "",
-      cardDate: "",
+      plancard: '',
+      cardDate: '',
       deArray: [],
       newArray: [],
     };
   },
   created() {
-    this.getdata();
+    // this.getdata();
   },
   mounted() {},
   methods: {
@@ -133,7 +133,7 @@ export default {
             this.newArray.push(res.data);
             const arr = Object.assign(res.data, { de: item });
             this.newArray.push(arr);
-            this.newArray = this.unique(this.newArray, "de");
+            this.newArray = this.unique(this.newArray, 'de');
             this.repairData = this.newArray;
             this.data = this.newArray;
           })

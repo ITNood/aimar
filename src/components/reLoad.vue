@@ -44,10 +44,6 @@ export default {
           console.log(err);
         })
         .finally(() => {});
-      // let getUserRole = this.formModel.user === "admin" ? "admin" : "user";
-      // localStorage.setItem("userRole", getUserRole);
-      // // // window.location.href="/main"
-      // this.$router.push({ path: "/main" });
     },
   },
   mounted() {},

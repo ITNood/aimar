@@ -3,6 +3,7 @@
 // } from 'chromedriver'
 import Vue from 'vue'
 import Router from 'vue-router'
+// import { component } from 'vue/types/umd'
 const layout = () => import('@/components/layout')
 // 登录页
 const reload = () => import('@/components/reLoad')
@@ -31,237 +32,159 @@ Router.prototype.push = function push(location) {
 
 Vue.use(Router)
 // 固定的路由表
-export const fixedRouter = [{
-  path: '',
-  component: reload,
-  hidden: true
-},
-{
-  path: '',
-  component: layout, //整体页面的布局(包含左侧菜单跟主内容区域)
-  children: [{
-    path: 'main',
-    component: main,
-    meta: {
-      title: '总控制台', //菜单名称
-      roles: ['user', 'admin'], //当前菜单哪些角色可以看到
-      icon: 'icon-dianyingziyuan' //菜单左侧的icon图标
-    }
-  }]
-},
-{
-  path: '',
-  component: layout,
-  children: [{
-    path: 'repairHistory',
-    component: repairHistory,
-    meta: {
-      title: '维修记录查询',
-      icon: 'icon-search',
-      roles: ['user', 'admin'],
-    }
-  }]
-},
-{
-  path: '',
-  component: layout,
-  children: [{
-    path: 'failureScheme',
-    component: failureScheme,
-    meta: {
-      title: '排故方案推荐',
-      icon: 'icon-paigufangan',
-      roles: ['user', 'admin'],
-    }
-  }],
-  hidden: true,
-},
-// {
-//   path: '',
-//   component: layout,
-//   children: [{
-//     path: 'failureSchemeone',
-//     component: failureSchemeone,
-//     meta: {
-//       title: '排故方案推荐2',
-//       icon: 'icon-paigufangan',
-//       roles: ['user', 'admin'],
-//     }
-//   }]
-// },
+export const fixedRouter = [
+  {
+    path: '',
+    component: reload,
+    hidden: true
+  },
+  {
+    path: '',
+    component: layout, //整体页面的布局(包含左侧菜单跟主内容区域)
+    children: [{
+      component: main,
+      path: 'main',
+      meta: {
+        title: '控制台', //菜单名称
+        roles: ['user', 'admin'], //当前菜单哪些角色可以看到
+        icon: 'icon-dianyingziyuan' //菜单左侧的icon图标
+      }
+    }]
+  },
+  {
+    path: '',
+    component: layout,
+    children: [{
+      component: repairHistory,
+      path: 'repairHistory',
+      meta: {
+        title: '维修记录查询',
+        icon: 'icon-search',
+        roles: ['user', 'admin'],
+      }
+    }]
+  },
+  {
+    path: '',
+    component: layout,
+    children: [{
+      component: failureScheme,
+      path: 'failureScheme',
+      meta: {
+        title: '排故方案推荐',
+        icon: 'icon-paigufangan',
+        roles: ['user', 'admin'],
+      }
+    }],
+    hidden: true,
+  },
 
-{
-  path: '',
-  component: layout,
-  children: [{
-    path: 'componentReplacement',
-    component: componentReplacement,
-    meta: {
-      title: '部件更换推荐',
-      icon: 'icon-cc',
-      roles: ['user', 'admin'],
-    }
-  }]
-},
+  {
+    path: '',
+    component: layout,
+    children: [{
+      component: componentReplacement,
+      path: 'componentReplacement',
+      meta: {
+        title: '部件更换推荐',
+        icon: 'icon-cc',
+        roles: ['user', 'admin'],
+      }
+    }]
+  },
 
-// {
-//   path: '',
-//   component: layout,
-//   children: [{
-//     path: 'task',
-//     component: task,
-//     meta: {
-//       title: '任务中心',
-//       icon: 'icon-renwu',
-//       roles: ['user', 'admin'],
-//     }
-//   }]
-// },
+  {
+    path: '',
+    component: layout,
+    children: [{
+      component: integrated,
+      path: 'integrated',
+      meta: {
+        title: '综合筛选',
+        roles: ['user', 'admin'],
+      }
+    }],
+    hidden: true
+  },
+  {
+    path: '',
+    component: layout,
+    children: [{
+      component: searchResult,
+      path: 'searchResult',
+      meta: {
+        title: '搜索结果',
+        roles: ['user', 'admin'],
+      }
+    }],
+    hidden: true
+  },
+  {
+    path: '',
+    component: layout,
+    children: [{
+      path: 'faultDescription',
+      component: faultDescription,
+      meta: {
+        title: '故障描述',
+        roles: ['user', 'admin'],
+      }
+    }],
+    hidden: true
+  },
+  {
+    path: '',
+    component: layout,
+    children: [{
+      component: keyword,
+      path: 'keyword',
+      meta: {
+        title: '关键词组',
+        roles: ['user', 'admin'],
+      }
+    }],
+    hidden: true
+  },
+  {
+    path: '',
+    component: layout,
+    children: [{
+      path: 'faultCode',
+      component: faultCode,
+      meta: {
+        title: '故障代码',
+        roles: ['user', 'admin'],
+      }
+    }],
+    hidden: true
+  },
+  {
+    path: '',
+    component: layout,
+    children: [{
+      path: 'deOrder',
+      component: deOrder,
+      meta: {
+        title: 'DE单号',
+        roles: ['user', 'admin'],
+      }
+    }],
+    hidden: true
+  },
+  {
+    path: '',
+    component: layout,
+    children: [{
+      path: 'reportDownload',
+      component: reportDownload,
+      meta: {
+        title: '报告下载中心',
+        icon: 'icon-download',
+        roles: ['user', 'admin'],
+      }
+    }],
+  },
 
-{
-  path: '',
-  component: layout,
-  children: [{
-    path: 'integrated',
-    component: integrated,
-    meta: {
-      title: '综合筛选',
-      roles: ['user', 'admin'],
-    }
-  }],
-  hidden: true
-},
-{
-  path: '',
-  component: layout,
-  children: [{
-    path: 'searchResult',
-    component: searchResult,
-    meta: {
-      title: '搜索结果',
-      roles: ['user', 'admin'],
-    }
-  }],
-  hidden: true
-},
-{
-  path: '',
-  component: layout,
-  children: [{
-    path: 'faultDescription',
-    component: faultDescription,
-    meta: {
-      title: '故障描述',
-      roles: ['user', 'admin'],
-    }
-  }],
-  hidden: true
-},
-{
-  path: '',
-  component: layout,
-  children: [{
-    path: 'keyword',
-    component: keyword,
-    meta: {
-      title: '关键词组',
-      roles: ['user', 'admin'],
-    }
-  }],
-  hidden: true
-},
-{
-  path: '',
-  component: layout,
-  children: [{
-    path: 'faultCode',
-    component: faultCode,
-    meta: {
-      title: '故障代码',
-      roles: ['user', 'admin'],
-    }
-  }],
-  hidden: true
-},
-{
-  path: '',
-  component: layout,
-  children: [{
-    path: 'deOrder',
-    component: deOrder,
-    meta: {
-      title: 'DE单号',
-      roles: ['user', 'admin'],
-    }
-  }],
-  hidden: true
-},
-{
-  path: '',
-  component: layout,
-  children: [{
-    path: 'reportDownload',
-    component: reportDownload,
-    meta: {
-      title: '报告下载中心',
-      icon: 'icon-download',
-      roles: ['user', 'admin'],
-    }
-  }],
-},
-// {
-//   path: '',
-//   component: layout,
-//   children: [{
-//     path: 'data',
-//     component: data,
-//     meta: {
-//       title: '维修方案输出',
-//       icon: 'icon-weixiu',
-//       roles: ['user', 'admin'],
-//     }
-//   }]
-// },
-// {
-//   path: '',
-//   component: layout,
-//   children: [{
-//     path: 'data',
-//     component: data,
-//     meta: {
-//       title: '部件流转追溯',
-//       icon: 'icon-zhuisu',
-//       roles: ['user', 'admin'],
-//     }
-//   }]
-// },
-// {
-//   path: '',
-//   component: layout,
-//   children: [{
-//     path: 'data',
-//     component: data,
-//     meta: {
-//       title: '领料方案输出',
-//       icon: 'icon-lingliao',
-//       roles: ['user', 'admin'],
-//     }
-//   }]
-// },
-{
-  path: '',
-  component: layout,
-  children: [{
-    path: 'test',
-    component: test,
-    meta: {
-      title: '测试',
-      icon: 'icon-cc',
-      roles: ['user', 'admin'],
-    }
-  }],
-  hidden: true
-},
 ]
 // 需要权限判断展示的路由
 export const permissionRouter = [
@@ -273,3 +196,4 @@ export default new Router({
   routes: fixedRouter
 
 })
+
