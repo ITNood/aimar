@@ -3,7 +3,12 @@
     <el-container>
       <!-- 左侧菜单 -->
       <el-aside class="slider_container">
-        <el-menu class="sub_meuns_wapper" mode="vertical" unique-opened :default-active="$route.path" text-color="#fff" active-text-color="#42b983">
+        <el-menu class="sub_meuns_wapper"
+          mode="vertical"
+          unique-opened
+          :default-active="$route.path"
+          text-color="#fff"
+          active-text-color="#42b983">
           <!-- 菜单组件 -->
           <div class="logo">
             <h2>AiMaR</h2>
@@ -16,23 +21,29 @@
       <!-- 右侧内容区域 -->
       <el-container class="app_content">
         <el-header>
-          <div class="header" style="text-align: right; position: relative">
+          <div class="header"
+            style="text-align: right; position: relative">
             <h4>{{ title }}</h4>
             <router-link to="/main">
               <i class="icon iconfont icon-setting-fill"></i>
             </router-link>
-            <el-badge :value="total" class="item">
+            <el-badge :value="total"
+              class="item">
               <i class="icon iconfont icon-lingdang"></i>
             </el-badge>
-            <el-badge :value="total2" class="item">
+            <el-badge :value="total2"
+              class="item">
               <i class="icon iconfont icon-email"></i>
             </el-badge>
-            <el-badge :value="total3" class="item">
+            <el-badge :value="total3"
+              class="item">
               <i class="icon iconfont icon-warning"></i>
             </el-badge>
             <el-dropdown>
-              <span class="el-dropdown-link" style="color: #858796; font-weight: 800">
-                <img src="../assets/logo.png" style="width: 40px; border-radius: 50%" />
+              <span class="el-dropdown-link"
+                style="color: #858796; font-weight: 800">
+                <img src="../assets/logo.png"
+                  style="width: 40px; border-radius: 50%" />
               </span>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item><i class="el-icon-user-solid"></i>个人中心</el-dropdown-item>
@@ -45,7 +56,12 @@
 
           <div class="tagtitle">
             <div class="tabs clear">
-              <el-tag v-for="tag in getrouterList" :key="tag.path" :closable="tag.clearclose" @close="handleCloseTag(tag)" @click="tabs(tag.path)" :class="tag.current == true ? 'current' : ''">
+              <el-tag v-for="tag in getrouterList"
+                :key="tag.path"
+                :closable="tag.clearclose"
+                @close="handleCloseTag(tag)"
+                @click="tabs(tag.path)"
+                :class="tag.current == true ? 'current' : ''">
                 {{ tag.title }}
               </el-tag>
             </div>
@@ -56,7 +72,8 @@
           <!-- 二级路由跳转 -->
           <router-view />
         </el-main>
-        <el-footer id="footer" height="100px">
+        <el-footer id="footer"
+          height="100px">
           <p>
             Aircraft Maintenance Recommender System · AiMaR ·
             机务维修决策辅助推荐系统 · V.7.2.0 · DEMO
@@ -73,6 +90,7 @@
 <script>
 // 左侧菜单组件
 import sideMeuns from '@/components/sideMeuns';
+import { cpSync } from 'fs';
 import { mapActions, mapGetters } from 'vuex';
 export default {
   components: {
@@ -96,6 +114,7 @@ export default {
   watch: {
     //路由变化,设置标签
     $route(newValue, oldValue) {
+      console.log('newValue', newValue);
       this.setTags(newValue);
 
       this.title = newValue.meta.title;
@@ -114,6 +133,7 @@ export default {
   computed: {
     ...mapGetters(['getrouterList']),
     getRoutes() {
+      console.log(global.antRouter);
       return global.antRouter;
     },
   },
@@ -159,7 +179,7 @@ export default {
       }
       //tag标签对应当前路由背景色
       this.getrouterList.map((item) => {
-        if (item.path === route.fullPath) {
+        if (item.path == route.fullPath) {
           item.current = true;
         } else {
           item.current = false;

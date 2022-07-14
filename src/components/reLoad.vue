@@ -3,15 +3,20 @@
     <div class="login">
       <h1>AiMaR</h1>
       <h1>机务维修决策辅助推荐系统</h1>
-      <el-form class="form_wapper " size="mini" :model="formModel">
+      <el-form class="form_wapper "
+        size="mini"
+        :model="formModel">
         <el-form-item label="用户名:">
           <el-input v-model="formModel.username"></el-input>
         </el-form-item>
         <el-form-item label="密码:">
-          <el-input v-model="formModel.password"></el-input>
+          <el-input type="password"
+            v-model="formModel.password"></el-input>
         </el-form-item>
         <el-form-item align="center">
-          <el-button @click="login" type="primary" plain> 登录</el-button>
+          <el-button @click="login"
+            type="primary"
+            plain> 登录</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -31,19 +36,21 @@ export default {
   },
   methods: {
     login() {
-      api
-        .post('/sys/login', {
-          username: this.formModel.username,
-          password: this.formModel.password,
-        })
-        .then((res) => {
-          localStorage.setItem('Token', res.result.token);
-          this.$router.push({ path: '/main' });
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-        .finally(() => {});
+      // api
+      //   .post('/sys/login', {
+      //     username: this.formModel.username,
+      //     password: this.formModel.password,
+      //   })
+      //   .then((res) => {
+      //     localStorage.setItem('Token', res.result.token);
+      //     this.$router.push({ path: '/main' });
+      //   })
+      //   .catch((err) => {
+      //     console.log(err);
+      //   })
+      //   .finally(() => {});
+      localStorage.setItem('Token', 'sssss');
+      this.$router.push('/main');
     },
   },
   mounted() {},
